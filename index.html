@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopNEST - An Ecommerce Platform</title>
+    <link rel="stylesheet" href="./css/main.css">
+</head>
+
+<body>
+    <div id="header"></div>
+
+    <main>
+
+        <style>
+            .swiper {
+                width: 100%;
+                height: 300px;
+                /* Adjust height as needed */
+            }
+
+            .swiper-slide>img {
+                height: 100%;
+            }
+        </style>
+        <!-- hero slider -->
+        <section class="hero-section">
+            <div class="swiper">
+                <div class="swiper-wrapper">
+                    <!-- Slides -->
+                    <div class="swiper-slide">
+                        <img src="https://rukminim2.flixcart.com/fk-p-flap/1620/270/image/37a5d9652167e101.jpg?q=20"
+                            alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://rukminim2.flixcart.com/fk-p-flap/1620/270/image/86a88d719369791d.jpeg?q=20"
+                            alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://rukminim2.flixcart.com/fk-p-flap/1620/270/image/37a5d9652167e101.jpg?q=20"
+                            alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://rukminim2.flixcart.com/fk-p-flap/1620/270/image/86a88d719369791d.jpeg?q=20"
+                            alt="">
+                    </div>
+                </div>
+
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+
+            </div>
+        </section>
+
+        <style>
+            .category-menu {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                justify-content: center;
+                background-color: #fff;
+            }
+
+            .category-card {
+                text-align: center;
+                padding: 10px 15px;
+                background-color: #efefef;
+                border-radius: 1rem;
+            }
+
+            .category-card:hover {
+                background-color: var(--primary);
+                color: var(--white);
+            }
+
+            .category-card img {
+                height: 80px;
+                object-fit: contain;
+            }
+
+            .category-card h6 {
+                font-size: 13px;
+            }
+        </style>
+        <section class="pd-1">
+            <div class="container">
+
+                <div class="category-menu" id="category-menu">
+                    
+                    
+                </div>
+            </div>
+        </section>
+
+
+        <section class="section-padding">
+            <div class="container">
+                <div class="site-heading">
+                    <h3>New Arrivals</h3>
+                    <a href="" class="primary-btn">View All <i class="fa-solid fa-long-arrow-right"></i></a>
+                </div>
+                <div class="product-1" id="product-1">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="footer"></div>
+
+    <script type="module" src="./js/main.js"></script>
+
+    <script type="module">
+        import {addToCart} from "./js/cart.js"
+
+        // addtoCart(1)
+        
+        const url = 'https://shopnest-7577a-default-rtdb.asia-southeast1.firebasedatabase.app/'
+
+        async function fetchData() {
+            try {
+                let response = await fetch(`${url}/products.json`)
+                let dataJson = await response.json()
+                let data = Object.entries(dataJson || {}).map(([id, item]) => ({ id, ...item }))
+
+                displayData(data, 8)
+            } catch (error) {
+                console.log('Error fetching data:', error)
+            }
+        }
+
+        function displayData(data, limit) {
+            const list = document.getElementById('product-1')
+            list.innerHTML = ''
+
+            data.forEach(item => {
+                if (limit) {
+                    const div = document.createElement('div')
+                    div.className = "product-card"
+
+                    let a = document.createElement('a')
+                    a.href = `/product-single.html?id=${item.id}`
+                    let img = document.createElement('img')
+                    img.src = item.image
+                    img.alt = item.title
+                    a.appendChild(img)
+
+                    let div2 = document.createElement('div')
+                    div2.className = "p-text"
+                    let h4 = document.createElement('h4')
+                    h4.innerText = item.title
+                    h4.className = "mb-1"
+                    let div3 = document.createElement('div')
+                    div3.className = "p-info mb-1"
+                    let p = document.createElement('p')
+                    p.innerHTML = `₹ ${item.price}`
+                    let rating = Math.ceil(item.rating.rate)
+                    let div4 = document.createElement('div')
+                    div4.className = "p-reviews"
+                    for (let i = 0; i < rating; i++) {
+                        let star = `<i class="fa-solid fa-star"></i>`
+                        div4.innerHTML += star
+                    }
+                    div3.append(p, div4)
+
+                    let button = `<button class="primary-btn btn-sm" onclick="addItemInCart(${item.id})"><i class="fa-solid fa-shopping-cart"></i> Add to cart</button>`
+            
+                    div2.append(h4,div3)
+                    div2.innerHTML += button
+
+                    div.append(a, div2)
+                    list.appendChild(div)
+                    limit--
+                }
+            })
+        }
+
+        function addItemInCart(id){
+            addToCart(id)
+            alert("Added to Cart")
+        }
+
+        window.addItemInCart = addItemInCart
+
+       
+
+        async function fetchCategories() {
+            try {
+                let response = await fetch(`${url}/categories.json`)
+                let dataJson = await response.json()
+                let data = Object.entries(dataJson || {}).map(([id, item]) => ({ id, ...item }))
+
+                displayCategories(data, 8)
+            } catch (error) {
+                console.log('Error fetching data:', error)
+            }
+        }
+
+        function displayCategories(data, limit) {
+            const list = document.getElementById('category-menu')
+            list.innerHTML = ''
+
+            data.forEach(item => {
+                if (limit) {
+                    const div = document.createElement('div')
+                    div.className = "category-card"
+
+                    let a = document.createElement('a')
+                    a.href = `/product-listing.html?category=${item.id}`
+                    let img = document.createElement('img')
+                    img.src = item.image
+                    img.alt = item.title
+                    let h6 = document.createElement('h6')
+                    h6.innerText = item.category
+                    a.append(img,h6)
+
+                    div.append(a)
+                    list.appendChild(div)
+                    limit--
+                }
+            })
+        }
+
+        
+
+        fetchData()
+        fetchCategories()
+
+        
+    </script>
+</body>
+
+</html>

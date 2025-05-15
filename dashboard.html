@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/main.css">
+</head>
+
+<body>
+
+    <div id="header"></div>
+
+    <style>
+        .dashboard-wrap {
+            display: flex;
+        }
+
+        .aside-nav {
+            width: 15%;
+        }
+
+        .dashboard-content {
+            width: 85%;
+            padding: 0 2rem;
+        }
+
+        .aside-head {
+            padding: 1rem;
+            border: 1px solid #eee;
+            border-radius: 0.4rem;
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .aside-head>p {
+            font-size: 14px;
+        }
+
+        .aside-head>h3 {
+            font-weight: bold;
+        }
+
+        .aside-list>li {
+            padding: 0.6rem;
+            border: 1px solid var(--primary);
+            margin-bottom: 0.5rem;
+            border-radius: 0.4rem;
+            background-color: var(--primary);
+            color: var(--white);
+            transition: all 0.2s ease-in;
+        }
+
+        .aside-list>li:hover {
+            box-shadow: 4px 2px 8px rgb(124, 142, 232);
+            cursor: pointer;
+            margin-right: -10px;
+        }
+
+        .aside-list>li.active {
+            box-shadow: 4px 2px 8px rgb(124, 142, 232);
+        }
+    </style>
+    <main>
+        <section class="section-padding">
+            <div class="container">
+                <div class="dashboard-wrap">
+                    <div class="aside-nav">
+                        <div class="aside-navbar">
+                            <div class="aside-head mb-1">
+                                <p>Hello,</p>
+                                <h3 id="userName"></h3>
+                            </div>
+                            <ul class="aside-list">
+                                <li id="reporting">Reporting</li>
+                                <li id="orders">Orders</li>
+                                <li id="products">Products</li>
+                                <li id="profile">My Profile</li>
+                                <li id="manage-address">Manage address</li>
+                                <li id="customers">Customers</li>
+                                <li id="vendors">Vendors</li>
+                                <li id="logout-btn">Logout</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <style>
+                        .dash-welcome {
+                            padding: 2rem;
+                            background-color: #efefef;
+                            border-radius: 1rem;
+                        }
+
+                        .dash-welcome>h1 {
+                            font-size: 2rem;
+                            font-weight: bolder;
+                        }
+
+                        .dash-welcome>h3 {
+                            font-size: 1.4rem;
+                            font-weight: bolder;
+                        }
+
+                        .dash-welcome p {
+                            font-size: 14px;
+                        }
+                    </style>
+                    <div class="dashboard-content">
+                        <div id="dash-content">
+                            <div class="dash-welcome">
+                                <h1 class="mb-1">Welcome to .shopNEST panel</h1>
+                                <p class="mb-2">Hello, and welcome to the shopNEST Admin Panel! We're thrilled to have
+                                    you onboard.
+                                    Here, you can effortlessly manage your store, track orders, and stay updated with
+                                    the latest insights.</p>
+                                <h3 class="mb-1">Need Assistance?</h3>
+                                <p>If you encounter any issues or need support, feel free to reach out to our support
+                                    team.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="footer"></div>
+
+    <script type="module" src="/js/main.js"></script>
+    <script type="module">
+        import { auth, db, onAuthStateChanged, signOut, doc, setDoc, getDoc } from "/js/firebase-init.js";
+        // When logged in & out
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+
+                let reporting = document.getElementById('reporting')
+                let orders = document.getElementById('orders')
+                let products = document.getElementById('products')
+                let profile = document.getElementById('profile')
+                let manageAddress = document.getElementById('manage-address')
+                let customers = document.getElementById('customers')
+                let vendors = document.getElementById('vendors')
+
+                // // user doc
+                const userDoc = getDoc(doc(db, "users", user.uid)).then((res) => {
+                    document.getElementById("userName").innerHTML = res.data().userName
+
+                    switch (res.data().role) {
+                        case 'vendor':
+                            manageAddress.classList.add('hidden')
+                            customers.classList.add('hidden')
+                            vendors.classList.add('hidden')
+                            break;
+                        case 'customer':
+                            // hide order add button
+                            if(document.getElementById('addOrder')){document.getElementById('addOrder').classList.add('hidden')}
+                            reporting.classList.add('hidden')
+                            products.classList.add('hidden')
+                            customers.classList.add('hidden')
+                            vendors.classList.add('hidden')
+
+                            break;
+                    }
+                })
+
+                let asideList = document.querySelectorAll('.aside-list>li')
+                let dashContainer = document.getElementById('dash-content')
+
+                function removeActive() {
+                    asideList.forEach((ele) => {
+                        ele.classList.remove('active')
+                    })
+                }
+
+             
+                function loadReporting() {
+                    fetch('/components/reporting.html')
+                        .then((res) => {
+                            return res.text()
+                        })
+                        .then((data) => {
+                            dashContainer.innerHTML = ""
+                            dashContainer.innerHTML = data
+                        })
+                }
+
+                function loadOrders() {
+                    fetch('/components/orders.html')
+                        .then((res) => {
+                            return res.text()
+                        })
+                        .then((data) => {
+                            dashContainer.innerHTML = ""
+                            dashContainer.innerHTML = data
+                        })
+                }
+
+                function loadProfile() {
+                    fetch('/components/profile.html')
+                        .then((res) => {
+                            return res.text()
+                        })
+                        .then((data) => {
+                            dashContainer.innerHTML = ""
+                            dashContainer.innerHTML = data
+                        })
+                }
+
+                // User Logout
+                function logout() {
+                    if (confirm("Are you sure you want to logout?")) {
+                        signOut(auth)
+                            .then(() => {
+                                alert("Logout successfull!!")
+                            }).catch((err) => {
+                                console.log(err)
+                            })
+                    }
+                }
+
+
+                reporting.addEventListener('click', () => {
+                    removeActive()
+                    localStorage.setItem("activeMenu", "reporting")
+                    reporting.classList.add('active')
+                    loadReporting()
+                })
+                orders.addEventListener('click', () => {
+                    removeActive()
+                    localStorage.setItem("activeMenu", "orders")
+                    orders.classList.add('active')
+                    loadOrders()
+                })
+
+                products.addEventListener('click', () => {
+                    removeActive()
+                    localStorage.setItem("activeMenu", "products")
+                    products.classList.add('active')
+                    loadProducts()
+                })
+                profile.addEventListener('click', () => {
+                    removeActive()
+                    localStorage.setItem("activeMenu", "profile")
+                    profile.classList.add('active')
+                    loadProfile()
+                })
+                manageAddress.addEventListener('click', () => {
+                    removeActive()
+                    localStorage.setItem("activeMenu", "manageAddress")
+                    manageAddress.classList.add('active')
+                    loadAddress()
+                })
+                customers.addEventListener('click', () => {
+                    removeActive()
+                    localStorage.setItem("activeMenu", "customers")
+                    customers.classList.add('active')
+                    loadCustomers()
+                })
+                vendors.addEventListener('click', () => {
+                    removeActive()
+                    localStorage.setItem("activeMenu", "vendors")
+                    vendors.classList.add('active')
+                    loadVendors()
+                })
+                document.getElementById('logout-btn').addEventListener('click', () => {
+                    logout()
+                })
+
+                function loadActiveMenu() {
+                    let activeMenu = localStorage.getItem("activeMenu")
+                    switch (activeMenu) {
+                        case "reporting":
+                            reporting.classList.add('active')
+                            loadReporting()
+                            break;
+                        case "orders":
+                            orders.classList.add('active')
+                            loadOrders()
+                            break;
+                        case "products":
+                            products.classList.add('active')
+                            loadProducts()
+                            break;
+                        case "profile":
+                            profile.classList.add('active')
+                            loadProfile()
+                            break;
+                        case "manageAddress":
+                            manageAddress.classList.add('active')
+                            loadAddress()
+                            break;
+                        case "customers":
+                            customers.classList.add('active')
+                            loadCustomers()
+                            break;
+                        case "vendors":
+                            vendors.classList.add('active')
+                            loadVendors()
+                            break;
+                    }
+                }
+
+                loadActiveMenu()
+            } else {
+                // document.getElementById('signup-container').classList.remove('hidden')
+                // document.getElementById('login-container').classList.remove('hidden')
+                // document.getElementById('dashboard-container').classList.add('hidden')
+                window.location = "/login.html"
+            }
+        });
+
+
+        
+    </script>
+</body>
+
+</html>

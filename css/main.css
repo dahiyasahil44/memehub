@@ -1,0 +1,36 @@
+@import url("./reset.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css");
+@import url("https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css");
+@import url("./common.css");
+
+
+
+/* login form */
+.login-wrap{display: flex;width: 60%;margin: 0 auto;box-shadow: 3px 4px 5px #eee;
+border: 1px solid #eee;}
+.login-media{flex: 1 1 30%;padding: 2rem;
+background-color: var(--primary);color: var(--white);}
+.login-media>h3{font-size: 1.5rem;font-weight: bolder;}
+.login-media>p{font-size: 14px;}
+.login-media>img{height: 220px;}
+.login-form{flex: 1 1 70%;padding: 2rem;}
+.login-form .form-group{margin-bottom: 1rem;}
+.login-form .form-group>label{display: block;font-size: 13px;margin-bottom: 6px;}
+.login-form .form-group .form-control{width: 100%;padding: 0.7rem;border: 1px solid #eee;border-radius: 0.2rem;}
+.login-form .form-group .form-control::placeholder{color: #bbb;letter-spacing: 1px;}
+.login-form .form-group .form-control:focus{outline: 0;border: 1px solid var(--primary);}
+.form-extra>p{font-size: 14px;}
+/* login form end */
+
+
+/* product cards 1 */
+.product-1{display: flex;gap: 1rem;padding: 1rem 0;flex-flow: row wrap;justify-content: space-between;}
+.product-card{width: 24%;transition: all .2s ease-in;}
+.product-card:hover{transform: translateY(-10px);}
+.product-card>a{width: 100%;}
+.product-card>a>img{height: 220px;width: 100%;object-fit: contain;
+border-top-right-radius: 1rem;border-top-left-radius: 1rem;}
+.p-info{display: flex;justify-content: space-between;align-items: center;font-size: 14px;}
+.p-text{padding: 0.8rem;border-bottom-left-radius: 1rem;border-bottom-right-radius: 1rem;background-color: #efefef;}
+.p-text>h4{font-size: 15px;}
+/* product cards 1 end */

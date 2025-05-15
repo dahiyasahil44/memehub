@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup ShopNEST - An Ecommerce Platform</title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <div id="header"></div>
+
+    <main>
+
+        <section class="section-padding">
+            <div class="container">
+                <div class="login-wrap">
+                    
+                
+                    <div class="login-form">
+                        <div class="errMsg mb-0" id="errMsg"></div>
+                        <form id="signupForm">
+                            <div class="form-group">
+                                <label for="userName">Your name</label>
+                                <input type="text" class="form-control" id="userName" placeholder="Enter your name">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone</label>
+                                <input type="text" class="form-control" id="phone" placeholder="Enter contact number">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" id="email" placeholder="Enter your email">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" id="password" placeholder="Enter your password">
+                            </div>
+                            <div class="form-group">
+                                <button class="primary-btn" type="submit">Create account</button>
+                            </div>
+                        </form>
+                        <div class="form-extra">
+                            <p>Already a customer? <a href="/login.html" class="text-primary">Login here</a></p>
+                        </div>
+                    </div>
+                    <div class="login-media">
+                        <h3 class="mb-1">New Customer?</h3>
+                        <p class="mb-2">Welcome to the shopNEST, look around & explore the collection</p>
+                        <img src="/images/bags.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <div id="footer"></div>
+
+    <script type="module" src="/js/main.js"></script>
+    <script type="module">
+        import { auth, db, createUserWithEmailAndPassword, onAuthStateChanged, doc, setDoc } from "/js/firebase-init.js";
+                // Customer Signup with form validation
+        const errMsg = document.getElementById('errMsg');
+
+        function formValidation(userName, phone, email, password){
+            if(userName == ""){return "Name field is compulsory"}
+            if(phone == ""){return "Phone field is compulsory"}
+            if(email == ""){return "Email field is compulsory"}
+            if(password == ""){return "Password field is compulsory"}
+            return true
+        }
+
+        document.getElementById('signupForm').addEventListener('submit', async function (e){
+            e.preventDefault()
+            
+            let userName = document.getElementById('userName').value
+            let email = document.getElementById('email').value
+            let password = document.getElementById('password').value
+            let phone = document.getElementById('phone').value
+
+            let valid = formValidation(userName, phone, email, password)
+            if(valid == true){
+                try {
+                    const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
+                    const user = userCredentials.user
+                    // save role/additional info in firebase
+                    await setDoc(doc(db,"users",user.uid),{
+                        email: user.email,
+                        userName: userName,
+                        phone: phone,
+                        role: "customer"
+                    }).then(()=>{
+                        errMsg.classList.add("text-success")
+                        errMsg.innerText = "Registered successfully!!"
+                        setTimeout(()=>{
+                            window.location = "/login.html"
+                        },1000)
+                    }).catch((err)=>{
+                        console.log(err)
+                        errMsg.classList.add("text-danger")
+                        errMsg.innerText = "Something went wrong.."
+                    })
+                } catch (err) {
+                    errMsg.classList.add("text-danger")
+                    errMsg.innerText = err.message
+                }
+            }else{
+                // alert(valid)
+                errMsg.classList.add("text-danger")
+                errMsg.innerText = valid
+            }
+        });
+        // Customer Signup with form validation end
+
+    </script>
+</body>
+</html>

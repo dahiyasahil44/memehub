@@ -1,0 +1,82 @@
+<style>
+    header{padding: 0 3rem;}
+    .navbar-wrap{display: flex;align-items: center;justify-content: space-between;padding: 0.4rem 0;
+    }
+    .navbar-logo h3{font-size: 2rem;font-weight: bolder;color: var(--black);text-shadow: 1px 1px 2px #000;}
+    .nav-btn{
+        padding: .8rem 1.4rem;
+        background-color: #ddd;
+        display: inline-block;
+        border-radius: .4rem;
+        color: var(--black);
+        font-size: 14px;
+    }
+    .nav-btn:hover{
+        background-color: var(--primary);
+        color: var(--white);
+    }
+    /* .search-bar{position: relative;} */
+    .search-bar>label{position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);z-index: 99;}
+    .search-bar>input{width: 550px;position: relative;border: 0;
+    padding: 0.7rem;border-bottom: 1px solid #ddd;}
+    .search-bar>input:focus{outline: 0;border-bottom: 1px solid var(--primary);}
+</style>
+<header>
+    <div class="navbar-wrap mb-0">
+        <div class="navbar-logo">
+            <h3><a href="/index.html">.shop<span class="text-primary">NEST</span></a></h3>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search for products" id="searchInput">
+        </div>
+        <div class="navbar-btns">
+            <a href="/login.html" class="nav-btn"><i class="fa-solid fa-circle-user"></i> Login</a>
+            <a href="/cart.html" class="nav-btn"><i class="fa-solid fa-shopping-cart"></i> Cart</a>
+            <a href="/vendor-signup.html" class="nav-btn"><i class="fa-solid fa-shop"></i> Become a vendor</a>
+        </div>
+    </div>
+
+    <style>
+        .navbar-menu{display: flex;gap: 1rem;}
+        .nav-link{padding: 0.5rem;position: relative;font-size: 14px;text-transform: capitalize;}
+        .nav-link:hover{cursor: pointer;}
+        .dropdown-list {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 999;
+            background-color: #fff;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            min-width: 220px;
+            border-top: 1px solid #eee;
+        }
+
+        .nav-link.dropdown:hover .dropdown-list {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .dropdown-list li a{display: block;padding: 0.5rem;font-size: 14px;}
+        .dropdown-list li a:hover{background-color: var(--primary);color: #fff;}
+        .dropdown-list li:last-child {
+            margin-bottom: 0;
+        }
+    </style>
+    <ul class="navbar-menu" id="navbar-menu">
+            
+
+            <!-- <li class="nav-link dropdown">Electronics <i class="fa-solid fa-angle-down"></i>
+                <ul class="dropdown-list">
+                    <li><a href="">TV</a></li>
+                    <li><a href="">Laptop</a></li>
+                </ul>
+            </li> -->
+        </ul>
+</header>
