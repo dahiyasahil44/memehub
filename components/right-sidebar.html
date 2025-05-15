@@ -1,0 +1,60 @@
+
+<div class="right-sidebar pd-3">
+    <div class="section mb-2">
+        <h4 class="text-primary mb-1">🔥 Top Memers</h4>
+        <a href="#" class="mb-0">😆 @MemeKing</a>
+        <a href="#" class="mb-0">😂 @LaughQueen</a>
+        <a href="#" class="mb-0">🤣 @MemeGod</a>
+        <a href="#" class="mb-0">😜 @JokeMaster</a>
+    </div>
+
+    <div class="section">
+        <h4 class="text-primary mb-1">📈 Top Feed</h4>
+        <a href="#" class="mb-0">🚀 Trending Now</a>
+        <a href="#" class="mb-0">🔥 Most Liked</a>
+        <a href="#" class="mb-0">📅 Recently Uploaded</a>
+        <a href="#" class="mb-0">🌟 Editor's Picks</a>
+    </div>
+</div>
+
+<style>
+    .right-sidebar {
+        width: 100%;
+        background-color: var(--black);
+        color: var(--white);
+        height: 100vh;
+        padding: 2rem;
+        overflow-y: auto;
+        position: sticky;
+        top: 0;
+    }
+
+    .right-sidebar .section h4 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        color: var(--primary);
+    }
+
+    .right-sidebar a {
+        display: block;
+        padding: 0.5rem 0;
+        color: var(--white);
+        font-size: 1rem;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .right-sidebar a:hover {
+        background-color: var(--primary);
+        color: var(--black);
+        border-radius: 0.5rem;
+        padding-left: 1rem;
+    }
+
+    @media (max-width: 768px) {
+        .right-sidebar {
+            width: 100%;
+            height: auto;
+            padding: 1rem;
+        }
+    }
+</style>

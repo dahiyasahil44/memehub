@@ -2,7 +2,7 @@
 :root{
     --primary: rgb(6, 131, 241);
     --secondary: #0f0;
-    --black: #444;
+    --black: #2e2e2e;
     --white: #fff;
     --font-family: "Montserrat";
 }
@@ -10,6 +10,16 @@
 html, body{
     scroll-behavior: smooth;
     font-family: var(--font-family);
+}
+body, html {
+    height: 100%;
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .section-padding{
@@ -63,3 +73,11 @@ a{
     display: none;
 }
 .dash-content-wrap{border: 1px solid #eee;padding: 2rem;border-radius: 1rem;}
+
+#signupBtn{display: none;}
+
+
+.main-layout{display: flex;}
+#left-sidebar{flex: 1 1 20%;}
+#main-content{flex: 1 1 60%;}
+#right-sidebar{flex: 1 1 20%;}

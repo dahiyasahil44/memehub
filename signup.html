@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signup ShopNEST - An Ecommerce Platform</title>
     <link rel="stylesheet" href="/css/main.css">
+    <style>
+        .navbar-btns, .search-bar>input{display: none;}
+        #signupBtn{display: none;}
+        #loginBtn{display: block;}
+        .container {height: unset;}
+    </style>
 </head>
 <body>
     <div id="header"></div>
@@ -20,12 +26,8 @@
                         <div class="errMsg mb-0" id="errMsg"></div>
                         <form id="signupForm">
                             <div class="form-group">
-                                <label for="userName">Your name</label>
+                                <label for="userName">Username</label>
                                 <input type="text" class="form-control" id="userName" placeholder="Enter your name">
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">Phone</label>
-                                <input type="text" class="form-control" id="phone" placeholder="Enter contact number">
                             </div>
                             <div class="form-group">
                                 <label for="email">Email</label>
@@ -61,9 +63,8 @@
                 // Customer Signup with form validation
         const errMsg = document.getElementById('errMsg');
 
-        function formValidation(userName, phone, email, password){
+        function formValidation(userName, email, password){
             if(userName == ""){return "Name field is compulsory"}
-            if(phone == ""){return "Phone field is compulsory"}
             if(email == ""){return "Email field is compulsory"}
             if(password == ""){return "Password field is compulsory"}
             return true
@@ -75,9 +76,8 @@
             let userName = document.getElementById('userName').value
             let email = document.getElementById('email').value
             let password = document.getElementById('password').value
-            let phone = document.getElementById('phone').value
 
-            let valid = formValidation(userName, phone, email, password)
+            let valid = formValidation(userName, email, password)
             if(valid == true){
                 try {
                     const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
@@ -86,8 +86,7 @@
                     await setDoc(doc(db,"users",user.uid),{
                         email: user.email,
                         userName: userName,
-                        phone: phone,
-                        role: "customer"
+                        role: "user"
                     }).then(()=>{
                         errMsg.classList.add("text-success")
                         errMsg.innerText = "Registered successfully!!"

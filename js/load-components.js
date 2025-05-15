@@ -8,11 +8,23 @@ export function loadComponents(){
         document.getElementById('header').innerHTML = data
     })
 
-    // Load footer
-    fetch('/components/footer.html')
-    .then((res)=>{
-        return res.text()
-    }).then((data)=>{
-        document.getElementById('footer').innerHTML = data
-    })
+    // Left sidebar
+    if(document.getElementById('left-sidebar')){
+        fetch('/components/left-sidebar.html')
+        .then((res)=>{
+            return res.text()
+        }).then((data)=>{
+            document.getElementById('left-sidebar').innerHTML = data
+        })
+    }
+
+    // Right sidebar
+    if(document.getElementById('right-sidebar')){
+        fetch('/components/right-sidebar.html')
+        .then((res)=>{
+            return res.text()
+        }).then((data)=>{
+            document.getElementById('right-sidebar').innerHTML = data
+        })
+    }
 }

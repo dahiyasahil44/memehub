@@ -3,7 +3,96 @@
 @import url("https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css");
 @import url("./common.css");
 
+/* header & sidebar */
+.navbar-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--black);
+    padding: 1rem 2rem;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
 
+.navbar-logo h3 a {
+    color: var(--white);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.navbar-btns {
+    display: flex;
+    gap: 1rem;
+}
+
+.navbar-btns .nav-btn {
+    color: var(--white);
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.navbar-btns .nav-btn:hover {
+    background-color: var(--primary);
+    color: var(--black);
+    border-radius: 0.5rem;
+}
+
+.search-bar input {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--primary);
+    outline: none;
+}
+
+.sidebar {
+    width: 100%;
+    background-color: var(--black);
+    color: var(--white);
+    height: 100vh;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+.sidebar .section h4 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: var(--primary);
+}
+
+.sidebar a {
+    display: block;
+    padding: 0.5rem 0;
+    color: var(--white);
+    font-size: 1rem;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar a:hover {
+    background-color: var(--primary);
+    color: var(--black);
+    border-radius: 0.5rem;
+    padding-left: 1rem;
+}
+
+@media (max-width: 768px) {
+    .navbar-wrap {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        padding: 1rem;
+    }
+
+    .sidebar .section {
+        margin-bottom: 1rem;
+    }
+}
+/* end */
 
 /* login form */
 .login-wrap{display: flex;width: 60%;margin: 0 auto;box-shadow: 3px 4px 5px #eee;

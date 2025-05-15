@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login ShopNEST - An Ecommerce Platform</title>
     <link rel="stylesheet" href="/css/main.css">
+    <style>
+        .navbar-btns, .search-bar>input{display: none;}
+        #signupBtn{display: block;}
+        #loginBtn{display: none;}
+        .container {height: unset;}
+    </style>
 </head>
 <body>
     <div id="header"></div>
@@ -67,7 +73,7 @@
             if(valid == true){
                 signInWithEmailAndPassword(auth, email, password)
                 .then((userCredentials)=>{
-                    console.log(userCredentials)
+                    // console.log(userCredentials)
 
                     errMsg.classList.add("text-success")
                     errMsg.innerText = "Logging in..."

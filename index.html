@@ -9,111 +9,67 @@
 </head>
 
 <body>
-    <div id="header"></div>
+    <div id="header" style="position: sticky;top: 0;z-index: 9999;"></div>
+    
 
-    <main>
+    <main class="main-layout">
 
-        <style>
-            .swiper {
-                width: 100%;
-                height: 300px;
-                /* Adjust height as needed */
-            }
+        <div id="left-sidebar"></div>
 
-            .swiper-slide>img {
-                height: 100%;
-            }
-        </style>
-        <!-- hero slider -->
-        <section class="hero-section">
-            <div class="swiper">
-                <div class="swiper-wrapper">
-                    <!-- Slides -->
-                    <div class="swiper-slide">
-                        <img src="https://rukminim2.flixcart.com/fk-p-flap/1620/270/image/37a5d9652167e101.jpg?q=20"
-                            alt="">
+        <div id="main-content">
+            <style>
+                .swiper {
+                    width: 100%;
+                    height: 300px;
+                    /* Adjust height as needed */
+                }
+
+                .swiper-slide>img {
+                    height: 100%;
+                }
+            </style>
+            <!-- hero slider -->
+            <section class="hero-section hidden">
+                <div class="swiper">
+                    <div class="swiper-wrapper">
+                        <!-- Slides -->
+                        <div class="swiper-slide">
+                            <img src="https://rukminim2.flixcart.com/fk-p-flap/1620/270/image/37a5d9652167e101.jpg?q=20"
+                                alt="">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="https://rukminim2.flixcart.com/fk-p-flap/1620/270/image/86a88d719369791d.jpeg?q=20"
+                                alt="">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="https://rukminim2.flixcart.com/fk-p-flap/1620/270/image/37a5d9652167e101.jpg?q=20"
+                                alt="">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="https://rukminim2.flixcart.com/fk-p-flap/1620/270/image/86a88d719369791d.jpeg?q=20"
+                                alt="">
+                        </div>
                     </div>
-                    <div class="swiper-slide">
-                        <img src="https://rukminim2.flixcart.com/fk-p-flap/1620/270/image/86a88d719369791d.jpeg?q=20"
-                            alt="">
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://rukminim2.flixcart.com/fk-p-flap/1620/270/image/37a5d9652167e101.jpg?q=20"
-                            alt="">
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://rukminim2.flixcart.com/fk-p-flap/1620/270/image/86a88d719369791d.jpeg?q=20"
-                            alt="">
-                    </div>
+
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+
                 </div>
+            </section>
+        </div>
 
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
-
-            </div>
-        </section>
-
-        <style>
-            .category-menu {
-                display: flex;
-                align-items: center;
-                gap: 1rem;
-                justify-content: center;
-                background-color: #fff;
-            }
-
-            .category-card {
-                text-align: center;
-                padding: 10px 15px;
-                background-color: #efefef;
-                border-radius: 1rem;
-            }
-
-            .category-card:hover {
-                background-color: var(--primary);
-                color: var(--white);
-            }
-
-            .category-card img {
-                height: 80px;
-                object-fit: contain;
-            }
-
-            .category-card h6 {
-                font-size: 13px;
-            }
-        </style>
-        <section class="pd-1">
-            <div class="container">
-
-                <div class="category-menu" id="category-menu">
-                    
-                    
-                </div>
-            </div>
-        </section>
-
-
-        <section class="section-padding">
-            <div class="container">
-                <div class="site-heading">
-                    <h3>New Arrivals</h3>
-                    <a href="" class="primary-btn">View All <i class="fa-solid fa-long-arrow-right"></i></a>
-                </div>
-                <div class="product-1" id="product-1">
-                </div>
-            </div>
-        </section>
+        <div id="right-sidebar"></div>
+        
     </main>
 
-    <div id="footer"></div>
+    
 
     <script type="module" src="./js/main.js"></script>
 
     <script type="module">
         import {addToCart} from "./js/cart.js"
 
-        // addtoCart(1)
+        
         
         const url = 'https://shopnest-7577a-default-rtdb.asia-southeast1.firebasedatabase.app/'
 
