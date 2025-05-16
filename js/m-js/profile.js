@@ -10,7 +10,8 @@ const UPLOAD_PRESET = "memory-lane";
 document.addEventListener("DOMContentLoaded", async () => {
   const user = await getUserDetails();
   const userAuth = getCurrentUser();
-
+  document.getElementById("userAvatar").src =
+    "https://t4.ftcdn.net/jpg/12/44/29/93/240_F_1244299369_Jixobpdd2rDzg1B6DZw4tRmSa02OY0Qh.jpg";
   if (user) {
     document.getElementById("username").textContent = `@${
       user.userName || user.email.split("@")[0]

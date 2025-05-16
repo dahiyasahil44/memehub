@@ -42,8 +42,6 @@
         .avatar-wrapper:hover .avatar-overlay {
             opacity: 1;
         }
-
-      
     </style>
 </head>
 
@@ -81,44 +79,39 @@
                             </div>
                         </div>
 
-                        <div class="memes-grid">
-                            <!-- Dummy meme cards -->
-                            <div class="meme-card" data-title="When the code works"
-                                data-image="https://combo.staticflickr.com/66a031f9fc343c5e42d965ca/66ba7c9da1c31a04c651ee06_Hero%201.avif">
-                                <img src="https://combo.staticflickr.com/66a031f9fc343c5e42d965ca/66ba7c9da1c31a04c651ee06_Hero%201.avif"
-                                    alt="Meme">
-                                <div class="meme-info">
-                                    <h4>When the code works</h4>
-                                    <div class="icons">
-                                        <span><i class="fa-solid fa-thumbs-up"></i> 423</span>
-                                        <span><i class="fa-solid fa-comment"></i> 2</span>
-                                    </div>
+                        <div class="memes-section">
+                            <div class="memes-header">
+                                <h1>My Memes</h1>
+                                <div class="sort-select">
+                                    <label for="sort">Sort:</label>
+                                    <select id="sort">
+                                        <option value="popularity">By Popularity</option>
+                                        <option value="date">By Creation Date</option>
+                                    </select>
                                 </div>
                             </div>
-                            <div class="meme-card" data-title="When the code works"
-                                data-image="https://combo.staticflickr.com/66a031f9fc343c5e42d965ca/66ba7c9da1c31a04c651ee06_Hero%201.avif">
-                                <img src="https://combo.staticflickr.com/66a031f9fc343c5e42d965ca/66ba7c9da1c31a04c651ee06_Hero%201.avif"
-                                    alt="Meme">
-                                <div class="meme-info">
-                                    <h4>When the code works</h4>
-                                    <div class="icons">
-                                        <span><i class="fa-solid fa-thumbs-up"></i> 423</span>
-                                        <span><i class="fa-solid fa-comment"></i> 2</span>
-                                    </div>
-                                </div>
-                            </div>
+                            
 
-                            <div class="meme-card" data-title="Debug mode on"
-                                data-image="https://combo.staticflickr.com/66a031f9fc343c5e42d965ca/66ba7c9da1c31a04c651ee06_Hero%201.avif">
-                                <img src="https://combo.staticflickr.com/66a031f9fc343c5e42d965ca/66ba7c9da1c31a04c651ee06_Hero%201.avif"
-                                    alt="Meme">
-                                <div class="meme-info">
-                                    <h4>Debug mode on</h4>
-                                    <div class="icons">
-                                        <span><i class="fa-solid fa-thumbs-up"></i> 125</span>
-                                        <span><i class="fa-solid fa-comment"></i> 8</span>
+                            <div class="memes-grid">
+                                <!-- Dummy meme cards -->
+                                <div class="meme-card" data-title="When the code works"
+                                    data-image="https://combo.staticflickr.com/66a031f9fc343c5e42d965ca/66ba7c9da1c31a04c651ee06_Hero%201.avif">
+                                    <!-- Action buttons -->
+                                    <div class="meme-actions">
+                                        <button id="editButton" class="edit-btn"><i class="fa-solid fa-pen"></i> Edit</button>
+                                        <button id="deleteButton" class="delete-btn"><i class="fa-solid fa-trash"></i> Delete</button>
+                                    </div>
+                                    <img src="https://combo.staticflickr.com/66a031f9fc343c5e42d965ca/66ba7c9da1c31a04c651ee06_Hero%201.avif"
+                                        alt="Meme">
+                                    <div class="meme-info">
+                                        <h4>When the code works</h4>
+                                        <div class="icons">
+                                            <span><i class="fa-solid fa-thumbs-up"></i> 423</span>
+                                            <span><i class="fa-solid fa-comment"></i> 2</span>
+                                        </div>
                                     </div>
                                 </div>
+                               
                             </div>
                         </div>
 
