@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Meme | MemeHub</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/create.css">
+</head>
+
+<body>
+  <div id="header" style="position: sticky; top: 0; z-index: 9999;"></div>
+
+  <main class="main-layout">
+    <div id="left-sidebar"></div>
+
+    <div id="main-content">
+      <div class="creator-container">
+        <section class="left-panel">
+          <label>Upload Image</label>
+          <input type="file" id="memeImage" accept="image/*" />
+
+          <label>Or Choose Template</label>
+          <select id="templateSelector">
+            <option value="">--Select--</option>
+            <option value="template1.jpg">Grumpy Cat</option>
+            <option value="template2.jpg">Success Kid</option>
+            <!-- Add more -->
+          </select>
+
+          <label>Top Text</label>
+          <input type="text" id="topText">
+
+          <label>Bottom Text</label>
+          <input type="text" id="bottomText">
+
+          <div class="customization">
+            <label>Font Style</label>
+            <select id="fontStyle">
+              <option value="Impact">Impact</option>
+              <option value="Arial">Arial</option>
+            </select>
+
+            <label>Font Size</label>
+            <input type="number" id="fontSize" value="32">
+
+            <label>Text Color</label>
+            <input type="color" id="textColor" value="#FFFFFF">
+
+            <label>Alignment</label>
+            <div class="alignment-buttons">
+              <button data-align="left">⬅️</button>
+              <button data-align="center">⬆️</button>
+              <button data-align="right">➡️</button>
+            </div>
+          </div>
+
+          <button id="generateCaption">Generate Caption with AI</button>
+          <div id="aiSuggestions"></div>
+        </section>
+
+        <section class="right-panel">
+          <div id="memePreview">
+            <!-- Image + overlayed text shown here -->
+          </div>
+        </section>
+      </div>
+
+      <div class="meme-actions">
+        <button id="saveDraft" class="primary-btn">💾 Save as Draft</button>
+        <button id="publishMeme" class="primary-btn">🚀 Publish</button>
+      </div>
+    </div>
+
+    <div id="right-sidebar"></div>
+  </main>
+
+  <script type="module" src="/js/create.js"></script>
+  <script>
+    // Load header and sidebars
+    fetch("/components/header.html")
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById("header").innerHTML = html;
+      });
+
+    fetch("/components/left-sidebar.html")
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById("left-sidebar").innerHTML = html;
+      });
+
+    fetch("/components/right-sidebar.html")
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById("right-sidebar").innerHTML = html;
+      });
+  </script>
+
+</body>
+
+</html>
