@@ -18,7 +18,7 @@
     margin: 0 auto;
   }
 
-  .create-post-wrap>h3{color: var(--white);}
+  .create-post-wrap>h2{color: var(--white); font-size: 1.4rem; font-weight: 600;}
   .meme-input-form .form-control{width: 100%;background-color: var(--black);color: var(--white);
 padding: 0.7rem;border: 1px solid #bbb;border-radius: 0.5rem;}
 .meme-input-form .form-control:focus{outline: none;}
@@ -27,6 +27,63 @@ padding: 0.7rem;border: 1px solid #bbb;border-radius: 0.5rem;}
 .tui-image-editor-header-logo{display: none;}
 
 
+
+
+#create-post-wrap, .create-post-wrap {
+    border-radius: 12px;
+    margin: auto;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.create-post-wrap h2 {
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--white);
+    font-weight: 600;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #dcdde1;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #0984e3;
+    outline: none;
+    box-shadow: 0 0 5px rgba(9, 132, 227, 0.3);
+}
+
+.primary-btn {
+    font-size: 1.2rem;
+    /* width: 100%; */
+}
+
+
+.image-editor {
+    margin-top: 15px;
+    background-color: var(--white);
+    padding: 10px;
+    border-radius: 8px;
+}
+
+@media (max-width: 700px) {
+ .search-bar{
+  display: none;
+ } 
+}
 
   </style>
 </head>
@@ -39,34 +96,39 @@ padding: 0.7rem;border: 1px solid #bbb;border-radius: 0.5rem;}
 
         <div id="left-sidebar"></div>
 
-        <div id="main-content">
-            <div class="create-post-wrap">
-                <h3 class="mb-1">Create meme</h3>
-                <div class="meme-input-form">
-                    <div class="mb-1">
-                        <input type="text" class="form-control" id="meme-title" placeholder="enter meme title">
-                    </div>
-                    <div class="mb-1">
-                        <input type="text" class="form-control" id="meme-tags" placeholder="Eg. fun, sports, entertainment">
-                    </div>
-                    <div class="mb-1">
-                        <input type="file" id="upload" class="form-control" accept="image/*" />
-                        <div class="image-editor">
-                            <div id="tui-image-editor-container"></div>
-                        </div>
-                    </div>
-                    <div class="mb-1">
-                        <select class="form-control" id="post-status">
-                            <option value="Draft">Draft</option>
-                            <option value="Published">Published</option>
-                        </select>
-                    </div>
-                    <div class="mb-1">
-                        <button class="primary-btn btn-sm" id="post-btn">Post</button>
-                    </div>
+         <div id="main-content">
+        <div class="create-post-wrap">
+            <h2>Create a New Meme 🎨</h2>
+            <form class="meme-input-form">
+                <div class="form-group">
+                    <label for="meme-title">Meme Title</label>
+                    <input required type="text" class="form-control" id="meme-title" placeholder="Enter a catchy title">
                 </div>
-            </div>
-          </div>
+                <div class="form-group">
+                    <label for="meme-tags">Tags</label>
+                    <input  type="text" class="form-control" id="meme-tags" placeholder="E.g. fun, sports, entertainment">
+                </div>
+                <div class="form-group">
+                    <label for="upload">Upload Image</label>
+                    <input type="file" id="upload" class="form-control" accept="image/*" />
+                </div>
+                <div class="image-editor" id="image-editor">
+                    <label>Image Editor</label>
+                    <div id="tui-image-editor-container"></div>
+                </div>
+                <div class="form-group">
+                    <label for="post-status">Post Status</label>
+                    <select required class="form-control" id="post-status">
+                        <option value="Draft">Save as Draft</option>
+                        <option value="Published">Publish Now</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="primary-btn" id="post-btn">🚀 Post Meme</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
         <div id="right-sidebar"></div>
 
@@ -75,6 +137,7 @@ padding: 0.7rem;border: 1px solid #bbb;border-radius: 0.5rem;}
 
 
     <script type="module" src="./js/main.js"></script>
+    <script type="module" src="./js/m-js/create-post.js"></script>
     <!-- Required dependencies -->
     <script src="https://uicdn.toast.com/tui-code-snippet/latest/tui-code-snippet.js"></script>
     <script src="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.js"></script>
@@ -82,71 +145,7 @@ padding: 0.7rem;border: 1px solid #bbb;border-radius: 0.5rem;}
     <!-- Toast UI Image Editor JS -->
     <script src="https://uicdn.toast.com/tui-image-editor/latest/tui-image-editor.js"></script>
 
-    <script>
-        const container = document.getElementById('tui-image-editor-container');
-        let imageEditor = null;
-      
-        document.getElementById('upload').addEventListener('change', (event) => {
-          const file = event.target.files[0];
-          if (!file) return;
-      
-          const reader = new FileReader();
-          reader.onload = function(e) {
-            if (imageEditor) {
-              imageEditor.destroy();
-            }
-            imageEditor = new tui.ImageEditor(container, {
-              includeUI: {
-                loadImage: {
-                  path: e.target.result,
-                  name: file.name
-                },
-                theme: {}, // Default theme
-                menu: ['crop', 'flip', 'rotate', 'draw', 'shape', 'icon', 'text', 'filter'],
-                initMenu: 'filter',
-                uiSize: {
-                  width: '900px',
-                  height: '600px'
-                },
-                menuBarPosition: 'bottom'
-              },
-              cssMaxWidth: 700,
-              cssMaxHeight: 500,
-              selectionStyle: {
-                cornerSize: 20,
-                rotatingPointOffset: 70
-              }
-            });
-          };
-
-          reader.readAsDataURL(file);
-          
-        });
-
-        document.getElementById('post-btn').addEventListener('click', function(e) {
-            e.preventDefault();
-
-            const title = document.getElementById('meme-title').value;
-            const tags = document.getElementById('meme-tags').value;
-            // split tags value by comma []
-            const status = document.getElementById('post-status').value;
-
-            let imageUrl = null;
-            if (imageEditor) {
-            imageUrl = imageEditor.toDataURL();
-            }
-
-            console.log({
-            title,
-            tags,
-            status,
-            imageUrl
-            });
-
-            alert("Meme created successfully!");
-        });
-        
-      </script>
+    
 </body>
 
 </html>
