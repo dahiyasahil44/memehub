@@ -145,7 +145,75 @@ padding: 0.7rem;border: 1px solid #bbb;border-radius: 0.5rem;}
     <!-- Toast UI Image Editor JS -->
     <script src="https://uicdn.toast.com/tui-image-editor/latest/tui-image-editor.js"></script>
 
-    
+
+    <script>
+        const container = document.getElementById('tui-image-editor-container');
+        let imageEditor = null;
+      
+        document.getElementById('upload').addEventListener('change', (event) => {
+          const file = event.target.files[0];
+          if (!file) return;
+      
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            if (imageEditor) {
+              imageEditor.destroy();
+            }
+            imageEditor = new tui.ImageEditor(container, {
+              includeUI: {
+                loadImage: {
+                  path: e.target.result,
+                  name: file.name
+                },
+                theme: {}, // Default theme
+                menu: ['crop', 'flip', 'rotate', 'draw', 'shape', 'icon', 'text', 'filter'],
+                initMenu: 'filter',
+                uiSize: {
+                  width: '900px',
+                  height: '600px'
+                },
+                menuBarPosition: 'bottom'
+              },
+              cssMaxWidth: 700,
+              cssMaxHeight: 500,
+              selectionStyle: {
+                cornerSize: 20,
+                rotatingPointOffset: 70
+              }
+            });
+          };
+
+          reader.readAsDataURL(file);
+          
+        });
+
+        document.getElementById('post-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            const title = document.getElementById('meme-title').value;
+            const tags = document.getElementById('meme-tags').value;
+            // split tags value by comma []
+            const status = document.getElementById('post-status').value;
+
+            let imageUrl = null;
+            if (imageEditor) {
+            imageUrl = imageEditor.toDataURL();
+            }
+
+            console.log({
+            title,
+            tags,
+            status,
+            imageUrl
+            });
+
+            // Store to realtime database
+            // UID -> add
+
+            alert("Meme created successfully!");
+        });
+        
+      </script>
 </body>
 
 </html>
