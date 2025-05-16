@@ -77,9 +77,9 @@
 
                     errMsg.classList.add("text-success")
                     errMsg.innerText = "Logging in..."
-                    setTimeout(()=>{
-                        window.location = "/dashboard.html"
-                    },1000)
+                    // setTimeout(()=>{
+                        window.location = "/index.html"
+                    // },100)
                     
                 }).catch((err)=>{
                     errMsg.classList.add("text-danger")
@@ -95,7 +95,7 @@
 
         onAuthStateChanged(auth, (user)=>{
             if(user){
-                window.location = "/dashboard.html"
+                window.location = "/profile.html"
             }
         })
 
