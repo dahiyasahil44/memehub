@@ -77,7 +77,7 @@
                                         <span><i class="fa-solid fa-bolt"></i> <span id="points">0</span> points</span>
                                         <span><i class="fa-solid fa-medal"></i> <span id="badges">None</span></span>
                                     </div>
-                                    <button class="post-btn primary-btn">Create Post</button>
+                                    <a href="/create-post.html" style="text-align: center;" class="post-btn primary-btn">Create Post</a>
                                 </div>
                             </div>
 
@@ -171,4 +171,14 @@
 <script type="module" src="./js/m-js/profile.js"></script>
 <script type="module" src="./js/m-js/update-profile.js"></script>
 
+<script type="module">
+    import { auth, db, signInWithEmailAndPassword, onAuthStateChanged, doc, getDoc } from "/js/firebase-init.js";
+
+    
+    onAuthStateChanged(auth, (user)=>{
+        if(!user){
+            window.location = "/login.html"
+        }
+    })
+</script>
 </html>

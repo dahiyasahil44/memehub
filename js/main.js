@@ -21,6 +21,7 @@ function logout() {
     if (confirm("Are you sure you want to logout?")) {
         signOut(auth)
             .then(() => {
+                localStorage.removeItem("meme-hub-user")
                 alert("Logout successfull!!")
             }).catch((err) => {
                 console.log(err)
@@ -29,36 +30,23 @@ function logout() {
 }
 window.logout = logout
 
+function setupFilterListeners() {
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', e => {
+            e.preventDefault();
 
-// const url = 'https://shopnest-7577a-default-rtdb.asia-southeast1.firebasedatabase.app/'
-// async function fetchCategoriesMenu() {
-//     try {
-//         let response = await fetch(`${url}/categories.json`)
-//         let dataJson = await response.json()
-//         let data = Object.entries(dataJson || {}).map(([id, item]) => ({ id, ...item }))
+            // Highlight selected filter
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
 
-//         displayCategoriesMenu(data, 8)
-//     } catch (error) {
-//         console.log('Error fetching data:', error)
-//     }
-// }
+            const type = btn.dataset.filter;
+            const filtered = filterMemes(type);
 
-// function displayCategoriesMenu(data, limit) {
-//     const list = document.getElementById('navbar-menu')
-//     list.innerHTML = ''
-
-//     data.forEach(item => {
-//         if (limit) {
-//             const li = document.createElement('li')
-//             li.classList.add("nav-link")
-//             li.addEventListener('click',()=>{
-//                 window.location = `product-listing.html`
-//             })
-//             li.innerText = item.category
-//             list.appendChild(li)
-//             limit--
-//         }
-//     })
-// }
-
-// fetchCategoriesMenu()
+            displayedCount = 0;
+            document.getElementById('meme-feed').innerHTML = '';
+            allMemesFiltered = filtered;
+            displayData();
+        });
+    });
+}
+window.setupFilterListeners = setupFilterListeners

@@ -1,6 +1,8 @@
 import { uploadToCloudinary } from "./cloudinary.js";
 import { getCurrentUser } from "./get-user.js";
 import { db, doc, updateDoc } from "../firebase-init.js";
+import { serverTimestamp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-database.js";
+
 
 document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("tui-image-editor-container");
@@ -83,19 +85,27 @@ document.addEventListener("DOMContentLoaded", () => {
         const imageUrl = await uploadToCloudinary(blob);
 
         const memeData = {
-          UID: user.uid, // Firebase Auth UID
+          UID: user.uid,
+          username: user.userName || 'Anonymous',
+          userPhoto: user.avatar || 'https://t4.ftcdn.net/jpg/12/44/29/93/240_F_1244299369_Jixobpdd2rDzg1B6DZw4tRmSa02OY0Qh.jpg',
           title: title,
-          tags: tags.split(",").map((tag) => tag.trim()),
+          tags: tags.split(",").map(tag => tag.trim()),
+          // category: category || 'general',
           status: status,
           image: imageUrl,
-          upvoteCount: 0,
-          downvoteCount: 0,
-          views: 0,
-          comments: [], // initially empty
+          upvoteCount: 100,
+          downvoteCount: 10,
+          views: 500,
+          comments: [],
           isFlagged: false,
+          reportCount: 0,
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp(),
+          isFeatured: false,
+          isTrending: false
         };
-        console.log(imageUrl);
-        console.log(memeData);
+        // console.log(imageUrl);
+        // console.log(memeData);
 
         // Post to Realtime DB
         const response = await fetch(

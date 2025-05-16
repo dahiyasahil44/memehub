@@ -15,6 +15,7 @@ export function loadComponents(){
             return res.text()
         }).then((data)=>{
             document.getElementById('left-sidebar').innerHTML = data
+            setupFilterListeners();
         })
     }
 

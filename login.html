@@ -74,6 +74,7 @@
                 signInWithEmailAndPassword(auth, email, password)
                 .then((userCredentials)=>{
                     // console.log(userCredentials)
+                    localStorage.setItem("meme-hub-user", JSON.stringify(userCredentials.user));
 
                     errMsg.classList.add("text-success")
                     errMsg.innerText = "Logging in..."
