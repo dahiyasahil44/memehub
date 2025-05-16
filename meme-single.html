@@ -11,57 +11,23 @@
 <body>
     <div id="header" style="position: sticky;top: 0;z-index: 9999;"></div>
 
+    <style>
+        .meme-comment-form .form-control{display: block;width: 100%;border-radius: 0.5rem;
+        background-color: var(--black);color: var(--white);padding: 1rem;margin-bottom: 1rem;}
+
+        .meme-comments-wrap{padding: 1rem 0;color: var(--white);}
+        .meme-user-comment{padding: 0.5rem;border: 1px solid #444;border-radius: 1rem;margin-bottom: 1rem;}
+        .comment-user{display: flex;gap: 0.5rem;align-items: center;}
+        .comment-user span{font-size: 0.8rem;}
+        .comment-user span img{height: 20px;width: 20px;border-radius: 50%;}
+        .comment-text{padding: 0.5rem;font-size: 0.75rem;}
+    </style>
 
     <main class="main-layout">
 
         <div id="left-sidebar"></div>
 
         <div id="main-content">
-            
-            <!-- hero slider -->
-            <section class="hero-section">
-                <div class="hero-head mb-1">
-                    <h3>Recommended for you</h3>
-                </div>
-                <div class="swiper">
-                    <div class="swiper-wrapper">
-                        <!-- Slides -->
-                        <div class="swiper-slide">
-                            <img src="https://catlintucker.com/wp-content/uploads/2015/02/Catlin-Tucker-Meme-300x198.png"
-                                alt="">
-                            <div class="meme-text">
-                                <h6>Title goes here</h6>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <img src="https://catlintucker.com/wp-content/uploads/2015/02/Catlin-Tucker-Meme-300x198.png"
-                                alt="">
-                            <div class="meme-text">
-                                <h6>Title goes here</h6>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <img src="https://catlintucker.com/wp-content/uploads/2015/02/Catlin-Tucker-Meme-300x198.png"
-                                alt="">
-                            <div class="meme-text">
-                                <h6>Title goes here</h6>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <img src="https://catlintucker.com/wp-content/uploads/2015/02/Catlin-Tucker-Meme-300x198.png"
-                                alt="">
-                            <div class="meme-text">
-                                <h6>Title goes here</h6>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="swiper-button-prev"></div>
-                    <div class="swiper-button-next"></div>
-
-                </div>
-            </section>
-
 
             <!-- meme feed -->
             <section class="">
@@ -98,70 +64,46 @@
                             </div>
                         </div>
                     </div>
-                    <div class="meme-card">
-                        <div class="meme-head">
-                            <div class="m-head-left">
-                                <span><img
-                                        src="https://styles.redditmedia.com/t5_2r749/styles/communityIcon_xus035z3hx891.png?width=48&height=48&frame=1&auto=webp&crop=48:48,smart&s=9d77460254b76432c529a2c367cba0c6ebd25386"
-                                        alt=""></span>
-                                <span>username</span>
-                                <span>3hr ago</span>
-                            </div>
-                            <div class="m-head-right"><span><i class="fa-solid fa-flag"></i></span></div>
-                        </div>
-                        <div class="meme-media">
-                            <img src="https://catlintucker.com/wp-content/uploads/2015/02/Catlin-Tucker-Meme-300x198.png"
-                                alt="">
-                        </div>
-                        <div class="meme-tags">
-                            <span>#cringe</span>
-                            <span>#fun</span>
-                        </div>
-                        <div class="meme-actions">
-                            <div class="meme-votes">
-                                <span><i class="fa-solid fa-up-long active"></i></span>
-                                <span>1.2k</span>
-                                <span><i class="fa-solid fa-down-long"></i></span>
-                            </div>
+                    
+                    <div class="meme-comment-form mb-1">
+                        <textarea name="" rows="5" class="form-control" id="" placeholder="write comment here"></textarea>
+                        <button class="primary-btn btn-sm">Post comment</button>
+                    </div>
 
-                            <div class="meme-comments">
-                                <span><i class="fa-solid fa-comments"></i></span>
-                                <span>123</span>
+                    <div class="meme-comments-wrap">
+                        <div class="meme-user-comment">
+                            <div class="comment-user">
+                                <span><img src="https://styles.redditmedia.com/t5_2r749/styles/communityIcon_xus035z3hx891.png?width=48&height=48&frame=1&auto=webp&crop=48:48,smart&s=9d77460254b76432c529a2c367cba0c6ebd25386"
+                                     alt=""></span>
+                                <span>username</span>
+                                <span>8 min ago</span>
                             </div>
+                            <div class="comment-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde rem voluptates molestias explicabo ea, eveniet animi asperiores, architecto repellat at incidunt? Architecto ex amet in ducimus illum incidunt repudiandae facere?</div>
+                        </div>
+                        <div class="meme-user-comment">
+                            <div class="comment-user">
+                                <span><img src="https://styles.redditmedia.com/t5_2r749/styles/communityIcon_xus035z3hx891.png?width=48&height=48&frame=1&auto=webp&crop=48:48,smart&s=9d77460254b76432c529a2c367cba0c6ebd25386"
+                                     alt=""></span>
+                                <span>username</span>
+                                <span>8 min ago</span>
+                            </div>
+                            <div class="comment-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde rem voluptates molestias explicabo ea, eveniet animi asperiores, architecto repellat at incidunt? Architecto ex amet in ducimus illum incidunt repudiandae facere?</div>
+                        </div>
+                        <div class="meme-user-comment">
+                            <div class="comment-user">
+                                <span><img src="https://styles.redditmedia.com/t5_2r749/styles/communityIcon_xus035z3hx891.png?width=48&height=48&frame=1&auto=webp&crop=48:48,smart&s=9d77460254b76432c529a2c367cba0c6ebd25386"
+                                     alt=""></span>
+                                <span>username</span>
+                                <span>8 min ago</span>
+                            </div>
+                            <div class="comment-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde rem voluptates molestias explicabo ea, eveniet animi asperiores, architecto repellat at incidunt? Architecto ex amet in ducimus illum incidunt repudiandae facere?</div>
+                        </div>
+
+                        <div class="load-more-comments">
+                            <button class="primary-btn btn-sm">Load more...</button>
                         </div>
                     </div>
-                    <div class="meme-card">
-                        <div class="meme-head">
-                            <div class="m-head-left">
-                                <span><img
-                                        src="https://styles.redditmedia.com/t5_2r749/styles/communityIcon_xus035z3hx891.png?width=48&height=48&frame=1&auto=webp&crop=48:48,smart&s=9d77460254b76432c529a2c367cba0c6ebd25386"
-                                        alt=""></span>
-                                <span>username</span>
-                                <span>3hr ago</span>
-                            </div>
-                            <div class="m-head-right"><span><i class="fa-solid fa-flag"></i></span></div>
-                        </div>
-                        <div class="meme-media">
-                            <img src="https://catlintucker.com/wp-content/uploads/2015/02/Catlin-Tucker-Meme-300x198.png"
-                                alt="">
-                        </div>
-                        <div class="meme-tags">
-                            <span>#cringe</span>
-                            <span>#fun</span>
-                        </div>
-                        <div class="meme-actions">
-                            <div class="meme-votes">
-                                <span><i class="fa-solid fa-up-long"></i></span>
-                                <span>1.2k</span>
-                                <span><i class="fa-solid fa-down-long active"></i></span>
-                            </div>
 
-                            <div class="meme-comments">
-                                <span><i class="fa-solid fa-comments"></i></span>
-                                <span>123</span>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </section>
             <!-- meme feed end -->

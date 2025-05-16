@@ -5,6 +5,31 @@ import { auth, onAuthStateChanged, signOut, getDoc, doc, db} from "./firebase-in
 loadComponents()
 loadSliders()
 
+onAuthStateChanged(auth, (user)=>{
+    if(user){
+        document.getElementById('user-sidebar').classList.remove('hidden')
+        document.getElementById('signupBtn').classList.add('hidden')
+        document.getElementById('loginBtn').classList.add('hidden')
+    }else{
+        document.getElementById('user-sidebar').classList.add('hidden')
+        document.getElementById('signupBtn').classList.remove('hidden')
+        document.getElementById('loginBtn').classList.remove('hidden')
+    }
+})
+
+function logout() {
+    if (confirm("Are you sure you want to logout?")) {
+        signOut(auth)
+            .then(() => {
+                alert("Logout successfull!!")
+            }).catch((err) => {
+                console.log(err)
+            })
+    }
+}
+window.logout = logout
+
+
 // const url = 'https://shopnest-7577a-default-rtdb.asia-southeast1.firebasedatabase.app/'
 // async function fetchCategoriesMenu() {
 //     try {
