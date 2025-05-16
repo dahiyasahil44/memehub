@@ -1,17 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signup ShopNEST - An Ecommerce Platform</title>
     <link rel="stylesheet" href="/css/main.css">
     <style>
-        .navbar-btns, .search-bar>input{display: none;}
-        #signupBtn{display: none;}
-        #loginBtn{display: block;}
-        .container {height: unset;}
+        .navbar-btns,
+        .search-bar>input {
+            display: none;
+        }
+
+        #signupBtn {
+            display: none;
+        }
+
+        #loginBtn {
+            display: block;
+        }
+
+        .container {
+            height: unset;
+        }
     </style>
 </head>
+
 <body>
     <div id="header"></div>
 
@@ -20,8 +34,8 @@
         <section class="section-padding">
             <div class="container">
                 <div class="login-wrap">
-                    
-                
+
+
                     <div class="login-form">
                         <div class="errMsg mb-0" id="errMsg"></div>
                         <form id="signupForm">
@@ -35,7 +49,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input type="password" class="form-control" id="password" placeholder="Enter your password">
+                                <input type="password" class="form-control" id="password"
+                                    placeholder="Enter your password">
                             </div>
                             <div class="form-group">
                                 <button class="primary-btn" type="submit">Create account</button>
@@ -54,46 +69,46 @@
             </div>
         </section>
     </main>
-    
+
     <div id="footer"></div>
 
     <script type="module" src="/js/main.js"></script>
     <script type="module">
         import { auth, db, createUserWithEmailAndPassword, onAuthStateChanged, doc, setDoc } from "/js/firebase-init.js";
-                // Customer Signup with form validation
+        // Customer Signup with form validation
         const errMsg = document.getElementById('errMsg');
 
-        function formValidation(userName, email, password){
-            if(userName == ""){return "Name field is compulsory"}
-            if(email == ""){return "Email field is compulsory"}
-            if(password == ""){return "Password field is compulsory"}
+        function formValidation(userName, email, password) {
+            if (userName == "") { return "Name field is compulsory" }
+            if (email == "") { return "Email field is compulsory" }
+            if (password == "") { return "Password field is compulsory" }
             return true
         }
 
-        document.getElementById('signupForm').addEventListener('submit', async function (e){
+        document.getElementById('signupForm').addEventListener('submit', async function (e) {
             e.preventDefault()
-            
+
             let userName = document.getElementById('userName').value
             let email = document.getElementById('email').value
             let password = document.getElementById('password').value
 
             let valid = formValidation(userName, email, password)
-            if(valid == true){
+            if (valid == true) {
                 try {
                     const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
                     const user = userCredentials.user
                     // save role/additional info in firebase
-                    await setDoc(doc(db,"users",user.uid),{
+                    await setDoc(doc(db, "users", user.uid), {
                         email: user.email,
                         userName: userName,
                         role: "user"
-                    }).then(()=>{
+                    }).then(() => {
                         errMsg.classList.add("text-success")
                         errMsg.innerText = "Registered successfully!!"
-                        setTimeout(()=>{
+                        setTimeout(() => {
                             window.location = "/login.html"
-                        },1000)
-                    }).catch((err)=>{
+                        }, 1000)
+                    }).catch((err) => {
                         console.log(err)
                         errMsg.classList.add("text-danger")
                         errMsg.innerText = "Something went wrong.."
@@ -102,7 +117,7 @@
                     errMsg.classList.add("text-danger")
                     errMsg.innerText = err.message
                 }
-            }else{
+            } else {
                 // alert(valid)
                 errMsg.classList.add("text-danger")
                 errMsg.innerText = valid
@@ -112,4 +127,5 @@
 
     </script>
 </body>
+
 </html>

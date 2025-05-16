@@ -76,8 +76,20 @@ a{
 
 #signupBtn{display: none;}
 
+.main-layout {
+    display: flex;
+}
 
-.main-layout{display: flex;}
-#left-sidebar{flex: 1 1 20%;}
-#main-content{flex: 1 1 60%;}
-#right-sidebar{flex: 1 1 20%;}
+#left-sidebar {
+    flex: 1 1 20%;
+    max-width: 270px;
+}
+
+#main-content {
+    flex: 1 1 60%;
+}
+
+#right-sidebar {
+    flex: 1 1 20%;
+    max-width: 270px;
+}
