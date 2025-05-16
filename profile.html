@@ -42,8 +42,6 @@
         .avatar-wrapper:hover .avatar-overlay {
             opacity: 1;
         }
-
-      
     </style>
 </head>
 
@@ -54,118 +52,116 @@
 
     <main class="main-layout">
         <div id="left-sidebar"></div>
-        <div class="section">
-            <h2>User Profile</h2>
-            <div class="outer-box">
-                <div class="inner-box">
-                    <div class="content">
-                        <div class="profile-section" id="profileSection">
-                            <div class="avatar-wrapper" id="avatarWrapper">
-                                <img src="" alt="User Avatar" class="profile-img" id="userAvatar">
-                                <label for="avatarInput" class="avatar-overlay">Change</label>
-                                <input type="file" id="avatarInput" accept="image/*" style="display: none;">
-                            </div>
-                            <div class="profile-right">
-                                <div class="profile-header">
-                                    <h3 id="username">@username</h3>
-                                    <button id="edit-profile" class="edit-btn btn-sm primary-btn">Edit Profile</button>
+        <div id="main-content">
+
+            <div class="section">
+                <h2>User Profile</h2>
+                <div class="outer-box">
+                    <div class="inner-box">
+                        <div class="content">
+                            <div class="profile-section" id="profileSection">
+                                <div class="avatar-wrapper" id="avatarWrapper">
+                                    <img src="" alt="User Avatar" class="profile-img" id="userAvatar">
+                                    <label for="avatarInput" class="avatar-overlay">Change</label>
+                                    <input type="file" id="avatarInput" accept="image/*" style="display: none;">
                                 </div>
-                                <p class="bio" id="userBio">Loading bio...</p>
-                                <div class="stats">
-                                    <span><i class="fa-solid fa-up-long"></i> <span id="upvotes">0</span> upvotes</span>
-                                    <span><i class="fa-solid fa-image"></i> <span id="memesCount">0</span> memes</span>
-                                    <span><i class="fa-solid fa-bolt"></i> <span id="points">0</span> points</span>
-                                    <span><i class="fa-solid fa-medal"></i> <span id="badges">None</span></span>
+                                <div class="profile-right">
+                                    <div class="profile-header">
+                                        <h3 id="username">@username</h3>
+                                        <button id="edit-profile" class="edit-btn btn-sm primary-btn">Edit Profile</button>
+                                    </div>
+                                    <p class="bio" id="userBio">Loading bio...</p>
+                                    <div class="stats">
+                                        <span><i class="fa-solid fa-up-long"></i> <span id="upvotes">0</span> upvotes</span>
+                                        <span><i class="fa-solid fa-image"></i> <span id="memesCount">0</span> memes</span>
+                                        <span><i class="fa-solid fa-bolt"></i> <span id="points">0</span> points</span>
+                                        <span><i class="fa-solid fa-medal"></i> <span id="badges">None</span></span>
+                                    </div>
+                                    <button class="post-btn primary-btn">Create Post</button>
                                 </div>
-                                <button class="post-btn primary-btn">Create Post</button>
                             </div>
+
+                            <div class="memes-section">
+                                <div class="memes-header">
+                                    <h1>My Memes</h1>
+                                    <div class="sort-select">
+                                        <label for="sort">Sort:</label>
+                                        <select id="sort">
+                                            <option value="popularity">By Popularity</option>
+                                            <option value="date">By Creation Date</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+
+                                <div class="memes-grid">
+                                    <!-- Dummy meme cards -->
+                                    <div class="meme-card" data-title="When the code works"
+                                        data-image="https://combo.staticflickr.com/66a031f9fc343c5e42d965ca/66ba7c9da1c31a04c651ee06_Hero%201.avif">
+                                        <!-- Action buttons -->
+                                        <div class="meme-actions">
+                                            <button id="editButton" class="edit-btn"><i class="fa-solid fa-pen"></i> Edit</button>
+                                            <button id="deleteButton" class="delete-btn"><i class="fa-solid fa-trash"></i> Delete</button>
+                                        </div>
+                                        <img src="https://combo.staticflickr.com/66a031f9fc343c5e42d965ca/66ba7c9da1c31a04c651ee06_Hero%201.avif"
+                                            alt="Meme">
+                                        <div class="meme-info">
+                                            <h4>When the code works</h4>
+                                            <div class="icons">
+                                                <span><i class="fa-solid fa-thumbs-up"></i> 423</span>
+                                                <span><i class="fa-solid fa-comment"></i> 2</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                </div>
+                            </div>
+
                         </div>
-
-                        <div class="memes-grid">
-                            <!-- Dummy meme cards -->
-                            <div class="meme-card" data-title="When the code works"
-                                data-image="https://combo.staticflickr.com/66a031f9fc343c5e42d965ca/66ba7c9da1c31a04c651ee06_Hero%201.avif">
-                                <img src="https://combo.staticflickr.com/66a031f9fc343c5e42d965ca/66ba7c9da1c31a04c651ee06_Hero%201.avif"
-                                    alt="Meme">
-                                <div class="meme-info">
-                                    <h4>When the code works</h4>
-                                    <div class="icons">
-                                        <span><i class="fa-solid fa-thumbs-up"></i> 423</span>
-                                        <span><i class="fa-solid fa-comment"></i> 2</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="meme-card" data-title="When the code works"
-                                data-image="https://combo.staticflickr.com/66a031f9fc343c5e42d965ca/66ba7c9da1c31a04c651ee06_Hero%201.avif">
-                                <img src="https://combo.staticflickr.com/66a031f9fc343c5e42d965ca/66ba7c9da1c31a04c651ee06_Hero%201.avif"
-                                    alt="Meme">
-                                <div class="meme-info">
-                                    <h4>When the code works</h4>
-                                    <div class="icons">
-                                        <span><i class="fa-solid fa-thumbs-up"></i> 423</span>
-                                        <span><i class="fa-solid fa-comment"></i> 2</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="meme-card" data-title="Debug mode on"
-                                data-image="https://combo.staticflickr.com/66a031f9fc343c5e42d965ca/66ba7c9da1c31a04c651ee06_Hero%201.avif">
-                                <img src="https://combo.staticflickr.com/66a031f9fc343c5e42d965ca/66ba7c9da1c31a04c651ee06_Hero%201.avif"
-                                    alt="Meme">
-                                <div class="meme-info">
-                                    <h4>Debug mode on</h4>
-                                    <div class="icons">
-                                        <span><i class="fa-solid fa-thumbs-up"></i> 125</span>
-                                        <span><i class="fa-solid fa-comment"></i> 8</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Modal profile pictrue show  -->
-        <div id="memeModal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="closeModal()">&times;</span>
-                <img id="modalImg" src="" alt="">
-                <h3 id="modalTitle"></h3>
-                <div class="modal-icons">
-                    <span><i class="fa-solid fa-thumbs-up"></i> Like</span>
-                    <span><i class="fa-solid fa-comment"></i> Comment</span>
+            <!-- Modal profile pictrue show  -->
+            <div id="memeModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="closeModal()">&times;</span>
+                    <img id="modalImg" src="" alt="">
+                    <h3 id="modalTitle"></h3>
+                    <div class="modal-icons">
+                        <span><i class="fa-solid fa-thumbs-up"></i> Like</span>
+                        <span><i class="fa-solid fa-comment"></i> Comment</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit Profile Modal -->
+            <div id="editProfileModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <span class="close" id="closeEditModal">&times;</span>
+                    <h3>Edit Profile</h3>
+                    <form id="editProfileForm">
+                        <label>Username:</label>
+                        <input type="text" id="editUsername" required>
+
+                        <label>Bio:</label>
+                        <textarea id="editBio"></textarea>
+
+                        <label>Gender:</label>
+                        <select id="editGender">
+                            <option value="">Select</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="nonbinary">Non-binary</option>
+                            <option value="prefer_not_say">Prefer not to say</option>
+                        </select>
+
+                        <button type="submit" class="primary-btn">Save Changes</button>
+                    </form>
                 </div>
             </div>
         </div>
-
-        <!-- Edit Profile Modal -->
-        <div id="editProfileModal" class="modal" style="display: none;">
-            <div class="modal-content">
-                <span class="close" id="closeEditModal">&times;</span>
-                <h3>Edit Profile</h3>
-                <form id="editProfileForm">
-                    <label>Username:</label>
-                    <input type="text" id="editUsername" required>
-
-                    <label>Bio:</label>
-                    <textarea id="editBio"></textarea>
-
-                    <label>Gender:</label>
-                    <select id="editGender">
-                        <option value="">Select</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="nonbinary">Non-binary</option>
-                        <option value="prefer_not_say">Prefer not to say</option>
-                    </select>
-
-                    <button type="submit" class="primary-btn">Save Changes</button>
-                </form>
-            </div>
-        </div>
-
+        
         <div id="right-sidebar"></div>
     </main>
 
