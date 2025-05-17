@@ -100,7 +100,7 @@
             color: gray;
         }
 
-    
+
 
         .games-container {
             display: grid;
@@ -322,7 +322,7 @@
                 const userSnap = await getDoc(doc(db, "users", item.UID));
                 const user = userSnap.data() || {};
                 const avatar = user.avatar || "https://t4.ftcdn.net/jpg/12/44/29/93/240_F_1244299369_Jixobpdd2rDzg1B6DZw4tRmSa02OY0Qh.jpg";
-                const ago = item.updatedAt ? timeAgo(item.updatedAt) : "Just now";
+                const ago = item.createdAt ? timeAgo(item.createdAt) : "Just now";
                 const card = document.createElement("div");
                 card.className = "meme-card";
                 card.innerHTML = `
@@ -515,6 +515,53 @@
         await fetchData();
         renderSwiperSlider(allMemesFiltered);
         renderMemeGames()
+
+        function filterMemes(type) {
+            const now = Date.now();
+
+            let filtered = [...allMemes];
+
+            if (type === 'new') {
+                filtered.sort((a, b) => b.createdAt - a.createdAt); // newest first
+            }
+
+            if (type === 'top24h') {
+                filtered = filtered.filter(meme => now - meme.createdAt <= 24 * 60 * 60 * 1000);
+                filtered.sort((a, b) => b.upvoteCount - a.upvoteCount);
+            }
+
+            if (type === 'topWeek') {
+                filtered = filtered.filter(meme => now - meme.createdAt <= 7 * 24 * 60 * 60 * 1000);
+                filtered.sort((a, b) => b.upvoteCount - a.upvoteCount);
+            }
+
+            if (type === 'topAll') {
+                filtered.sort((a, b) => b.upvoteCount - a.upvoteCount);
+            }
+
+            if (type === 'search') {
+                // data search
+                filtered.sort((a, b) => b.upvoteCount - a.upvoteCount);
+            }
+
+            return filtered;
+        }
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', e => {
+                e.preventDefault();
+
+                const type = btn.dataset.filter;
+                const filtered = filterMemes(type);
+
+                // Reset feed state
+                displayedCount = 0;
+                memeFeed.innerHTML = '';
+                allMemesFiltered = filtered; // temp override
+                displayData(); // Show first batch
+            });
+        });
+        window.filterMemes = filterMemes
+
     </script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script type="module" src="./js/m-js/meme-games.js"></script>
