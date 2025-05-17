@@ -100,7 +100,7 @@
                 const userSnap = await getDoc(doc(db, "users", item.UID));
                 const user = userSnap.data() || {};
                 const avatar = user.avatar || "https://t4.ftcdn.net/jpg/12/44/29/93/240_F_1244299369_Jixobpdd2rDzg1B6DZw4tRmSa02OY0Qh.jpg";
-                const ago = item.updatedAt ? timeAgo(item.createdAt) : "Just now";
+                const ago = item.updatedAt ? timeAgo(item.updatedAt) : "Just now";
                 const card = document.createElement("div");
                 card.className = "meme-card";
                 card.innerHTML = `

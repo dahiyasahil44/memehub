@@ -84,6 +84,7 @@
         }
 
         .danger-btn {
+            color: red;
             border: none;
             padding: 0.5rem 1rem;
             border-radius: 5px;
@@ -262,6 +263,14 @@
                                     <button id="danger-btn" class="danger-btn">Update</button>
                                 </div>
                             </div>
+                            <!-- Account Actions -->
+                            <div class="setting-group">
+                                <h3>Account Actions</h3>
+                                <div class="setting-item">
+                                    <span>Logout</span>
+                                    <button id="logoutBtn" class="danger-btn">Logout</button>
+                                </div>
+                            </div>
 
                             <!-- Danger Zone -->
                             <div class="setting-group">
@@ -276,7 +285,7 @@
                     </div>
                 </div>
             </div>
-        <!-- Password Update Modal -->
+            <!-- Password Update Modal -->
             <div id="passwordModal" class="modal">
                 <div class="modal-content password-modal">
                     <span class="close" id="closePasswordModal">&times;</span>
@@ -296,30 +305,49 @@
                 </div>
             </div>
         </div>
-        
+
         <div id="right-sidebar"></div>
     </main>
 
     <script type="module" src="/js/main.js"></script>
     <script type="module" src="/js/m-js/setting.js"></script>
 </body>
-<script>
+<script type="module">
+    import { signOut, auth ,onAuthStateChanged } from "/js/firebase-init.js";
     const toggle = document.getElementById("darkModeToggle");
+    const logoutBtn = document.getElementById('logoutBtn')
+    onAuthStateChanged(auth, (user) => {
+        if (!user) {
+            window.location = "/login.html"
+        }
+    })
 
-// Check saved preference (optional)
-if (localStorage.getItem("darkMode") === "enabled") {
-    document.body.classList.add("dark-mode");
-    toggle.checked = true;
-}
-
-toggle.addEventListener("change", () => {
-    if (toggle.checked) {
+    // Check saved preference (optional)
+    if (localStorage.getItem("darkMode") === "enabled") {
         document.body.classList.add("dark-mode");
-        localStorage.setItem("darkMode", "enabled");
-    } else {
-        document.body.classList.remove("dark-mode");
-        localStorage.setItem("darkMode", "disabled");
+        toggle.checked = true;
     }
-});
+
+    toggle.addEventListener("change", () => {
+        if (toggle.checked) {
+            document.body.classList.add("dark-mode");
+            localStorage.setItem("darkMode", "enabled");
+        } else {
+            document.body.classList.remove("dark-mode");
+            localStorage.setItem("darkMode", "disabled");
+        }
+    });
+    logoutBtn.addEventListener("click", () => {
+        signOut(auth)
+            .then(() => {
+                alert("Logout successful");
+                window.location.href = "/login.html"; // Redirect after logout
+            })
+            .catch((error) => {
+                console.error("Logout error:", error);
+                alert("Failed to logout. Try again.");
+            });
+    });
 </script>
+
 </html>

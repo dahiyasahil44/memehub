@@ -57,7 +57,7 @@
 
 .search-bar input {
   padding: 0.5rem;
-  border-radius: 0.5rem;
+  border-radius: 0.2rem;
   border: 1px solid var(--primary);
   outline: none;
 }
@@ -117,6 +117,10 @@
   .sidebar .section {
     margin-bottom: 1rem;
   }
+  .search-bar input {
+  display: none;
+}
+
 }
 
 /* end */
