@@ -66,8 +66,8 @@
             <!-- meme feed -->
             <section class="">
                 <div class="meme-wrap" id="meme-feed">
-
-
+                    
+                    
                 </div>
             </section>
             <!-- meme feed end -->
@@ -82,29 +82,96 @@
     <script type="module" src="./js/main.js"></script>
 
     <script type="module">
+        import { auth, db, onAuthStateChanged, doc, getDoc } from "/js/firebase-init.js";
 
         const url = 'https://memehub-4e730-default-rtdb.asia-southeast1.firebasedatabase.app/'
 
+        let allMemes = []; // to store all fetched memes
+        let allMemesFiltered = []; // changes on filter
+
+        let displayedCount = 0;
+        const batchSize = 8;
+
+        // Fetch and prepare data
         async function fetchData() {
             try {
-                let response = await fetch(`${url}/memes.json`)
-                let dataJson = await response.json()
-                // console.log(dataJson)
-                let data = Object.entries(dataJson || {}).map(([id, item]) => ({ id, ...item }))
+                let response = await fetch(`${url}/memes.json`);
+                let dataJson = await response.json();
+                // console.log(dataJson);
 
-                displayData(data, 8)
+                allMemes = Object.entries(dataJson || {}).map(([id, item]) => ({ id, ...item }));
+                allMemes.sort(() => Math.random() - 0.5);
+                allMemesFiltered = [...allMemes];
+
+                displayData(); // initial display
             } catch (error) {
-                console.log('Error fetching data:', error)
+                console.log('Error fetching data:', error);
             }
         }
 
-        function displayData(data, limit) {
-            const memeFeed = document.getElementById('meme-feed')
-            memeFeed.innerHTML = ''
 
-            data.forEach(item => {
-                if (limit) {
-                    const meme = document.createElement('div')
+        // Display a batch of memes
+        let isLoading = false;
+
+        // Debounce helper
+        function debounce(func, delay) {
+            let timer;
+            return function (...args) {
+                clearTimeout(timer);
+                timer = setTimeout(() => func.apply(this, args), delay);
+            };
+        }
+
+        const timeAgo = (timestamp) => {
+            const now = Date.now();
+            const diff = now - timestamp;
+
+            const seconds = Math.floor(diff / 1000);
+            const minutes = Math.floor(diff / (1000 * 60));
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+            if (seconds < 60) return `${seconds}s ago`;
+            if (minutes < 60) return `${minutes}m ago`;
+            if (hours < 24) return `${hours}h ago`;
+            return `${days}d ago`;
+        };
+
+        // Updated displayData with loading animation
+        function displayData() {
+
+
+
+            if (isLoading) return;
+            isLoading = true;
+
+            const loader = document.getElementById('loader');
+            loader.style.display = 'block';
+
+            setTimeout(() => {
+                const memeFeed = document.getElementById('meme-feed');
+                // const nextBatch = allMemes.slice(displayedCount, displayedCount + batchSize);
+                const nextBatch = allMemesFiltered.slice(displayedCount, displayedCount + batchSize);
+
+                displayedCount += nextBatch.length;
+
+                nextBatch.forEach(async (item) => {
+                    // fetch user data
+                    const userRes = await getDoc(doc(db, "users", item.UID))
+                    const user = userRes.data()
+                    // console.log(user)
+                    const userImage = user.avatar || "https://t4.ftcdn.net/jpg/12/44/29/93/240_F_1244299369_Jixobpdd2rDzg1B6DZw4tRmSa02OY0Qh.jpg"
+
+                    const timeAgoText = item.createdAt ? timeAgo(item.createdAt) : "Just now"
+
+                    const meme = document.createElement('div');
+
+                    // current loggedin user data
+                    const currentUser = JSON.parse(localStorage.getItem("meme-hub-user"))
+                    // console.log(currentUser.uid)
+
+
+
                     meme.innerHTML = `<div class="meme-card">
                         <div class="meme-head">
                             <div class="m-head-left">
@@ -135,24 +202,24 @@
 
                             <div class="meme-comments">
                                 <span><i class="fa-solid fa-comments"></i></span>
-                                <span>${item?.comments?.length}</span>
+                                <span>${item.comments.length}</span>
                             </div>
                         </div>
                     </div>`
 
-                    meme.querySelector('div.meme-votes span:nth-child(1)').addEventListener('click', () => {
+                    meme.querySelector('div.meme-votes span:nth-child(1)').addEventListener('click',()=>{
                         // item upvote count increase
                         item.upvoteCount += 1
                         // server pe update 
                         // UI pe update 
                         meme.querySelector('div.meme-votes span:nth-child(2)').innerText = item.upvoteCount
-
+                        
                     })
-                    meme.querySelector('div.meme-votes span:nth-child(3)').addEventListener('click', () => {
+                    meme.querySelector('div.meme-votes span:nth-child(3)').addEventListener('click',()=>{
                         // item downvote count increase 
                         // 
                     })
-
+                    
                     memeFeed.append(meme)
                     limit--
                 }
@@ -160,7 +227,6 @@
         }
 
         fetchData()
-
 
     </script>
 </body>

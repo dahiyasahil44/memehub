@@ -95,6 +95,12 @@ background-color: #777;
     padding-left: 1rem;
 }
 
+.filter-btn.active {
+  font-weight: bold;
+  color: var(--primary); /* Or whatever your theme uses */
+}
+
+
 @media (max-width: 768px) {
     .navbar-wrap {
         flex-direction: column;
@@ -190,15 +196,13 @@ background-color: var(--primary);color: var(--white);}
   
   .meme-media {
     width: 100%;
-    max-height: 400px;
-    
-    overflow: hidden;
   }
-  
+  .meme-media{padding: 0.5rem 1rem;}
   .meme-media img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
+    width: 50%;
+    height: 400px;
+    object-fit: contain;
+    margin: 0 auto;
     display: block;
   }
   

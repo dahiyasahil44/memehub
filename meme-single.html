@@ -12,15 +12,48 @@
     <div id="header" style="position: sticky;top: 0;z-index: 9999;"></div>
 
     <style>
-        .meme-comment-form .form-control{display: block;width: 100%;border-radius: 0.5rem;
-        background-color: var(--black);color: var(--white);padding: 1rem;margin-bottom: 1rem;}
+        .meme-comment-form .form-control {
+            display: block;
+            width: 100%;
+            border-radius: 0.5rem;
+            background-color: var(--black);
+            color: var(--white);
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
 
-        .meme-comments-wrap{padding: 1rem 0;color: var(--white);}
-        .meme-user-comment{padding: 0.5rem;border: 1px solid #444;border-radius: 1rem;margin-bottom: 1rem;}
-        .comment-user{display: flex;gap: 0.5rem;align-items: center;}
-        .comment-user span{font-size: 0.8rem;}
-        .comment-user span img{height: 20px;width: 20px;border-radius: 50%;}
-        .comment-text{padding: 0.5rem;font-size: 0.75rem;}
+        .meme-comments-wrap {
+            padding: 1rem 0;
+            color: var(--white);
+        }
+
+        .meme-user-comment {
+            padding: 0.5rem;
+            border: 1px solid #444;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .comment-user {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .comment-user span {
+            font-size: 0.8rem;
+        }
+
+        .comment-user span img {
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+        }
+
+        .comment-text {
+            padding: 0.5rem;
+            font-size: 0.75rem;
+        }
     </style>
 
     <main class="main-layout">
@@ -32,79 +65,19 @@
             <!-- meme feed -->
             <section class="">
                 <div class="meme-wrap">
-                    <div class="meme-card">
-                        <div class="meme-head">
-                            <div class="m-head-left">
-                                <span><img
-                                        src="https://styles.redditmedia.com/t5_2r749/styles/communityIcon_xus035z3hx891.png?width=48&height=48&frame=1&auto=webp&crop=48:48,smart&s=9d77460254b76432c529a2c367cba0c6ebd25386"
-                                        alt=""></span>
-                                <span>username</span>
-                                <span>3hr ago</span>
-                            </div>
-                            <div class="m-head-right"><span><i class="fa-solid fa-flag"></i></span></div>
-                        </div>
-                        <div class="meme-media">
-                            <img src="https://catlintucker.com/wp-content/uploads/2015/02/Catlin-Tucker-Meme-300x198.png"
-                                alt="">
-                        </div>
-                        <div class="meme-tags">
-                            <span>#cringe</span>
-                            <span>#fun</span>
-                        </div>
-                        <div class="meme-actions">
-                            <div class="meme-votes">
-                                <span><i class="fa-solid fa-up-long"></i></span>
-                                <span>1.2k</span>
-                                <span><i class="fa-solid fa-down-long"></i></span>
-                            </div>
 
-                            <div class="meme-comments">
-                                <span><i class="fa-solid fa-comments"></i></span>
-                                <span>123</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="meme-comment-form mb-1">
-                        <textarea name="" rows="5" class="form-control" id="" placeholder="write comment here"></textarea>
-                        <button class="primary-btn btn-sm">Post comment</button>
-                    </div>
 
-                    <div class="meme-comments-wrap">
-                        <div class="meme-user-comment">
-                            <div class="comment-user">
-                                <span><img src="https://styles.redditmedia.com/t5_2r749/styles/communityIcon_xus035z3hx891.png?width=48&height=48&frame=1&auto=webp&crop=48:48,smart&s=9d77460254b76432c529a2c367cba0c6ebd25386"
-                                     alt=""></span>
-                                <span>username</span>
-                                <span>8 min ago</span>
-                            </div>
-                            <div class="comment-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde rem voluptates molestias explicabo ea, eveniet animi asperiores, architecto repellat at incidunt? Architecto ex amet in ducimus illum incidunt repudiandae facere?</div>
-                        </div>
-                        <div class="meme-user-comment">
-                            <div class="comment-user">
-                                <span><img src="https://styles.redditmedia.com/t5_2r749/styles/communityIcon_xus035z3hx891.png?width=48&height=48&frame=1&auto=webp&crop=48:48,smart&s=9d77460254b76432c529a2c367cba0c6ebd25386"
-                                     alt=""></span>
-                                <span>username</span>
-                                <span>8 min ago</span>
-                            </div>
-                            <div class="comment-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde rem voluptates molestias explicabo ea, eveniet animi asperiores, architecto repellat at incidunt? Architecto ex amet in ducimus illum incidunt repudiandae facere?</div>
-                        </div>
-                        <div class="meme-user-comment">
-                            <div class="comment-user">
-                                <span><img src="https://styles.redditmedia.com/t5_2r749/styles/communityIcon_xus035z3hx891.png?width=48&height=48&frame=1&auto=webp&crop=48:48,smart&s=9d77460254b76432c529a2c367cba0c6ebd25386"
-                                     alt=""></span>
-                                <span>username</span>
-                                <span>8 min ago</span>
-                            </div>
-                            <div class="comment-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde rem voluptates molestias explicabo ea, eveniet animi asperiores, architecto repellat at incidunt? Architecto ex amet in ducimus illum incidunt repudiandae facere?</div>
-                        </div>
 
-                        <div class="load-more-comments">
-                            <button class="primary-btn btn-sm">Load more...</button>
-                        </div>
-                    </div>
+
+
 
                 </div>
+                <div class="meme-comment-form mb-1">
+                    <textarea class="form-control" rows="5" placeholder="write comment here"></textarea>
+                    <button class="primary-btn btn-sm">Post comment</button>
+                </div>
+
+                <div class="meme-comments-wrap"></div>
             </section>
             <!-- meme feed end -->
         </div>
@@ -118,123 +91,191 @@
     <script type="module" src="./js/main.js"></script>
 
     <script type="module">
-        import { addToCart } from "./js/cart.js"
+        import { auth, database, onAuthStateChanged, getDoc, doc, db } from "./js/firebase-init.js";
 
+        const params = new URLSearchParams(window.location.search);
+        const memeId = params.get('id');
 
+        const memeWrap = document.querySelector('.meme-wrap');
+        const commentBox = document.querySelector('.meme-comment-form textarea');
+        const postBtn = document.querySelector('.meme-comment-form button');
+        const commentsWrap = document.querySelector('.meme-comments-wrap');
 
-        const url = 'https://shopnest-7577a-default-rtdb.asia-southeast1.firebasedatabase.app/'
+        let currentUser = null;
+        const dbURL = "https://memehub-4e730-default-rtdb.asia-southeast1.firebasedatabase.app";
 
-        async function fetchData() {
-            try {
-                let response = await fetch(`${url}/products.json`)
-                let dataJson = await response.json()
-                let data = Object.entries(dataJson || {}).map(([id, item]) => ({ id, ...item }))
+        // 👤 Load user and data
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user; // May be null
+            loadMeme();
+            loadComments();
 
-                displayData(data, 8)
-            } catch (error) {
-                console.log('Error fetching data:', error)
+            if (!currentUser) {
+                postBtn.attr('disabled',true)
+            } else {
+                setupCommentForm(); // Only allow comment if logged in
             }
+        });
+
+
+        // 🖼️ Load Meme using fetch
+        async function loadMeme() {
+            const res = await fetch(`${dbURL}/memes/${memeId}.json`);
+            const meme = await res.json();
+            // console.log(meme)
+            if (!meme) return;
+
+            const timeAgoText = meme.createdAt ? timeAgo(meme.createdAt) : "Just now";
+            const tagsHTML = (meme.tags || []).map(tag => `<span>#${tag}</span>`).join('');
+            const voteCount = (meme.upvoteCount || 0) - (meme.downvoteCount || 0);
+
+            const userRes = await getDoc(doc(db, "users", meme.UID))
+            const user = userRes.data()
+
+            const memeHTML = `
+        <div class="meme-card">
+            <div class="meme-head">
+                <div class="m-head-left">
+                    <span><img src="${user.avatar || 'https://t4.ftcdn.net/jpg/12/44/29/93/240_F_1244299369_Jixobpdd2rDzg1B6DZw4tRmSa02OY0Qh.jpg'}" alt=""></span>
+                    <span>${user.userName || 'Anonymous'}</span>
+                    <span>${timeAgoText}</span>
+                </div>
+                <div class="m-head-right"><span><i class="fa-solid fa-flag"></i></span></div>
+            </div>
+            <div class="meme-media">
+                <h3 class="mb-1">${meme.title}</h3>
+                <img src="${meme.image}" alt="">
+            </div>
+            <div class="meme-tags">${tagsHTML}</div>
+            <div class="meme-actions">
+                <div class="meme-votes">
+                    <span><i class="fa-solid fa-up-long"></i></span>
+                    <span>${voteCount}</span>
+                    <span><i class="fa-solid fa-down-long"></i></span>
+                </div>
+                <div class="meme-comments">
+                    <span><i class="fa-solid fa-comments"></i></span>
+                    <span id="comment-count">0</span>
+                </div>
+            </div>
+        </div>
+    `;
+
+            memeWrap.insertAdjacentHTML('afterbegin', memeHTML);
         }
 
-        function displayData(data, limit) {
-            const list = document.getElementById('product-1')
-            list.innerHTML = ''
+        // 🗨️ Load comments using fetch
+        async function loadComments() {
+            const res = await fetch(`${dbURL}/comments/${memeId}.json`);
+            const data = await res.json();
+            commentsWrap.innerHTML = '';
+            let count = 0;
 
-            data.forEach(item => {
-                if (limit) {
-                    const div = document.createElement('div')
-                    div.className = "product-card"
+            if (!data) return;
 
-                    let a = document.createElement('a')
-                    a.href = `/product-single.html?id=${item.id}`
-                    let img = document.createElement('img')
-                    img.src = item.image
-                    img.alt = item.title
-                    a.appendChild(img)
+            for (const [id, comment] of Object.entries(data)) {
+                commentsWrap.innerHTML += renderComment(id, comment);
+                count++;
+            }
 
-                    let div2 = document.createElement('div')
-                    div2.className = "p-text"
-                    let h4 = document.createElement('h4')
-                    h4.innerText = item.title
-                    h4.className = "mb-1"
-                    let div3 = document.createElement('div')
-                    div3.className = "p-info mb-1"
-                    let p = document.createElement('p')
-                    p.innerHTML = `₹ ${item.price}`
-                    let rating = Math.ceil(item.rating.rate)
-                    let div4 = document.createElement('div')
-                    div4.className = "p-reviews"
-                    for (let i = 0; i < rating; i++) {
-                        let star = `<i class="fa-solid fa-star"></i>`
-                        div4.innerHTML += star
+            const countEl = document.getElementById('comment-count');
+            if (countEl) countEl.textContent = count;
+
+            setupEditDeleteListeners();
+        }
+
+        // ✍️ Post new comment
+        postBtn.addEventListener('click', async () => {
+            const text = commentBox.value.trim();
+
+            if (!text || !currentUser) return;
+
+            const userRes = await getDoc(doc(db, "users", currentUser.uid))
+            const user = userRes.data()
+
+            const comment = {
+                userId: currentUser.uid,
+                username: user.userName || "Anonymous",
+                avatar: user.avatar || "https://t4.ftcdn.net/jpg/12/44/29/93/240_F_1244299369_Jixobpdd2rDzg1B6DZw4tRmSa02OY0Qh.jpg",
+                text,
+                createdAt: Date.now()
+            };
+
+            const res = await fetch(`${dbURL}/comments/${memeId}.json`, {
+                method: 'POST',
+                body: JSON.stringify(comment),
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            if (res.ok) commentBox.value = '';
+            loadComments(); // Refresh
+        });
+
+        function renderComment(id, comment) {
+            const isOwner = currentUser && comment.userId === currentUser.uid;
+            return `
+        <div class="meme-user-comment" data-id="${id}">
+            <div class="comment-user">
+                <span><img src="${comment.avatar}" alt=""></span>
+                <span>${comment.username}</span>
+                <span>${timeAgo(comment.createdAt)}</span>
+            </div>
+            <div class="comment-text">${comment.text}</div>
+            ${isOwner ? `
+                <div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
+                    <button class="edit-comment primary-btn btn-sm">Edit</button>
+                    <button class="delete-comment danger-btn btn-sm">Delete</button>
+                </div>
+            ` : ''}
+        </div>
+    `;
+        }
+
+        // 📝 Edit & 🗑 Delete
+        function setupEditDeleteListeners() {
+            document.querySelectorAll('.edit-comment').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const parent = btn.closest('.meme-user-comment');
+                    const id = parent.dataset.id;
+                    const textDiv = parent.querySelector('.comment-text');
+                    const newText = prompt("Edit your comment:", textDiv.textContent);
+                    if (newText && newText.trim() !== "") {
+                        await fetch(`${dbURL}/comments/${memeId}/${id}.json`, {
+                            method: 'PATCH',
+                            body: JSON.stringify({ text: newText.trim() }),
+                            headers: { 'Content-Type': 'application/json' }
+                        });
+                        loadComments();
                     }
-                    div3.append(p, div4)
+                });
+            });
 
-                    let button = `<button class="primary-btn btn-sm" onclick="addItemInCart(${item.id})"><i class="fa-solid fa-shopping-cart"></i> Add to cart</button>`
-
-                    div2.append(h4, div3)
-                    div2.innerHTML += button
-
-                    div.append(a, div2)
-                    list.appendChild(div)
-                    limit--
-                }
-            })
+            document.querySelectorAll('.delete-comment').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const parent = btn.closest('.meme-user-comment');
+                    const id = parent.dataset.id;
+                    if (confirm("Are you sure you want to delete this comment?")) {
+                        await fetch(`${dbURL}/comments/${memeId}/${id}.json`, {
+                            method: 'DELETE'
+                        });
+                        loadComments();
+                    }
+                });
+            });
         }
 
-        function addItemInCart(id) {
-            addToCart(id)
-            alert("Added to Cart")
+        function timeAgo(timestamp) {
+            const diff = Date.now() - timestamp;
+            const mins = Math.floor(diff / 60000);
+            if (mins < 1) return "just now";
+            if (mins < 60) return `${mins} min ago`;
+            const hrs = Math.floor(mins / 60);
+            return `${hrs} hr${hrs > 1 ? 's' : ''} ago`;
         }
-
-        window.addItemInCart = addItemInCart
-
-
-
-        async function fetchCategories() {
-            try {
-                let response = await fetch(`${url}/categories.json`)
-                let dataJson = await response.json()
-                let data = Object.entries(dataJson || {}).map(([id, item]) => ({ id, ...item }))
-
-                displayCategories(data, 8)
-            } catch (error) {
-                console.log('Error fetching data:', error)
-            }
-        }
-
-        function displayCategories(data, limit) {
-            const list = document.getElementById('category-menu')
-            list.innerHTML = ''
-
-            data.forEach(item => {
-                if (limit) {
-                    const div = document.createElement('div')
-                    div.className = "category-card"
-
-                    let a = document.createElement('a')
-                    a.href = `/product-listing.html?category=${item.id}`
-                    let img = document.createElement('img')
-                    img.src = item.image
-                    img.alt = item.title
-                    let h6 = document.createElement('h6')
-                    h6.innerText = item.category
-                    a.append(img, h6)
-
-                    div.append(a)
-                    list.appendChild(div)
-                    limit--
-                }
-            })
-        }
-
-
-
-        fetchData()
-        fetchCategories()
-
 
     </script>
+
+
 </body>
 
 </html>
