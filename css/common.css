@@ -12,13 +12,13 @@ html, body{
     font-family: var(--font-family);
     height: 100%;
     margin: 0;
-    overflow-y: scroll;
+    /* overflow: hidden; */
 }
 
 .container {
     display: flex;
     height: 100vh;
-    overflow: hidden;
+    /* overflow-y: auto; */
 }
 
 
@@ -72,5 +72,5 @@ a{
 
 .main-layout{display: flex;}
 #left-sidebar{flex: 1 1 20%;}
-#main-content{flex: 1 1 60%; background-color: var(--black);padding: 1rem;}
+#main-content{flex: 1 1 60%; background-color: var(--black);padding: 1rem;overflow-x:hidden ;}
 #right-sidebar{flex: 1 1 20%;max-width: 270px;}
