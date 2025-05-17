@@ -66,8 +66,11 @@
             <!-- meme feed -->
             <section class="">
                 <div class="meme-wrap" id="meme-feed">
-                    
-                    
+
+
+                </div>
+                <div id="loader" style="text-align: center; padding: 1em; display: none;">
+                    <span style="color: var(--white);">Loading...</span>
                 </div>
             </section>
             <!-- meme feed end -->
@@ -80,8 +83,164 @@
 
 
     <script type="module" src="./js/main.js"></script>
-
     <script type="module">
+        import { db, doc, getDoc } from "/js/firebase-init.js";
+
+        const url = 'https://memehub-4e730-default-rtdb.asia-southeast1.firebasedatabase.app/';
+        let allMemes = [];
+        let allMemesFiltered = [];
+        let displayedCount = 0;
+        const batchSize = 8;
+        let isLoading = false;
+
+        const loader = document.getElementById('loader');
+        const memeFeed = document.getElementById('meme-feed');
+        const currentUser = JSON.parse(localStorage.getItem("meme-hub-user") || "{}");
+
+        const timeAgo = (timestamp) => {
+            const now = Date.now();
+            const diff = now - timestamp;
+            if (diff < 60 * 1000) return `${Math.floor(diff / 1000)}s ago`;
+            if (diff < 60 * 60 * 1000) return `${Math.floor(diff / 60000)}m ago`;
+            if (diff < 24 * 60 * 60 * 1000) return `${Math.floor(diff / 3600000)}h ago`;
+            return `${Math.floor(diff / 86400000)}d ago`;
+        };
+
+        async function fetchData() {
+            try {
+                const res = await fetch(`${url}/memes.json`);
+                const data = await res.json();
+                allMemes = Object.entries(data || {}).map(([id, val]) => ({ id, ...val }));
+                allMemes.sort(() => Math.random() - 0.5);
+                allMemesFiltered = [...allMemes];
+                displayData();
+            } catch (err) {
+                console.error("Error fetching memes:", err);
+            }
+        }
+
+        async function displayData() {
+            if (isLoading || displayedCount >= allMemesFiltered.length) return;
+            isLoading = true;
+            loader.style.display = 'block';
+
+            const batch = allMemesFiltered.slice(displayedCount, displayedCount + batchSize);
+            displayedCount += batch.length;
+
+            for (let item of batch) {
+                const userSnap = await getDoc(doc(db, "users", item.UID));
+                const user = userSnap.data() || {};
+                const avatar = user.avatar || "https://t4.ftcdn.net/jpg/12/44/29/93/240_F_1244299369_Jixobpdd2rDzg1B6DZw4tRmSa02OY0Qh.jpg";
+                const ago = item.createdAt ? timeAgo(item.createdAt) : "Just now";
+
+                const card = document.createElement("div");
+                card.className = "meme-card";
+                card.innerHTML = `
+            <div class="meme-head">
+                <div class="m-head-left">
+                    <span><img src="${avatar}" alt="user avatar"></span>
+                    <span>${user.userName || "User"}</span>
+                    <span>${ago}</span>
+                </div>
+                <div class="m-head-right"><span><i class="fa-solid fa-flag"></i></span></div>
+            </div>
+            <div class="meme-media">
+                <h3 class="mb-1">${item.title}</h3>
+                <img src="${item.image}" alt="${item.title}" loading="lazy">
+            </div>
+            <div class="meme-tags">
+                ${item.tags.map(tag => `<span>#${tag}</span>`).join("")}
+            </div>
+            <div class="meme-actions">
+                <div class="meme-votes">
+                    <span class="upvote"><i class="fa-solid fa-up-long ${item.upvotedBy?.[currentUser.uid] ? 'active' : ''}"></i></span>
+                    <span>${item.upvoteCount}</span>
+                    <span class="downvote"><i class="fa-solid fa-down-long ${item.downvotedBy?.[currentUser.uid] ? 'active' : ''}"></i></span>
+                    <span>${item.downvoteCount}</span>
+                </div>
+                <div class="meme-comments">
+                    <span><i class="fa-solid fa-comments"></i></span>
+                    <span>${item.comments?.length || 0}</span>
+                </div>
+            </div>
+        `;
+
+                // Add voting listeners
+                card.querySelector(".upvote").addEventListener("click", () => voteHandler(item, "upvote", card));
+                card.querySelector(".downvote").addEventListener("click", () => voteHandler(item, "downvote", card));
+
+                // Navigate to comments
+                card.querySelector(".meme-comments i").addEventListener("click", () => {
+                    window.location.href = `meme-single.html?id=${item.id}`;
+                });
+
+                memeFeed.appendChild(card);
+            }
+
+            loader.style.display = 'none';
+            isLoading = false;
+        }
+
+        async function voteHandler(item, type, card) {
+            const isUpvote = type === "upvote";
+            const userId = currentUser?.uid;
+            if (!userId) return;
+
+            const votedKey = isUpvote ? "upvotedBy" : "downvotedBy";
+            const counterKey = isUpvote ? "upvoteCount" : "downvoteCount";
+            const oppositeKey = isUpvote ? "downvotedBy" : "upvotedBy";
+            const oppositeCount = isUpvote ? "downvoteCount" : "upvoteCount";
+
+            if (item[votedKey]?.[userId]) return; // already voted
+
+            if (item[oppositeKey]?.[userId]) {
+                delete item[oppositeKey][userId];
+                item[oppositeCount] = Math.max(0, item[oppositeCount] - 1);
+            }
+
+            item[counterKey] = (item[counterKey] || 0) + 1;
+            item[votedKey] = item[votedKey] || {};
+            item[votedKey][userId] = true;
+
+            // Update UI
+            const votes = card.querySelectorAll(".meme-votes span");
+            votes[isUpvote ? 1 : 3].innerText = item[counterKey];
+            votes[isUpvote ? 0 : 2].querySelector("i").classList.add("active");
+            votes[isUpvote ? 3 : 1].innerText = item[oppositeCount];
+            votes[isUpvote ? 2 : 0].querySelector("i").classList.remove("active");
+
+            // DB update
+            await fetch(`${url}/memes/${item.id}.json`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    [counterKey]: item[counterKey],
+                    [oppositeCount]: item[oppositeCount],
+                    [`${votedKey}/${userId}`]: true,
+                    [`${oppositeKey}/${userId}`]: null,
+                    updatedAt: Date.now()
+                })
+            });
+        }
+
+        function debounce(func, delay) {
+            let timer;
+            return function (...args) {
+                clearTimeout(timer);
+                timer = setTimeout(() => func.apply(this, args), delay);
+            };
+        }
+
+        // Infinite scroll listener
+        document.body.addEventListener("scroll", debounce(() => {
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+                displayData();
+            }
+        }, 200));
+
+        fetchData();
+    </script>
+    <!-- <script type="module">
         import { auth, db, onAuthStateChanged, doc, getDoc } from "/js/firebase-init.js";
 
         const url = 'https://memehub-4e730-default-rtdb.asia-southeast1.firebasedatabase.app/'
@@ -173,62 +332,234 @@
 
 
                     meme.innerHTML = `<div class="meme-card">
-                        <div class="meme-head">
-                            <div class="m-head-left">
-                                <span><img
-                                        src="https://styles.redditmedia.com/t5_2r749/styles/communityIcon_xus035z3hx891.png?width=48&height=48&frame=1&auto=webp&crop=48:48,smart&s=9d77460254b76432c529a2c367cba0c6ebd25386"
-                                        alt=""></span>
-                                <span>username</span>
-                                <span>3hr ago</span>
-                            </div>
-                            <div class="m-head-right"><span><i class="fa-solid fa-flag"></i></span></div>
-                        </div>
-                        <div class="meme-media">
-                            <img src="${item.image}"
-                                alt="${item.title}">
-                        </div>
-                        <div class="meme-tags">
-                            
-                            <span>${item.tags}</span>
-                            <span>#fun</span>
-                        </div>
-                        <div class="meme-actions">
-                            <div class="meme-votes">
-                                <span><i class="fa-solid fa-up-long"></i></span>
-                                <span>${item.upvoteCount}</span>
-                                <span><i class="fa-solid fa-down-long"></i></span>
-                                <span>${item.downvoteCount}</span>
-                            </div>
+                <div class="meme-head">
+                    <div class="m-head-left">
+                        <span><img src="${userImage}" alt=""></span>
+                        <span>${user.userName}</span>
+                        <span>${timeAgoText}</span>
+                    </div>
+                    <div class="m-head-right"><span><i class="fa-solid fa-flag"></i></span></div>
+                </div>
+                <div class="meme-media">
+                    <h3 class="mb-1">${item.title}</h3>
+                    <img src="${item.image}" alt="${item.title}">
+                </div>
+                <div class="meme-tags">
+                    ${item.tags.map((ele) => `<span>#${ele}</span>`).join('')}
+                </div>
+                <div class="meme-actions">
+                    <div class="meme-votes">
+                        <span><i class="fa-solid fa-up-long"></i></span>
+                        <span>${item.upvoteCount}</span>
+                        <span><i class="fa-solid fa-down-long"></i></span>
+                        <span>${item.downvoteCount}</span>
+                    </div>
+                    <div class="meme-comments">
+                        <span><i class="fa-solid fa-comments"></i></span>
+                        <span>${item.comments ? item.comments.length : 0}</span>
+                    </div>
+                </div>
+            </div>`;
 
-                            <div class="meme-comments">
-                                <span><i class="fa-solid fa-comments"></i></span>
-                                <span>${item.comments.length}</span>
-                            </div>
-                        </div>
-                    </div>`
+                    // comment 
+                    meme.querySelector('.meme-comments span i').addEventListener('click', () => {
+                        window.location.href = `meme-single.html?id=${item.id}`;
+                    });
 
-                    meme.querySelector('div.meme-votes span:nth-child(1)').addEventListener('click',()=>{
-                        // item upvote count increase
-                        item.upvoteCount += 1
-                        // server pe update 
-                        // UI pe update 
-                        meme.querySelector('div.meme-votes span:nth-child(2)').innerText = item.upvoteCount
-                        
-                    })
-                    meme.querySelector('div.meme-votes span:nth-child(3)').addEventListener('click',()=>{
-                        // item downvote count increase 
-                        // 
-                    })
-                    
-                    memeFeed.append(meme)
-                    limit--
-                }
-            })
+
+                    // upvote
+                    const upvoteIcon = meme.querySelector('div.meme-votes span:nth-child(1) i');
+                    if (item.upvotedBy && item.upvotedBy[currentUser.uid]) {
+                        upvoteIcon.classList.add('active');
+                    }
+
+                    meme.querySelector('div.meme-votes span:nth-child(1)').addEventListener('click', async () => {
+                        const userData = JSON.parse(localStorage.getItem("meme-hub-user"));
+                        const memeId = item.id;
+
+                        // Prevent double upvote
+                        if (item.upvotedBy && item.upvotedBy[userData.uid]) {
+                            console.log("Already upvoted");
+                            return;
+                        }
+
+                        // Handle switching from downvote to upvote
+                        let downvoteRemoved = false;
+                        if (item.downvotedBy && item.downvotedBy[userData.uid]) {
+                            delete item.downvotedBy[userData.uid];
+                            item.downvoteCount = Math.max(0, item.downvoteCount - 1);
+                            downvoteRemoved = true;
+                        }
+
+                        // Update local object
+                        item.upvoteCount += 1;
+                        if (!item.upvotedBy) item.upvotedBy = {};
+                        item.upvotedBy[userData.uid] = true;
+
+                        // Update UI
+                        meme.querySelector('div.meme-votes span:nth-child(2)').innerText = item.upvoteCount;
+                        meme.querySelector('div.meme-votes span:nth-child(1) i').classList.add('active');
+
+                        if (downvoteRemoved) {
+                            meme.querySelector('div.meme-votes span:nth-child(4)').innerText = item.downvoteCount;
+                            meme.querySelector('div.meme-votes span:nth-child(3) i').classList.remove('active');
+                        }
+
+                        // Update DB
+                        try {
+                            await fetch(`${url}/memes/${memeId}.json`, {
+                                method: "PATCH",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({
+                                    upvoteCount: item.upvoteCount,
+                                    downvoteCount: item.downvoteCount,
+                                    [`upvotedBy/${userData.uid}`]: true,
+                                    [`downvotedBy/${userData.uid}`]: null, // remove downvote
+                                    updatedAt: Date.now()
+                                })
+                            });
+                        } catch (err) {
+                            console.error("Failed to update vote", err);
+                        }
+                    });
+
+
+
+                    const downvoteIcon = meme.querySelector('div.meme-votes span:nth-child(3) i');
+                    if (item.downvotedBy && item.downvotedBy[currentUser.uid]) {
+                        downvoteIcon.classList.add('active');
+                    }
+
+                    meme.querySelector('div.meme-votes span:nth-child(3)').addEventListener('click', async () => {
+                        const userData = JSON.parse(localStorage.getItem("meme-hub-user"));
+                        const memeId = item.id;
+
+                        // Prevent double downvote
+                        if (item.downvotedBy && item.downvotedBy[userData.uid]) {
+                            console.log("Already downvoted");
+                            return;
+                        }
+
+                        // Handle switching from upvote to downvote
+                        let upvoteRemoved = false;
+                        if (item.upvotedBy && item.upvotedBy[userData.uid]) {
+                            delete item.upvotedBy[userData.uid];
+                            item.upvoteCount = Math.max(0, item.upvoteCount - 1);
+                            upvoteRemoved = true;
+                        }
+
+                        // Update local object
+                        item.downvoteCount += 1;
+                        if (!item.downvotedBy) item.downvotedBy = {};
+                        item.downvotedBy[userData.uid] = true;
+
+                        // Update UI
+                        meme.querySelector('div.meme-votes span:nth-child(4)').innerText = item.downvoteCount;
+                        meme.querySelector('div.meme-votes span:nth-child(3) i').classList.add('active');
+
+                        if (upvoteRemoved) {
+                            meme.querySelector('div.meme-votes span:nth-child(2)').innerText = item.upvoteCount;
+                            meme.querySelector('div.meme-votes span:nth-child(1) i').classList.remove('active');
+                        }
+
+                        // Update DB
+                        try {
+                            await fetch(`${url}/memes/${memeId}.json`, {
+                                method: "PATCH",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({
+                                    downvoteCount: item.downvoteCount,
+                                    upvoteCount: item.upvoteCount,
+                                    [`downvotedBy/${userData.uid}`]: true,
+                                    [`upvotedBy/${userData.uid}`]: null, // remove upvote
+                                    updatedAt: Date.now()
+                                })
+                            });
+                        } catch (err) {
+                            console.error("Failed to update vote", err);
+                        }
+                    });
+
+
+
+                    memeFeed.append(meme);
+                });
+
+                loader.style.display = 'none';
+                isLoading = false;
+            }, 500); // Simulated load delay
         }
+
+        // Scroll listener with debounce
+        document.body.addEventListener(
+            'scroll',
+            debounce(() => {
+                const scrollTop = window.scrollY;
+                const windowHeight = window.innerHeight;
+                const docHeight = document.documentElement.scrollHeight;
+
+                if (scrollTop + windowHeight >= docHeight - 100) {
+                    if (displayedCount < allMemes.length) {
+                        displayData();
+                    }
+                }
+            }, 200)
+        );
+
+
+
+
+        function filterMemes(type) {
+            const now = Date.now();
+
+            let filtered = [...allMemes];
+
+            if (type === 'new') {
+                filtered.sort((a, b) => b.createdAt - a.createdAt); // newest first
+            }
+
+            if (type === 'top24h') {
+                filtered = filtered.filter(meme => now - meme.createdAt <= 24 * 60 * 60 * 1000);
+                filtered.sort((a, b) => {
+                    if (b.upvoteCount === a.upvoteCount) {
+                        return a.downvoteCount - b.downvoteCount; // fewer downvotes come first
+                    }
+                    return b.upvoteCount - a.upvoteCount;
+                });
+            }
+
+            if (type === 'topWeek') {
+                filtered = filtered.filter(meme => now - meme.createdAt <= 7 * 24 * 60 * 60 * 1000);
+                filtered.sort((a, b) => {
+                    if (b.upvoteCount === a.upvoteCount) {
+                        return a.downvoteCount - b.downvoteCount;
+                    }
+                    return b.upvoteCount - a.upvoteCount;
+                });
+            }
+
+            if (type === 'topAll') {
+                filtered.sort((a, b) => {
+                    if (b.upvoteCount === a.upvoteCount) {
+                        return a.downvoteCount - b.downvoteCount;
+                    }
+                    return b.upvoteCount - a.upvoteCount;
+                });
+            }
+
+            return filtered;
+        }
+
+        
+
 
         fetchData()
 
-    </script>
+    </script> -->
 </body>
 
 </html>
