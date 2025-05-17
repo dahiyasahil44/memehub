@@ -15,9 +15,25 @@ html, body{
     /* overflow: scroll; */
 }
 
+
+.dark-mode {
+    --primary: #0d6efd;
+    --secondary: #0f0;
+    --black: #fff;
+    --white: #000;
+    background-color: var(--white);
+    color: var(--black);
+}
+
+.dark-mode #main-content {
+    background-color: var(--black);
+    color: var(--white);
+}
+
+
 .container {
     display: flex;
-    height: 100vh;
+    height: 100dvh;
     overflow-y: hidden;
 }
 

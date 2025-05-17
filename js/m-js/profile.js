@@ -34,6 +34,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   avatarInput.addEventListener("change", async (e) => {
     const file = e.target.files[0];
     if (!file || !userAuth?.uid) return;
+    const loader = document.getElementById("avatarLoader");
+    loader.style.display = "block";
 
     try {
       // Show loading placeholder
@@ -58,6 +60,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       userAvatar.src =
         user.avatar ||
         "https://t4.ftcdn.net/jpg/12/44/29/93/240_F_1244299369_Jixobpdd2rDzg1B6DZw4tRmSa02OY0Qh.jpg";
+    } finally {
+      document.getElementById("avatarLoader").style.display = 'none'
     }
   });
 

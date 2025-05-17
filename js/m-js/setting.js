@@ -1,50 +1,56 @@
 import { getCurrentUser } from "./get-user.js";
-import { auth ,reauthenticateWithCredential, updatePassword, EmailAuthProvider,signOut } from "../firebase-init.js";
+import {
+  auth,
+  reauthenticateWithCredential,
+  updatePassword,
+  EmailAuthProvider,
+  signOut,
+} from "../firebase-init.js";
 document.addEventListener("DOMContentLoaded", () => {
   const user = getCurrentUser();
-  document.getElementById("updatePasswordForm").addEventListener("submit", async function (e) {
-  e.preventDefault();
+  document
+    .getElementById("updatePasswordForm")
+    .addEventListener("submit", async function (e) {
+      e.preventDefault();
 
-  const oldPassword = document.getElementById("oldPassword").value.trim();
-  const newPassword = document.getElementById("newPassword").value.trim();
-  const confirmPassword = document.getElementById("confirmPassword").value.trim();
+      const oldPassword = document.getElementById("oldPassword").value.trim();
+      const newPassword = document.getElementById("newPassword").value.trim();
+      const confirmPassword = document
+        .getElementById("confirmPassword")
+        .value.trim();
 
-  if (newPassword !== confirmPassword) {
-    alert("New passwords do not match.");
-    return;
-  }
+      if (newPassword !== confirmPassword) {
+        alert("New passwords do not match.");
+        return;
+      }
 
-  const user = auth.currentUser;
+      const user = auth.currentUser;
 
-  if (!user || !user.email) {
-    console.error("No authenticated user found.");
-    return;
-  }
+      if (!user || !user.email) {
+        console.error("No authenticated user found.");
+        return;
+      }
 
-  try {
-    console.log("Reauthenticating...");
-    const credential = EmailAuthProvider.credential(user.email, oldPassword);
-    await reauthenticateWithCredential(user, credential);
+      try {
+        console.log("Reauthenticating...");
+        const credential = EmailAuthProvider.credential(
+          user.email,
+          oldPassword
+        );
+        await reauthenticateWithCredential(user, credential);
 
-    console.log("Updating password...");
-    await updatePassword(user, newPassword);
+        console.log("Updating password...");
+        await updatePassword(user, newPassword);
 
-    alert("Password updated successfully. Logging you out for security.");
+        alert("Password updated successfully. Logging you out for security.");
 
-    await signOut(auth);
-    window.location.href = "/login.html"; // Change if your login page is elsewhere
-  } catch (error) {
-    console.error("Error updating password:", error.message);
-    alert("Failed to update password: " + error.message);
-  }
-});
-
-  const darkToggle = document.getElementById("darkModeToggle");
-  darkToggle.addEventListener("change", () => {
-    document.body.classList.toggle("dark-theme", darkToggle.checked);
-    localStorage.setItem("theme", darkToggle.checked ? "dark" : "light");
-    console.log(document.body.classList);
-  });
+        await signOut(auth);
+        window.location.href = "/login.html"; // Change if your login page is elsewhere
+      } catch (error) {
+        console.error("Error updating password:", error.message);
+        alert("Failed to update password: " + error.message);
+      }
+    });
 
   // On load, apply saved theme
   window.addEventListener("DOMContentLoaded", () => {

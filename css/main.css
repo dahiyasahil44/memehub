@@ -6,134 +6,186 @@
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-width: 5px;
+  width: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
-background-color: #555;
-border-radius: 10px;
+  background-color: #555;
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-background-color: #777;
+  background-color: #777;
 }
 
 /* header & sidebar */
 .navbar-wrap {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: var(--black);
-    padding: 1rem 2rem;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    border-bottom: 1px solid #aaa;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--black);
+  padding: 1rem 2rem;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid #aaa;
 }
 
 .navbar-logo h3 a {
-    color: var(--white);
-    font-weight: bold;
-    text-decoration: none;
+  color: var(--white);
+  font-weight: bold;
+  text-decoration: none;
 }
 
 .navbar-btns {
-    display: flex;
-    gap: 1rem;
+  display: flex;
+  gap: 1rem;
 }
 
 .navbar-btns .nav-btn {
-    color: var(--white);
-    padding: 0.5rem 1rem;
-    transition: background-color 0.3s, color 0.3s;
+  color: var(--white);
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .navbar-btns .nav-btn:hover {
-    background-color: var(--primary);
-    color: var(--black);
-    border-radius: 0.5rem;
+  background-color: var(--primary);
+  color: var(--black);
+  border-radius: 0.5rem;
 }
 
 .search-bar input {
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    border: 1px solid var(--primary);
-    outline: none;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--primary);
+  outline: none;
 }
 
 .sidebar {
-    width: 100%;
-    background-color: var(--black);
-    color: var(--white);
-    height: 100vh;
-    padding: 2rem;
-    overflow-y: auto;
-    border-right: 1px solid #aaa;
-    position: sticky;
-    top: 0;
+  width: 100%;
+  background-color: var(--black);
+  color: var(--white);
+  height: 100vh;
+  padding: 2rem;
+  overflow-y: auto;
+  border-right: 1px solid #aaa;
+  position: sticky;
+  top: 0;
 }
 
 .sidebar .section h4 {
-    font-size: .9rem;
-    margin-bottom: 1rem;
-    color: var(--primary);
+  font-size: .9rem;
+  margin-bottom: 1rem;
+  color: var(--primary);
 }
 
 .sidebar a {
-    display: block;
-    padding: 0.5rem 0;
-    color: var(--white);
-    font-size: .9rem;
-    transition: background-color 0.3s, color 0.3s;
+  display: block;
+  padding: 0.5rem 0;
+  color: var(--white);
+  font-size: .9rem;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .sidebar a:hover {
-    background-color: var(--primary);
-    color: var(--black);
-    border-radius: 0.5rem;
-    padding-left: 1rem;
+  background-color: var(--primary);
+  color: var(--black);
+  border-radius: 0.5rem;
+  padding-left: 1rem;
 }
 
 .filter-btn.active {
   font-weight: bold;
-  color: var(--primary); /* Or whatever your theme uses */
+  color: var(--primary);
+  /* Or whatever your theme uses */
 }
 
 
 @media (max-width: 768px) {
-    .navbar-wrap {
-        flex-direction: column;
-        gap: 1rem;
-    }
+  .navbar-wrap {
+    flex-direction: column;
+    gap: 1rem;
+  }
 
-    .sidebar {
-        width: 100%;
-        height: auto;
-        padding: 1rem;
-    }
+  .sidebar {
+    width: 100%;
+    height: auto;
+    padding: 1rem;
+  }
 
-    .sidebar .section {
-        margin-bottom: 1rem;
-    }
+  .sidebar .section {
+    margin-bottom: 1rem;
+  }
 }
+
 /* end */
 
 /* login form */
-.login-wrap{display: flex;width: 60%;margin: 0 auto;box-shadow: 3px 4px 5px #eee;
-border: 1px solid #eee;}
-.login-media{flex: 1 1 30%;padding: 2rem;
-background-color: var(--primary);color: var(--white);}
-.login-media>h3{font-size: 1.5rem;font-weight: bolder;}
-.login-media>p{font-size: 14px;}
-.login-media>img{height: 220px;}
-.login-form{flex: 1 1 70%;padding: 2rem;}
-.login-form .form-group{margin-bottom: 1rem;}
-.login-form .form-group>label{display: block;font-size: 13px;margin-bottom: 6px;}
-.login-form .form-group .form-control{width: 100%;padding: 0.7rem;border: 1px solid #eee;border-radius: 0.2rem;}
-.login-form .form-group .form-control::placeholder{color: #bbb;letter-spacing: 1px;}
-.login-form .form-group .form-control:focus{outline: 0;border: 1px solid var(--primary);}
-.form-extra>p{font-size: 14px;}
+.login-wrap {
+  display: flex;
+  width: 60%;
+  margin: 0 auto;
+  box-shadow: 3px 4px 5px #eee;
+  border: 1px solid #eee;
+}
+
+.login-media {
+  flex: 1 1 30%;
+  padding: 2rem;
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+.login-media>h3 {
+  font-size: 1.5rem;
+  font-weight: bolder;
+}
+
+.login-media>p {
+  font-size: 14px;
+}
+
+.login-media>img {
+  height: 220px;
+}
+
+.login-form {
+  flex: 1 1 70%;
+  padding: 2rem;
+}
+
+.login-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.login-form .form-group>label {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.login-form .form-group .form-control {
+  width: 100%;
+  padding: 0.7rem;
+  border: 1px solid #eee;
+  border-radius: 0.2rem;
+}
+
+.login-form .form-group .form-control::placeholder {
+  color: #bbb;
+  letter-spacing: 1px;
+}
+
+.login-form .form-group .form-control:focus {
+  outline: 0;
+  border: 1px solid var(--primary);
+}
+
+.form-extra>p {
+  font-size: 14px;
+}
+
 /* login form end */
 
 
@@ -141,203 +193,219 @@ background-color: var(--primary);color: var(--white);}
 
 /* meme feed */
 .meme-wrap {
-    padding: 1rem 0;
-  }
-  
-  .meme-card {
-    width: 100%;
-    /* max-height: 500px; */
-    background-color: var(--black);
-    color: var(--white);
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
-    overflow: hidden;
-    margin-bottom: 1.5rem;
-    transition: transform 0.3s, box-shadow 0.3s;
-    border: 1px solid #aaa;
-  }
-  
-  .meme-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  }
-  
-  .meme-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-    border-bottom: 1px solid #aaa;
-  }
-  
-  .m-head-left {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  
-  .m-head-left img {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-  
-  .m-head-left span {
-    font-size: 0.8rem;
-    color: inherit;
-  }
-  
-  .m-head-right {
-    cursor: pointer;
-    font-size: .9rem;
-    color: #888;
-  }
-  
-  .meme-media {
-    width: 100%;
-  }
-  .meme-media{padding: 0.5rem 1rem;}
-  .meme-media img {
-    width: 50%;
-    height: 400px;
-    object-fit: contain;
-    margin: 0 auto;
-    display: block;
-  }
-  
-  .meme-tags {
-    padding: 0.5rem 1rem;
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    border-bottom: 1px solid #aaa;
-  }
-  
-  .meme-tags span {
-    background-color: #111;
-    color: #fff;
-    padding: 0.25rem 0.5rem;
-    font-size: 0.75rem;
-    border-radius: 8px;
-  }
-  
-  .meme-actions {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    padding: 0.75rem 1rem;
-    gap: 1rem;
-  }
-  
-  .meme-votes, .meme-comments {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: inherit;
-    cursor: pointer;
-    font-size: .9rem;
-  }
-  
-  .meme-votes span, .meme-comments span {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-  }
-  
-  .meme-votes i, .meme-comments i {
-    color: var(--white);
-    transition: color 0.3s;
-  }
-  .meme-votes i.active{
-    color: var(--primary);
-  }
-  
-  .meme-votes i:hover , .meme-comments i:hover {
-    color: var(--primary);
-  }
+  padding: 1rem 0;
+}
+
+.meme-card {
+  width: 100%;
+  /* max-height: 500px; */
+  background-color: var(--black);
+  color: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  transition: transform 0.3s, box-shadow 0.3s;
+  border: 1px solid #aaa;
+}
+
+.meme-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.meme-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #aaa;
+}
+
+.m-head-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.m-head-left img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.m-head-left span {
+  font-size: 0.8rem;
+  color: inherit;
+}
+
+.m-head-right {
+  cursor: pointer;
+  font-size: .9rem;
+  color: #888;
+}
+
+.meme-media {
+  width: 100%;
+}
+
+.meme-media {
+  padding: 0.5rem 1rem;
+}
+
+.meme-media img {
+  width: 50%;
+  height: 400px;
+  object-fit: contain;
+  margin: 0 auto;
+  display: block;
+}
+
+.meme-tags {
+  padding: 0.5rem 1rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #aaa;
+}
+
+.meme-tags span {
+  background-color: #111;
+  color: #fff;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  border-radius: 8px;
+}
+
+.meme-actions {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  gap: 1rem;
+}
+
+.meme-votes,
+.meme-comments {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: inherit;
+  cursor: pointer;
+  font-size: .9rem;
+}
+
+.meme-votes span,
+.meme-comments span {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.meme-votes i,
+.meme-comments i {
+  color: var(--white);
+  transition: color 0.3s;
+}
+
+.meme-votes i.active {
+  color: var(--primary);
+}
+
+.meme-votes i:hover,
+.meme-comments i:hover {
+  color: var(--primary);
+}
 
 
 
-  /* hero section / slider section */
-  .hero-section {
-    padding: 1rem 0;
+/* hero section / slider section */
+.hero-section {
+  padding: 0rem 0;
 }
 
 .swiper {
-    max-width: 900px;
-    height: 200px;
-    position: relative;
-    overflow: hidden;
+  max-width: 900px;
+  height: 200px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
 }
 
 .swiper-slide {
-    position: relative;
-    width: 100%;
-    height: 100%;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .swiper-slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.7;
-    transition: opacity 0.3s;
-    border-radius: 1rem;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+  border-radius: 1rem;
 }
 
 .swiper-slide:hover img {
-    opacity: 1;
+  opacity: 1;
 }
 
 .meme-text {
-    position: absolute;
-    z-index: 2;
-    padding: 1rem;
-    bottom: 1%;
-    left: 0;
-    transform: translate(0%, -1%);
-    width: 95%;
-    background-color: rgba(0, 0, 0, 0.5);
-    color: #fff;
-    border-radius: 8px;
+  position: absolute;
+  z-index: 2;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  padding: 0.5rem 1rem;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border-radius: 8px;
 }
 
 .meme-text h6 {
-    margin: 0;
-    font-size: 1rem;
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.2;
 }
 
 .swiper-button-prev,
 .swiper-button-next {
-    position: absolute;
-    top: 50%;
-    width: 35px;
-    height: 35px;
-    /* background-color: #333; */
-    color: #fff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transform: translateY(-50%);
+  position: absolute;
+  top: 50%;
+  width: 35px;
+  height: 35px;
+  color: #fff;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transform: translateY(-50%);
+  z-index: 3;
+  transition: background-color 0.3s ease;
 }
 
 .swiper-button-prev:hover,
 .swiper-button-next:hover {
-    background-color: #555;
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 .swiper-button-prev {
-    left: 10px;
+  left: 10px;
 }
 
 .swiper-button-next {
-    right: 10px;
+  right: 10px;
 }
 
 .hero-head>h3 {
-    color: var(--white);
+  color: var(--white);
+  margin-bottom: 1rem;
 }
-/* end */
