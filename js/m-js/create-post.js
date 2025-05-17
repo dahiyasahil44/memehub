@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
           ],
           initMenu: "filter",
           uiSize: {
-            width: "900px",
+            width: "600px",
             height: "600px",
           },
           menuBarPosition: "bottom",
@@ -120,6 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("meme-title").value = "";
         document.getElementById("meme-tags").value = " ";
         document.getElementById("post-status").value = "";
+        window.location.href = '/index.html'
       } catch (err) {
         console.error("Image upload or database post failed", err);
         alert("Something went wrong. Please try again.");

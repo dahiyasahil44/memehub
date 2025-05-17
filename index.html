@@ -17,7 +17,7 @@
         <div id="left-sidebar"></div>
 
         <div id="main-content">
-            
+
             <!-- hero slider -->
             <section class="hero-section">
                 <div class="hero-head mb-1">
@@ -66,8 +66,8 @@
             <!-- meme feed -->
             <section class="">
                 <div class="meme-wrap" id="meme-feed">
-                    
-                    
+
+
                 </div>
             </section>
             <!-- meme feed end -->
@@ -135,24 +135,24 @@
 
                             <div class="meme-comments">
                                 <span><i class="fa-solid fa-comments"></i></span>
-                                <span>${item.comments.length}</span>
+                                <span>${item?.comments?.length}</span>
                             </div>
                         </div>
                     </div>`
 
-                    meme.querySelector('div.meme-votes span:nth-child(1)').addEventListener('click',()=>{
+                    meme.querySelector('div.meme-votes span:nth-child(1)').addEventListener('click', () => {
                         // item upvote count increase
                         item.upvoteCount += 1
                         // server pe update 
                         // UI pe update 
                         meme.querySelector('div.meme-votes span:nth-child(2)').innerText = item.upvoteCount
-                        
+
                     })
-                    meme.querySelector('div.meme-votes span:nth-child(3)').addEventListener('click',()=>{
+                    meme.querySelector('div.meme-votes span:nth-child(3)').addEventListener('click', () => {
                         // item downvote count increase 
                         // 
                     })
-                    
+
                     memeFeed.append(meme)
                     limit--
                 }
@@ -166,4 +166,3 @@
 </body>
 
 </html>
-
