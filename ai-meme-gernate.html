@@ -116,7 +116,7 @@
             <form onsubmit="generateMeme(event)">
                 <input type="text" id="topText" placeholder="Top text" required />
                 <input type="text" id="bottomText" placeholder="Bottom text" required />
-                <button type="submit">Generate Meme</button>
+                <button id="generate-btn" type="submit">Generate Meme</button>
             </form>
 
             <!-- Output -->
@@ -132,7 +132,9 @@
     <script>
         // Load meme templates into the select dropdown
         async function loadTemplates() {
+
             try {
+
                 const response = await fetch('https://api.imgflip.com/get_memes');
                 const data = await response.json();
                 const templates = data.data.memes;
@@ -150,6 +152,7 @@
                 document.getElementById('templateSelect').innerHTML =
                     '<option disabled>Error loading templates</option>';
             }
+
         }
 
         loadTemplates();
@@ -157,7 +160,8 @@
         // Generate meme using selected template and input text
         async function generateMeme(e) {
             e.preventDefault();
-
+            const generateBtn = document.getElementById('generate-btn')
+            generateBtn.innerHTML = 'Generating...'
             const username = 'mohanLal1'; // Your Imgflip username
             const password = 'mohanlal123'; // Your Imgflip password
             const template_id = document.getElementById('templateSelect').value;
@@ -201,6 +205,7 @@
             } else {
                 alert('Meme generation failed: ' + result.error_message);
             }
+            generateBtn.innerHTML = 'Generate Meme'
         }
     </script>
 </body>
