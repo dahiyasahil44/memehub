@@ -1,20 +1,90 @@
+<style>
+    .search-bar-container {
+        position: relative;
+        max-width: 500px;
+    }
+
+    .search-bar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .search-bar input {
+        flex: 1;
+        padding: 12px 15px;
+        font-size: 16px;
+        border: 2px solid transparent;
+        border-radius: 8px;
+        outline: none;
+        background-color: #f9f9f9;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 0 2px #ccc;
+    }
+
+    .search-bar input:focus {
+        border-color: #4A90E2;
+        box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.3);
+        background-color: #fff;
+    }
+
+    .search-bar input::placeholder {
+        transition: color 0.3s ease;
+    }
+
+    .search-bar input:focus::placeholder {
+        color: #bbb;
+    }
+
+    .search-items {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: var(--white);
+        border: 1px solid #ddd;
+        border-top: none;
+        max-height: 200px;
+        overflow-y: auto;
+        z-index: 1000;
+        display: none;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .search-items div {
+        padding: 10px 15px;
+        border-bottom: 1px solid #f1f1f1;
+        cursor: pointer;
+    }
+
+    .search-items div:hover {
+        background-color: var(--primary);
+    }
+</style>
 <header>
-    <div class="navbar-wrap">
-        <div class="navbar-logo">
-            <h3><a href="/index.html">.meme<span class="text-primary">HUB</span></a></h3>
-        </div>
-        <div class="navbar-btns">
-            <a href="/index.html" class="nav-btn"><i class="fa-solid fa-compass"></i> Feed</a>
-            <a href="/create-post.html" class="nav-btn"><i class="fa-solid fa-add"></i> Create</a>
-            <a href="/my-memes.html" class="nav-btn"><i class="fa-solid fa-compass"></i> My Memes</a>
-            <a href="/profile.html" class="nav-btn"><i class="fa-solid fa-circle-user"></i> Profile</a>
-            
-        </div>
-        
-        <div class="search-bar">
-            <input type="text" placeholder="Search for products" id="searchInput">
-            <a href="/login.html" class="primary-btn btn-sm" id="loginBtn">Login</a>
-            <a href="/signup.html" class="primary-btn btn-sm" id="signupBtn">Signup</a>
-        </div>
+  <div class="navbar-wrap">
+    <div class="navbar-logo">
+      <h3><a href="/index.html">.meme<span class="text-primary">HUB</span></a></h3>
     </div>
+
+    <div class="navbar-btns">
+      <a href="/index.html" class="nav-btn"><i class="fa-solid fa-compass"></i> Feed</a>
+      <a href="/create-post.html" class="nav-btn"><i class="fa-solid fa-add"></i> Create</a>
+      <a href="/my-memes.html" class="nav-btn"><i class="fa-solid fa-compass"></i> My Memes</a>
+      <a href="/profile.html" class="nav-btn"><i class="fa-solid fa-circle-user"></i> Profile</a>
+    </div>
+
+    <div class="search-bar-container">
+      <div class="search-bar">
+        <input
+          type="text"
+          placeholder="Search Memes..."
+          id="searchInput"
+        />
+        <a href="/login.html" class="primary-btn btn-sm" id="loginBtn">Login</a>
+        <a href="/signup.html" class="primary-btn btn-sm" id="signupBtn">Signup</a>
+      </div>
+      <div class="search-items" id="searchItems"></div>
+    </div>
+  </div>
 </header>

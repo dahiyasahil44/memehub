@@ -10,30 +10,15 @@
 html, body{
     scroll-behavior: smooth;
     font-family: var(--font-family);
-    height: 100%;
-    margin: 0;
+    /* height: 100%; */
+    margin: auto;
+    max-width: 1280px;
     /* overflow: scroll; */
 }
 
-
-.dark-mode {
-    --primary: #0d6efd;
-    --secondary: #0f0;
-    --black: #fff;
-    --white: #000;
-    background-color: var(--white);
-    color: var(--black);
-}
-
-.dark-mode #main-content {
-    background-color: var(--black);
-    color: var(--white);
-}
-
-
 .container {
     display: flex;
-    height: 100dvh;
+    height: 100vh;
     overflow-y: hidden;
 }
 
