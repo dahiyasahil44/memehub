@@ -16,6 +16,13 @@ html, body{
     /* overflow: scroll; */
 }
 
+body.dark-mode {
+  --primary: #0c8ffa;
+  --secondary: #109810;
+  --black: #f0f3e3;
+  --white: #000000;
+}
+
 .container {
     display: flex;
     height: 100vh;
