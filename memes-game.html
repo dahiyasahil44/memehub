@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Memes Game</title>
+    <link rel="stylesheet" href="./css/main.css">
+    <style>
+        .meme-battle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .meme img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+        }
+
+        .timer {
+            font-size: 24px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="header"></div>
+
+
+    <main class="main-layout">
+        <div id="left-sidebar"></div>
+        <div id="main-content">
+
+            <div class="section">
+                <h2>Memes Game</h2>
+                <div class="outer-box">
+                    <div class="inner-box">
+                        <div class="content">
+                            <div class="meme-game-section">
+                                <div class="meme-battle">
+                                    <div class="meme meme-left">
+                                        <img id="meme1-img" src="" alt="">
+                                        <button id="vote-meme1">Vote</button>
+                                    </div>
+
+                                    <div class="timer">
+                                        <h4>Time Left</h4>
+                                        <p id="countdown">--:--:--</p>
+                                    </div>
+
+                                    <div class="meme meme-right">
+                                        <img id="meme2-img" src="" alt="">
+                                        <button id="vote-meme2">Vote</button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="right-sidebar"></div>
+    </main>
+
+
+</body>
+<script type="module" src="/js/main.js"></script>
+
+<script type="module">
+    import { auth, db, signInWithEmailAndPassword, updateDoc, onSnapshot, onAuthStateChanged, doc, getDoc } from "/js/firebase-init.js";
+    onAuthStateChanged(auth, (user) => {
+        if (!user) {
+            window.location = "/login.html"
+        }
+    })
+
+    const meme1Img = document.getElementById("meme1-img");
+    const meme2Img = document.getElementById("meme2-img");
+    const countdownEl = document.getElementById("countdown");
+
+    const vote1Btn = document.getElementById("vote-meme1");
+    const vote2Btn = document.getElementById("vote-meme2");
+
+    const battleRef = doc(db, "memeBattle", "currentBattle");
+
+    async function loadBattle() {
+        const battleSnap = await getDoc(battleRef);
+        const battle = battleSnap.data();
+
+        meme1Img.src = battle.meme1.image;
+        meme2Img.src = battle.meme2.image;
+
+        startTimer(battle.endTime);
+
+        vote1Btn.onclick = () => handleVote("meme1");
+        vote2Btn.onclick = () => handleVote("meme2");
+    }
+
+    async function handleVote(memeKey) {
+        const battleSnap = await getDoc(battleRef);
+        const battle = battleSnap.data();
+        const currentVotes = battle[memeKey].votes || 0;
+
+        await updateDoc(battleRef, {
+            [`${memeKey}.votes`]: currentVotes + 1
+        });
+    }
+
+    // 🕒 Countdown Timer
+    function startTimer(endTime) {
+        const interval = setInterval(() => {
+            const now = Date.now();
+            const diff = endTime - now;
+
+            if (diff <= 0) {
+                clearInterval(interval);
+                countdownEl.textContent = "Voting ended";
+                declareWinner(); // Optional
+                return;
+            }
+
+            const hrs = String(Math.floor(diff / (1000 * 60 * 60))).padStart(2, "0");
+            const mins = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, "0");
+            const secs = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, "0");
+
+            countdownEl.textContent = `${hrs}:${mins}:${secs}`;
+        }, 1000);
+    }
+
+    async function declareWinner() {
+        const snap = await getDoc(battleRef);
+        const data = snap.data();
+        const winner = data.meme1.votes > data.meme2.votes ? "Meme 1" : "Meme 2";
+        alert(`🏆 Winner: ${winner}`);
+    }
+
+    loadBattle();
+</script>
+
+</html>
