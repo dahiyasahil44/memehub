@@ -29,6 +29,7 @@ export function loadComponents() {
       .then((data) => {
         document.getElementById("right-sidebar").innerHTML = data;
         const button = document.querySelector(".generate-btn");
+        const toggleBtn = document.querySelector("#toggle-btn");
         if(window.location.href.includes("ai-meme-gernate.html")){
             button.style.display ='none'
         }
@@ -36,7 +37,16 @@ export function loadComponents() {
           button.addEventListener("click", () => {
             window.location.href = "/ai-meme-gernate.html";
           });
-          console.log("clic");
+        //   console.log("clic");
+        }
+         if(!window.location.href.includes("index.html")){
+            toggleBtn.style.display ='none'
+        }
+        if(toggleBtn){
+            toggleBtn.addEventListener("click",()=>{
+                const memeGames = document.querySelector('#meme-games')
+                memeGames.style.display = 'flex'
+            })
         }
       });
   }

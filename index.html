@@ -7,7 +7,176 @@
     <title>MemeHub - An meme watch Platform</title>
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <style>
+        #meme-games {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            z-index: 999999;
+            display: none;
+            padding: 40px 30px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
 
+        .game-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            transition: transform 0.2s ease;
+        }
+
+        .game-section:hover {
+            transform: translateY(-2px);
+        }
+
+        .game-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .game-section p,
+        .game-section li {
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .game-section button {
+            padding: 8px 16px;
+            background: #fff;
+            color: #ff416c;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .game-section button:hover {
+            background: #ffe3ec;
+        }
+
+        .face-off {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: space-around;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .face-off img {
+            width: 45%;
+            max-width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        ol {
+            padding-left: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+
+        .close {
+            position: fixed;
+            right: 20px;
+            top: 20px;
+            font-size: 1.3rem;
+            color: gray;
+        }
+
+    
+
+        .games-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+            justify-content: space-between;
+            gap: 30px;
+            padding: 1rem;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .game-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .game-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .game-card img {
+            max-width: 100%;
+            border-radius: 12px;
+            margin: 15px 0;
+            height: auto;
+        }
+
+        .faceoff-images {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .faceoff-images img {
+            width: 45%;
+            height: auto;
+        }
+
+        .faceoff-images span {
+            font-weight: bold;
+            font-size: 24px;
+            margin: 0 10px;
+            color: #ff416c;
+        }
+
+        .game-card button {
+            margin-top: 10px;
+            padding: 10px 16px;
+            border: none;
+            background: #ff416c;
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .game-card button:hover {
+            background: #ff4b2b;
+        }
+
+        .game-card input[type="text"] {
+            width: 90%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+    </style>
 </head>
 
 <body>
@@ -19,6 +188,59 @@
         <div id="left-sidebar"></div>
 
         <div id="main-content">
+
+            <div id="meme-games">
+                <button id="game-close" class="close">X</button>
+                <div id="meme-games-feed" class="games-container"></div>
+                <section class="game-section">
+                    <h2>🎯 Weekly Meme Challenge</h2>
+                    <p>Theme: <strong>"Monday Mood"</strong></p>
+                    <p>Submit by: <strong>3h left</strong></p>
+                    <button>Submit Meme</button>
+                    <button>See Entries</button>
+                </section>
+
+                <section class="game-section">
+                    <h2>🧠 Meme Mini-Games</h2>
+                    <ul>
+                        <li>Guess the Meme <button>Play Now</button></li>
+                        <li>Caption Match <button>Play Now</button></li>
+                        <li>Meme Quiz <button>Play Now</button></li>
+                    </ul>
+                </section>
+
+                <section class="game-section">
+                    <h2>⚔️ Meme Face-Off</h2>
+                    <div class="face-off">
+                        <img
+                            src="https://res.cloudinary.com/dehamh3j6/image/upload/v1747423026/i4bdcscojasrkztflvhq.jpg" />
+                        <span>VS</span>
+                        <img
+                            src="https://res.cloudinary.com/dehamh3j6/image/upload/v1747426545/hsmayq2lx7hvp0vg6buc.jpg" />
+                    </div>
+                    <button>Vote Now</button>
+                </section>
+
+                <section class="game-section">
+                    <h2>🏅 Leaderboard</h2>
+                    <ol>
+                        <li>@memeMaster99 🏆 - 120 pts</li>
+                        <li>@funnyBoi 🥈 - 98 pts</li>
+                        <li>@gifGoddess 🥉 - 91 pts</li>
+                    </ol>
+                    <button>View Full Board</button>
+                </section>
+
+                <section class="game-section">
+                    <h2>🎁 Weekly Rewards</h2>
+                    <ul>
+                        <li>👑 “Meme King” Badge</li>
+                        <li>⭐ Featured on Homepage</li>
+                        <li>💰 500 MemeCoins</li>
+                    </ul>
+                </section>
+            </div>
+
 
             <!-- hero slider -->
             <section class="dynamic-slider-section">
@@ -48,7 +270,6 @@
         <div id="right-sidebar"></div>
 
     </main>
-
 
 
     <script type="module" src="./js/main.js"></script>
@@ -82,6 +303,8 @@
                 allMemes = Object.entries(data || {}).map(([id, val]) => ({ id, ...val }));
                 allMemes.sort(() => Math.random() - 0.5);
                 allMemesFiltered = [...allMemes];
+                // console.log(allMemes)
+
                 displayData();
             } catch (err) {
                 console.error("Error fetching memes:", err);
@@ -205,7 +428,9 @@
                 displayData();
             }
         }, 200));
-
+        function shuffle(array) {
+            return array.sort(() => 0.5 - Math.random());
+        }
         function renderSwiperSlider(memes) {
             const wrapper = document.getElementById("dynamic-swiper-wrapper");
             wrapper.innerHTML = "";
@@ -235,13 +460,65 @@
                 }
             });
         }
+        function renderMemeGames() {
+            const gameFeed = document.getElementById("meme-games-feed");
+            if (!gameFeed || allMemesFiltered.length < 3) return;
 
+            gameFeed.innerHTML = ""; // clear previous
+
+            // === 1. Face-Off Game ===
+            const faceOffMemes = shuffle([...allMemesFiltered]).slice(0, 2);
+            gameFeed.innerHTML += `
+        <div class="game-card faceoff">
+            <h3>🔥 Meme Face-Off</h3>
+            <div class="faceoff-images">
+                <img src="${faceOffMemes[0].image}" alt="${faceOffMemes[0].title}" title="${faceOffMemes[0].title}">
+                <span>VS</span>
+                <img src="${faceOffMemes[1].image}" alt="${faceOffMemes[1].title}" title="${faceOffMemes[1].title}">
+            </div>
+            <button onclick="alert('Voting coming soon')">Vote Now</button>
+        </div>
+    `;
+
+            // === 2. Caption This Game ===
+            const captionMeme = shuffle([...allMemesFiltered]).find(m => !m.title.toLowerCase().includes("caption"));
+            gameFeed.innerHTML += `
+        <div class="game-card caption">
+            <h3>🧠 Caption This!</h3>
+            <img src="${captionMeme.image}" alt="${captionMeme.title}">
+            <input type="text" placeholder="Your caption..." />
+            <button onclick="alert('Caption submitted!')">Submit Caption</button>
+        </div>
+    `;
+
+            // === 3. Meme Quiz Game ===
+            const quizMeme = shuffle([...allMemesFiltered]).find(m => m.views && m.views > 100);
+            const quizYear = new Date(quizMeme.createdAt).getFullYear();
+            const quizOptions = shuffle([
+                quizYear,
+                quizYear - 1,
+                quizYear + 1,
+                quizYear - 2
+            ]);
+
+            gameFeed.innerHTML += `
+        <div class="game-card quiz">
+            <h3>🎯 Meme Trivia</h3>
+            <p>When was this meme created?</p>
+            <img src="${quizMeme.image}" alt="${quizMeme.title}" />
+            ${quizOptions.map(opt => `
+                <button onclick="alert('${opt == quizYear ? '✅ Correct!' : '❌ Wrong!'}')">${opt}</button>
+            `).join("")}
+        </div>
+    `;
+        }
 
         await fetchData();
         renderSwiperSlider(allMemesFiltered);
+        renderMemeGames()
     </script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
-
+    <script type="module" src="./js/m-js/meme-games.js"></script>
 </body>
 
 </html>
