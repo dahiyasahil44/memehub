@@ -232,7 +232,7 @@
         }
 
         // Infinite scroll listener
-        document.body.addEventListener("scroll", debounce(() => {
+        document.addEventListener("scroll", debounce(() => {
             if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
                 displayData();
             }
