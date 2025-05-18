@@ -218,6 +218,15 @@
   color: var(--white);
 }
 
+@media (max-width : 700px) {
+  .login-media{
+    display: none;
+  }
+  .login-wrap{
+    width: unset;
+  }
+}
+
 /* login form end */
 
 
