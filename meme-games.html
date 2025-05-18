@@ -2,210 +2,310 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MemeHub - An meme watch Platform</title>
-    <link rel="stylesheet" href="./css/main.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
-  
-    <style>
-        #meme-battle{padding: 1rem 0;}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MemeHub - An meme watch Platform</title>
+  <link rel="stylesheet" href="./css/main.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
 
-        .batle-wrap{border: 1px solid #bbb;margin-bottom: 2rem;}
-        .battle-card{display: flex;gap: 1rem;justify-content: space-between;padding: 1rem;}
-        .battle-card>div{width: 49%;}
-        .battle-card .meme-card{margin-bottom: 0;}
-        .battle-card .meme-media img{height: 200px;}
-        .battle-card .meme-media h3{margin-bottom: 1rem;}
-        .battle-timer{display: flex;justify-content: space-between;background-color: var(--primary);padding: 1rem;}
-        .battle-timer>h2{text-align: center;font-size: 1.2rem;
-        color: #fff;}
-    </style>
+  <style>
+    #meme-battle {
+      padding: 1rem 0;
+    }
+
+    .batle-wrap {
+      border: 1px solid #bbb;
+      margin-bottom: 2rem;
+    }
+
+    .battle-card {
+      display: flex;
+      gap: 1rem;
+      justify-content: space-between;
+      padding: 1rem;
+    }
+
+    .battle-card>div {
+      width: 49%;
+    }
+
+    .battle-card .meme-card {
+      margin-bottom: 0;
+    }
+
+    .battle-card .meme-media img {
+      height: 200px;
+    }
+
+    .battle-card .meme-media h3 {
+      margin-bottom: 1rem;
+    }
+
+    .battle-timer {
+      display: flex;
+      justify-content: space-between;
+      background-color: var(--primary);
+      padding: 1rem;
+    }
+
+    .battle-timer>h2 {
+      text-align: center;
+      font-size: 1.2rem;
+      color: #fff;
+    }
+  </style>
 </head>
 
 <body>
-    <div id="header"></div>
+  <div id="header"></div>
 
 
-    <main class="main-layout">
+  <main class="main-layout">
 
-        <div id="left-sidebar"></div>
+    <div id="left-sidebar"></div>
 
-        <div id="main-content">
+    <div id="main-content">
 
-            <div class="meme-head mb-1">
-                <h3>Meme Battle</h3>
-            </div>
+      <div class="meme-head mb-1">
+        <h3>Meme Battle</h3>
+      </div>
+      <div id="selectBattelBtn"></div>
+      <div id="selectBattel"></div>
+      <div id="meme-battle">
 
-            <div id="meme-battle">
-                <!-- <div class="batle-wrap">
-                    <div class="battle-timer">
-                        <h2>Time remaining:</h2>
-                        <h2>32:42:98</h2>
-                    </div>
-                    <div class="battle-card">
-                        <div class="battle-meme1">
-                            <div class="meme-card">
-                                <div class="meme-head">
-                                    <div class="m-head-left">
-                                        <span><img src="https://res.cloudinary.com/dehamh3j6/image/upload/v1747464301/qkzdcvqqfrz4v3bndmba.jpg" alt="user avatar"></span>
-                                        <span>dankmemer</span>
-                                        <span>17h ago</span>
-                                    </div>
-                                    <div class="m-head-right"><span><i class="fa-solid fa-flag"></i></span></div>
-                                </div>
-                                <div class="meme-media">
-                                    <h3 class="mb-1">Life lately</h3>
-                                    <img src="https://res.cloudinary.com/dehamh3j6/image/upload/v1747464365/fj3jjdc3y8703i1cupwj.jpg" alt="Life lately" loading="lazy">
-                                </div>
-                                <div class="meme-tags">
-                                    <span>#memes</span><span>#code</span><span>#pain</span><span>#fun</span><span>#mix</span><span>#coding</span>
-                                </div>
-                                <div class="meme-actions">
-                                    <button class="primary-btn btn-sm">Vote A</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="battle-meme2">
-                            <div class="meme-card">
-                                <div class="meme-head">
-                                    <div class="m-head-left">
-                                        <span><img src="https://res.cloudinary.com/dehamh3j6/image/upload/v1747464301/qkzdcvqqfrz4v3bndmba.jpg" alt="user avatar"></span>
-                                        <span>dankmemer</span>
-                                        <span>17h ago</span>
-                                    </div>
-                                    <div class="m-head-right"><span><i class="fa-solid fa-flag"></i></span></div>
-                                </div>
-                                <div class="meme-media">
-                                    <h3 class="mb-1">Life lately</h3>
-                                    <img src="https://res.cloudinary.com/dehamh3j6/image/upload/v1747464365/fj3jjdc3y8703i1cupwj.jpg" alt="Life lately" loading="lazy">
-                                </div>
-                                <div class="meme-tags">
-                                    <span>#memes</span><span>#code</span><span>#pain</span><span>#fun</span><span>#mix</span><span>#coding</span>
-                                </div>
-                                <div class="meme-actions">
-                                    <button class="primary-btn btn-sm">Vote B</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="batle-wrap">
-                    <div class="battle-timer">
-                        <h2>Time remaining:</h2>
-                        <h2>32:42:98</h2>
-                    </div>
-                    <div class="battle-card">
-                        <div class="battle-meme1">
-                            <div class="meme-card">
-                                <div class="meme-head">
-                                    <div class="m-head-left">
-                                        <span><img src="https://res.cloudinary.com/dehamh3j6/image/upload/v1747464301/qkzdcvqqfrz4v3bndmba.jpg" alt="user avatar"></span>
-                                        <span>dankmemer</span>
-                                        <span>17h ago</span>
-                                    </div>
-                                    <div class="m-head-right"><span><i class="fa-solid fa-flag"></i></span></div>
-                                </div>
-                                <div class="meme-media">
-                                    <h3 class="mb-1">Life lately</h3>
-                                    <img src="https://res.cloudinary.com/dehamh3j6/image/upload/v1747464365/fj3jjdc3y8703i1cupwj.jpg" alt="Life lately" loading="lazy">
-                                </div>
-                                <div class="meme-tags">
-                                    <span>#memes</span><span>#code</span><span>#pain</span><span>#fun</span><span>#mix</span><span>#coding</span>
-                                </div>
-                                <div class="meme-actions">
-                                    <button class="primary-btn btn-sm">Vote A</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="battle-meme2">
-                            <div class="meme-card">
-                                <div class="meme-head">
-                                    <div class="m-head-left">
-                                        <span><img src="https://res.cloudinary.com/dehamh3j6/image/upload/v1747464301/qkzdcvqqfrz4v3bndmba.jpg" alt="user avatar"></span>
-                                        <span>dankmemer</span>
-                                        <span>17h ago</span>
-                                    </div>
-                                    <div class="m-head-right"><span><i class="fa-solid fa-flag"></i></span></div>
-                                </div>
-                                <div class="meme-media">
-                                    <h3 class="mb-1">Life lately</h3>
-                                    <img src="https://res.cloudinary.com/dehamh3j6/image/upload/v1747464365/fj3jjdc3y8703i1cupwj.jpg" alt="Life lately" loading="lazy">
-                                </div>
-                                <div class="meme-tags">
-                                    <span>#memes</span><span>#code</span><span>#pain</span><span>#fun</span><span>#mix</span><span>#coding</span>
-                                </div>
-                                <div class="meme-actions">
-                                    <button class="primary-btn btn-sm">Vote B</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-            </div>
+      </div>
 
+    </div>
+
+    <div id="right-sidebar"></div>
+
+  </main>
+
+
+  <script type="module" src="./js/main.js"></script>
+
+  <script type="module">
+    import {
+      auth,
+      db,
+      signInWithEmailAndPassword,
+      onAuthStateChanged,
+      doc,
+      getDoc
+    } from "/js/firebase-init.js";
+    import { getUserDetails } from '/js/m-js/getUserDetails.js'
+
+    const url = 'https://memehub-4e730-default-rtdb.asia-southeast1.firebasedatabase.app/';
+    let allBattles = [];
+    let allBattlesFiltered = [];
+    let user = await getUserDetails()
+    const allMemes = await getData()
+    console.log(allMemes)
+
+
+    async function getData() {
+      try {
+        let res = await fetch(`${url}/memes.json`);
+        let data = await res.json();
+        data = Object.entries(data || {}).map(([id, val]) => ({ id, ...val }));
+        return data
+      } catch (err) {
+        return []
+        console.error("Error fetching memes:", err);
+      }
+    }
+
+    getData()
+    // admin part added button for create meme
+    function renderCreateBattleUI() {
+      if (user?.role !== "admin") return;
+
+      const btn = document.createElement("button");
+      btn.className = "primary-btn";
+      btn.innerText = "➕ Create Meme Battle";
+      btn.style.margin = "1rem";
+      btn.addEventListener("click", showBattleCreator);
+      document.getElementById("selectBattelBtn").appendChild(btn);
+    }
+
+    function showBattleCreator() {
+      document.getElementById("selectBattel").innerHTML = ''
+      const container = document.createElement("div");
+      container.className = "battle-modal";
+      container.style = "background: #fff; padding: 1rem; border: 1px solid #ccc; margin: 1rem 0;";
+
+      const topMemes = [...allMemes]
+        .filter(m => m.status === "Published")
+        .sort((a, b) => b.upvoteCount - a.upvoteCount)
+        .slice(0, 5);
+
+      container.innerHTML = `<h3>Select 2 Memes to Battle</h3>
+    <div id="select-memes" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+      ${topMemes.map(meme => `
+        <div class="meme-card" style="width: 180px; border: 1px solid #aaa; padding: 0.5rem;">
+          <img src="${meme.image}" style="width: 100%; height: 150px; object-fit: cover;" />
+          <p>${meme.title}</p>
+          <button class="select-meme" data-id="${meme.id}">Select</button>
         </div>
+      `).join('')}
+    </div>
+    <button id="submit-battle" class="primary-btn" disabled>🚀 Submit Battle</button>
+  `;
 
-        <div id="right-sidebar"></div>
+      document.getElementById("selectBattel").appendChild(container);
 
-    </main>
+      let selectedMemes = [];
 
+      container.addEventListener("click", (e) => {
+        if (e.target.classList.contains("select-meme")) {
+          const id = e.target.dataset.id;
+          if (!selectedMemes.includes(id)) {
+            selectedMemes.push(id);
+            e.target.innerText = "Selected";
+            e.target.disabled = true;
+          }
 
-    <script type="module" src="./js/main.js"></script>
-
-    <script type="module">
-        import {
-          auth,
-          db,
-          signInWithEmailAndPassword,
-          onAuthStateChanged,
-          doc,
-          getDoc
-        } from "/js/firebase-init.js";
-      
-        const url = 'https://memehub-4e730-default-rtdb.asia-southeast1.firebasedatabase.app/';
-        let allBattles = [];
-        let allBattlesFiltered = [];
-      
-        onAuthStateChanged(auth, (user) => {
-          // Optional login redirect logic
-          // if (!user) window.location = "/login.html";
-        });
-      
-        async function fetchData() {
-          try {
-            const res = await fetch(`${url}/battles.json`);
-            const data = await res.json();
-            allBattles = Object.entries(data || {}).map(([id, val]) => ({ id, ...val }));
-            allBattles.sort(() => Math.random() - 0.5);
-      
-            // Optional filtering by currentUser
-            // if (currentUser?.uid) {
-            //   allBattles = allBattles.filter(battle => battle.UID === currentUser.uid);
-            // }
-      
-            allBattlesFiltered = [...allBattles];
-            renderAllBattles(allBattlesFiltered);
-          } catch (err) {
-            console.error("Error fetching battles:", err);
+          if (selectedMemes.length === 2) {
+            document.getElementById("submit-battle").disabled = false;
           }
         }
-      
-        function renderAllBattles(battles) {
-          const container = document.getElementById("meme-battle");
-          container.innerHTML = ""; // Clear previous battles
-          battles.forEach(battle => {
-            container.appendChild(renderBattle(battle));
-          });
+
+        if (e.target.id === "submit-battle") {
+          const selectedData = allMemes.filter(m => selectedMemes.includes(m.id));
+          createBattle(selectedData);
         }
-      
-        function renderBattle(battle) {
-          const wrapper = document.createElement("div");
-          wrapper.className = "batle-wrap";
-      
-          const timeLeft = calculateRemainingTime(battle.endTime);
-      
-          wrapper.innerHTML = `
+      });
+    }
+
+    async function createBattle(memes) {
+      const battle = {
+        title: "New Meme Battle",
+        status: "active",
+        startTime: Date.now(),
+        endTime: Date.now() + (1 * 60 * 60 * 1000), // 1 hour
+        memes: memes.map(m => ({
+          id: m.id,
+          UID: m.UID,
+          image: m.image,
+          tags: m.tags,
+          votes: [],
+          title: m.title,
+          status: m.status,
+          createdAt: m.createdAt
+        })),
+        upvotedBy: [],
+        createdAt: Date.now()
+      };
+
+      try {
+        await fetch(`${url}/battles.json`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(battle)
+        });
+        alert("🎉 Meme Battle Created!");
+        window.location.reload();
+      } catch (err) {
+        console.error("Error submitting battle:", err);
+        alert("Failed to create battle.");
+      }
+    }
+
+
+    async function fetchData() {
+      try {
+        const res = await fetch(`${url}/battles.json`);
+        const data = await res.json();
+
+        allBattles = Object.entries(data || {}).map(([id, val]) => ({ id, ...val }));
+
+        // Filter only active and ongoing battles
+        const now = Date.now();
+        allBattlesFiltered = allBattles.filter(battle => battle.status === "active" && battle.endTime > now);
+
+        renderAllBattles(allBattlesFiltered);
+      } catch (err) {
+        console.error("Error fetching battles:", err);
+      }
+    }
+
+    function startCountdown() {
+      setInterval(() => {
+        document.querySelectorAll(".countdown").forEach(el => {
+          const endTime = parseInt(el.dataset.end);
+          el.textContent = calculateRemainingTime(endTime);
+        });
+      }, 1000);
+    }
+    //  Run after all data is fetched
+    renderCreateBattleUI();
+    fetchData();
+    startCountdown();
+
+    document.addEventListener("click", async (e) => {
+      if (e.target.classList.contains("vote-btn")) {
+        const battleId = e.target.dataset.battleId;
+        const memeId = e.target.dataset.memeId;
+
+        if (!currentUser?.uid) {
+          alert("Login to vote.");
+          return;
+        }
+
+        try {
+          const res = await fetch(`${url}/battles/${battleId}.json`);
+          const battle = await res.json();
+
+          // Check if already voted in this battle
+          const alreadyVoted = battle.memes.some(meme => (meme.votes || []).includes(currentUser.uid));
+          if (alreadyVoted) {
+            alert("You already voted in this battle.");
+            return;
+          }
+
+          // Update selected meme's votes
+          const updatedMemes = battle.memes.map(m => {
+            if (m.id === memeId) {
+              return {
+                ...m,
+                votes: [...(m.votes || []), currentUser.uid]
+              };
+            }
+            return m;
+          });
+
+          // Push to DB
+          await fetch(`${url}/battles/${battleId}/memes.json`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updatedMemes)
+          });
+
+          alert("Vote submitted!");
+          fetchData(); // Refresh battles
+        } catch (err) {
+          console.error("Voting failed:", err);
+          alert("Something went wrong.");
+        }
+      }
+    });
+ 
+
+    function renderAllBattles(battles) {
+      const container = document.getElementById("meme-battle");
+      container.innerHTML = ""; // Clear previous battles
+      battles.forEach(battle => {
+        container.appendChild(renderBattle(battle));
+      });
+    }
+
+    function renderBattle(battle) {
+      const wrapper = document.createElement("div");
+      wrapper.className = "batle-wrap";
+
+      const timeLeft = calculateRemainingTime(battle.endTime);
+
+      wrapper.innerHTML = `
             <div class="battle-timer">
                 <h2>Time remaining:</h2>
                 <h2 class="countdown" data-end="${battle.endTime}" data-battle-id="${battle.id}">
@@ -235,74 +335,74 @@
                 `).join('')}
             </div>
           `;
-      
-          return wrapper;
-        }
-      
-        document.addEventListener("click", async (e) => {
-          if (e.target.classList.contains("vote-btn")) {
-            const battleId = e.target.dataset.battleId;
-            const memeId = e.target.dataset.memeId;
-      
-            if (!currentUser?.uid) {
-              alert("You need to be logged in to vote.");
-              return;
-            }
-      
-            try {
-              const res = await fetch(`${url}/battles/${battleId}.json`);
-              const battle = await res.json();
-      
-              const alreadyVoted = (battle.upvotedBy || []).some(v => v.UID === currentUser.uid);
-              if (alreadyVoted) {
-                alert("You have already voted in this battle.");
-                return;
-              }
-      
-              const updatedVotes = [...(battle.upvotedBy || []), {
-                UID: currentUser.uid,
-                memeID: memeId
-              }];
-      
-              await fetch(`${url}/battles/${battleId}/upvotedBy.json`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(updatedVotes)
-              });
-      
-              alert("Vote submitted!");
-            } catch (error) {
-              console.error("Voting error:", error);
-              alert("Something went wrong. Try again.");
-            }
-          }
-        });
-      
-        function calculateRemainingTime(endTimestamp) {
-          const now = Date.now();
-          const distance = endTimestamp - now;
-          if (distance <= 0) return "00:00:00";
-      
-          const hours = String(Math.floor(distance / (1000 * 60 * 60))).padStart(2, '0');
-          const minutes = String(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
-          const seconds = String(Math.floor((distance % (1000 * 60)) / 1000)).padStart(2, '0');
-      
-          return `${hours}:${minutes}:${seconds}`;
-        }
-      
-        function startCountdown() {
-          setInterval(() => {
-            document.querySelectorAll(".countdown").forEach(el => {
-              const endTime = parseInt(el.dataset.end);
-              el.textContent = calculateRemainingTime(endTime);
-            });
-          }, 1000);
-        }
-      
-        fetchData();
-        startCountdown();
-      </script>
-      
+
+      return wrapper;
+    }
+
+    // document.addEventListener("click", async (e) => {
+    //   if (e.target.classList.contains("vote-btn")) {
+    //     const battleId = e.target.dataset.battleId;
+    //     const memeId = e.target.dataset.memeId;
+
+    //     if (!currentUser?.uid) {
+    //       alert("You need to be logged in to vote.");
+    //       return;
+    //     }
+
+    //     try {
+    //       const res = await fetch(`${url}/battles/${battleId}.json`);
+    //       const battle = await res.json();
+
+    //       const alreadyVoted = (battle.upvotedBy || []).some(v => v.UID === currentUser.uid);
+    //       if (alreadyVoted) {
+    //         alert("You have already voted in this battle.");
+    //         return;
+    //       }
+
+    //       const updatedVotes = [...(battle.upvotedBy || []), {
+    //         UID: currentUser.uid,
+    //         memeID: memeId
+    //       }];
+
+    //       await fetch(`${url}/battles/${battleId}/upvotedBy.json`, {
+    //         method: "PUT",
+    //         headers: { "Content-Type": "application/json" },
+    //         body: JSON.stringify(updatedVotes)
+    //       });
+
+    //       alert("Vote submitted!");
+    //     } catch (error) {
+    //       console.error("Voting error:", error);
+    //       alert("Something went wrong. Try again.");
+    //     }
+    //   }
+    // });
+
+    function calculateRemainingTime(endTimestamp) {
+      const now = Date.now();
+      const distance = endTimestamp - now;
+      if (distance <= 0) return "00:00:00";
+
+      const hours = String(Math.floor(distance / (1000 * 60 * 60))).padStart(2, '0');
+      const minutes = String(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+      const seconds = String(Math.floor((distance % (1000 * 60)) / 1000)).padStart(2, '0');
+
+      return `${hours}:${minutes}:${seconds}`;
+    }
+
+    // function startCountdown() {
+    //   setInterval(() => {
+    //     document.querySelectorAll(".countdown").forEach(el => {
+    //       const endTime = parseInt(el.dataset.end);
+    //       el.textContent = calculateRemainingTime(endTime);
+    //     });
+    //   }, 1000);
+    // }
+    //  getData()
+    // fetchData();
+    // startCountdown();
+  </script>
+
 </body>
 
 </html>
