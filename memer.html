@@ -184,64 +184,9 @@
         }
 
 
-        function renderSwiperSlider(memes) {
-            const wrapper = document.getElementById("dynamic-swiper-wrapper");
-            wrapper.innerHTML = "";
-
-            // 1. Collect preferred tags from memes the user liked
-            const likedTags = new Set();
-            if (currentUser?.uid) {
-                memes.forEach(meme => {
-                    if (meme.upvotedBy?.[currentUser.uid]) {
-                        meme.tags?.forEach(tag => likedTags.add(tag));
-                    }
-                });
-            }
-
-            // 2. Score memes by number of matching tags with user's preferences
-            const sortedMemes = memes.map(meme => {
-                let relevanceScore = 0;
-                if (meme.tags && likedTags.size > 0) {
-                    meme.tags.forEach(tag => {
-                        if (likedTags.has(tag)) {
-                            relevanceScore += 1;
-                        }
-                    });
-                }
-                return { ...meme, relevanceScore };
-            }).sort((a, b) => b.relevanceScore - a.relevanceScore);
-
-            // 3. Render top 6
-            sortedMemes.slice(0, 6).forEach(item => {
-                const slide = document.createElement("div");
-                slide.className = "swiper-slide";
-                slide.innerHTML = `
-      <img src="${item.image}" alt="${item.title}" loading="lazy">
-      <div class="meme-text">
-        <h6>${item.title}</h6>
-      </div>
-    `;
-                wrapper.appendChild(slide);
-            });
-
-            new Swiper(".dynamic-swiper", {
-                slidesPerView: 1,
-                spaceBetween: 20,
-                navigation: {
-                    nextEl: ".swiper-button-next",
-                    prevEl: ".swiper-button-prev"
-                },
-                breakpoints: {
-                    640: { slidesPerView: 2 },
-                    1024: { slidesPerView: 3 }
-                }
-            });
-        }
-
 
 
         await fetchData();
-        renderSwiperSlider(allMemesFiltered);
 
 
         function filterMemes(type, searchQuery = '') {

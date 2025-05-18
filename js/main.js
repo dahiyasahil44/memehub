@@ -38,29 +38,63 @@ function logout() {
 }
 window.logout = logout;
 
-function setupFilterListeners() {
-  document.querySelectorAll(".filter-btn").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
+function setupFilterListeners(){
+document.querySelectorAll(".filter-btn").forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
 
-      // Highlight selected filter
-      document
-        .querySelectorAll(".filter-btn")
-        .forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
+    const filterType = btn.dataset.filter;
+    localStorage.setItem("selectedFilter", filterType);
 
-      const type = btn.dataset.filter;
-      const filtered = filterMemes(type);
-
-      displayedCount = 0;
-      document.getElementById("meme-feed").innerHTML = "";
-      allMemesFiltered = filtered;
-      displayData();
-    });
+    console.log(window.location.pathname)
+    if (window.location.pathname !== "/index.html") {
+      // Redirect to index if not already there
+      window.location.href = "/index.html";
+    } else {
+      applyStoredFilter(); // Apply immediately if already on index
+    }
   });
+});
 }
-window.setupFilterListeners = setupFilterListeners;
+window.setupFilterListeners = setupFilterListeners
 
+function applyStoredFilter() {
+  const stored = localStorage.getItem("selectedFilter");
+  console.log(stored)
+  if (stored) {
+    localStorage.removeItem("selectedFilter");
+
+    const btn = document.querySelector(`.filter-btn[data-filter="${stored}"]`);
+    if (btn) {
+      btn.click(); // Triggers your normal filtering logic
+    }
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  setupFilterListeners();
+  applyStoredFilter();
+  
+
+
+  
+
+
+  
+});
+
+function openLeftBar(){
+  // alert("hi")
+  const leftSidebar = document.getElementById("left-sidebar");
+  leftSidebar.classList.toggle("open");
+}
+window.openLeftBar = openLeftBar
+
+function openRightBar(){
+  const rightSidebar = document.getElementById("right-sidebar");
+  rightSidebar.classList.toggle("open");
+}
+window.openRightBar = openRightBar
 // const toggle = document.getElementById("darkModeToggle");
 
 // Check saved preference (optional)
@@ -112,7 +146,7 @@ async function voteHandler(item, type, card) {
   votes[isUpvote ? 2 : 0].querySelector("i").classList.remove("active");
 
   // DB update
-  await fetch(`${url}/memes/${item.id}.json`, {
+  await fetch(`${dbURL}/memes/${item.id}.json`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -126,7 +160,7 @@ async function voteHandler(item, type, card) {
 }
 window.voteHandler = voteHandler
 
-
+const dbURL = "https://memehub-4e730-default-rtdb.asia-southeast1.firebasedatabase.app";
 // top memers data & show in right sidebar
 async function fetchTop10Memers() {
   const dbURL = "https://memehub-4e730-default-rtdb.asia-southeast1.firebasedatabase.app";

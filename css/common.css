@@ -12,7 +12,7 @@ html, body{
     font-family: var(--font-family);
     /* height: 100%; */
     margin: auto;
-    max-width: 1280px;
+    /* max-width: 1280px; */
     /* overflow: scroll; */
 }
 
@@ -89,3 +89,17 @@ a{
 #left-sidebar{flex: 1 1 20%;}
 #main-content{flex: 1 1 60%; background-color: var(--black);padding: 1rem;overflow-x:hidden ;}
 #right-sidebar{flex: 1 1 20%;max-width: 270px;}
+#left-sidebar, #right-sidebar{transition: all .2s ease-in;}
+ 
+.menuBtn{display: none;}
+
+
+.mob{display: none !important;}
+@media(max-width:768px){
+    .desk{display: none !important;}
+    .mob{display: flex !important;}
+    .menuBtn{display: block;background: var(--black);color: var(--white);
+    position: fixed;bottom: 1%;padding: 0.4rem 0.8rem;z-index: 99;border: 1px solid #bbb;}
+    #leftBar{left: 1%;}
+    #rightBar{right: 1%;}
+}
