@@ -140,7 +140,6 @@
                 const templates = data.data.memes;
                 const select = document.getElementById('templateSelect');
                 select.innerHTML = ''; // Clear loading option
-
                 templates.forEach(meme => {
                     const option = document.createElement('option');
                     option.value = meme.id;

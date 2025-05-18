@@ -7,22 +7,77 @@
     <title>Daily Memes Game</title>
     <link rel="stylesheet" href="./css/main.css">
     <style>
+        .meme-game-section {
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
         .meme-battle {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
             gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .meme {
+            flex: 1 1 30%;
+            text-align: center;
         }
 
         .meme img {
-            max-width: 100%;
+            width: 100%;
             height: auto;
-            border-radius: 12px;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .meme button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-weight: bold;
+            background-color: #00bcd4;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .meme button:hover {
+            background-color: #0097a7;
         }
 
         .timer {
-            font-size: 24px;
             text-align: center;
+            min-width: 150px;
+        }
+
+        .timer h4 {
+            margin-bottom: 5px;
+            font-size: 18px;
+        }
+
+        #countdown {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ff5722;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .meme-battle {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .timer {
+                order: -1;
+                /* Show timer at top */
+                margin-bottom: 20px;
+            }
         }
     </style>
 </head>
@@ -45,6 +100,7 @@
                                 <div class="meme-battle">
                                     <div class="meme meme-left">
                                         <img id="meme1-img" src="" alt="">
+                                        <p id="meme1-votes">Votes: 0</p> <!-- ADD THIS -->
                                         <button id="vote-meme1">Vote</button>
                                     </div>
 
@@ -53,8 +109,13 @@
                                         <p id="countdown">--:--:--</p>
                                     </div>
 
+
+
+                                    <!-- Already has timer in center -->
+
                                     <div class="meme meme-right">
                                         <img id="meme2-img" src="" alt="">
+                                        <p id="meme2-votes">Votes: 0</p> <!-- ADD THIS -->
                                         <button id="vote-meme2">Vote</button>
                                     </div>
                                 </div>
@@ -76,46 +137,97 @@
 <script type="module" src="/js/main.js"></script>
 
 <script type="module">
-    import { auth, db, signInWithEmailAndPassword, updateDoc, onSnapshot, onAuthStateChanged, doc, getDoc } from "/js/firebase-init.js";
+    import { getMemes } from '/js/m-js/getMemes.js' // all memes form realtime database
+    import { getCurrentUser } from '/js/m-js/get-user.js' // user form auth
+    import { getUserDetails } from '/js/m-js/getUserDetails.js' // userDetails auth after from firestore
+    import { auth, db, signInWithEmailAndPassword, updateDoc, onSnapshot, setDoc, onAuthStateChanged, doc, getDoc } from "/js/firebase-init.js";
     onAuthStateChanged(auth, (user) => {
         if (!user) {
             window.location = "/login.html"
         }
     })
+    const allMemes = await getMemes()
+    console.log(allMemes)
+
 
     const meme1Img = document.getElementById("meme1-img");
     const meme2Img = document.getElementById("meme2-img");
     const countdownEl = document.getElementById("countdown");
-
     const vote1Btn = document.getElementById("vote-meme1");
     const vote2Btn = document.getElementById("vote-meme2");
+    const meme1VotesEl = document.getElementById("meme1-votes");
+    const meme2VotesEl = document.getElementById("meme2-votes");
 
-    const battleRef = doc(db, "memeBattle", "currentBattle");
+    const BATTLE_DOC = doc(db, "memeBattles", "currentBattle");
 
+    // STEP 1: Select Top 2 Trending Memes
+    async function startNewBattle() {
+        const allMemes = await getMemes();
+        const sorted = allMemes.sort((a, b) => b.upvoteCount - a.upvoteCount);
+        const [m1, m2] = sorted;
+
+        const now = Date.now();
+        const threeHoursLater = now + 3 * 60 * 60 * 1000;
+
+        const battleData = {
+            meme1: { id: m1.id, image: m1.image, votes: 0 },
+            meme2: { id: m2.id, image: m2.image, votes: 0 },
+            startTime: now,
+            endTime: threeHoursLater,
+            voters: {},
+            status: "active"
+        };
+
+        await setDoc(BATTLE_DOC, battleData);
+    }
+
+    
+    
+    // STEP 2: Load Battle and Update UI
     async function loadBattle() {
-        const battleSnap = await getDoc(battleRef);
-        const battle = battleSnap.data();
+        const snap = await getDoc(BATTLE_DOC);
+        if (!snap.exists()) return;
+
+        const battle = snap.data();
 
         meme1Img.src = battle.meme1.image;
         meme2Img.src = battle.meme2.image;
 
-        startTimer(battle.endTime);
+        meme1VotesEl.textContent = `Votes: ${battle.meme1.votes || 0}`;
+        meme2VotesEl.textContent = `Votes: ${battle.meme2.votes || 0}`;
 
         vote1Btn.onclick = () => handleVote("meme1");
         vote2Btn.onclick = () => handleVote("meme2");
+
+        startTimer(battle.endTime);
     }
 
+    // STEP 3: Handle Vote
     async function handleVote(memeKey) {
-        const battleSnap = await getDoc(battleRef);
-        const battle = battleSnap.data();
-        const currentVotes = battle[memeKey].votes || 0;
+        const user = auth.currentUser;
+        if (!user) return alert("Please log in");
 
-        await updateDoc(battleRef, {
-            [`${memeKey}.votes`]: currentVotes + 1
+        const snap = await getDoc(BATTLE_DOC);
+        const battle = snap.data();
+
+        if (battle.voters && battle.voters[user.uid]) {
+            alert("You already voted");
+            return;
+        }
+
+        const newVotes = (battle[memeKey].votes || 0) + 1;
+        meme1VotesEl.textContent = `Votes: ${memeKey === "meme1" ? newVotes : battle.meme1.votes}`;
+        meme2VotesEl.textContent = `Votes: ${memeKey === "meme2" ? newVotes : battle.meme2.votes}`;
+
+        await updateDoc(BATTLE_DOC, {
+            [`${memeKey}.votes`]: newVotes,
+            [`voters.${user.uid}`]: memeKey
         });
+
+        alert("✅ Vote cast!");
     }
 
-    // 🕒 Countdown Timer
+    // STEP 4: Countdown Timer
     function startTimer(endTime) {
         const interval = setInterval(() => {
             const now = Date.now();
@@ -124,26 +236,45 @@
             if (diff <= 0) {
                 clearInterval(interval);
                 countdownEl.textContent = "Voting ended";
-                declareWinner(); // Optional
+                declareWinner();
                 return;
             }
 
-            const hrs = String(Math.floor(diff / (1000 * 60 * 60))).padStart(2, "0");
-            const mins = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, "0");
-            const secs = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, "0");
+            const hrs = String(Math.floor(diff / (1000 * 60 * 60))).padStart(2, '0');
+            const mins = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+            const secs = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
 
             countdownEl.textContent = `${hrs}:${mins}:${secs}`;
         }, 1000);
     }
 
+    // STEP 5: Declare Winner
     async function declareWinner() {
-        const snap = await getDoc(battleRef);
+        const snap = await getDoc(BATTLE_DOC);
         const data = snap.data();
-        const winner = data.meme1.votes > data.meme2.votes ? "Meme 1" : "Meme 2";
-        alert(`🏆 Winner: ${winner}`);
+        let winner;
+        if (data.meme1.votes > data.meme2.votes) winner = "Meme 1 Wins!";
+        else if (data.meme2.votes > data.meme1.votes) winner = "Meme 2 Wins!";
+        else winner = "It's a Tie!";
+        alert("🏆 " + winner);
     }
 
-    loadBattle();
+    // Only Start Battle if Needed (admin logic)
+    async function maybeStartBattle() {
+        const snap = await getDoc(BATTLE_DOC);
+        if (!snap.exists() || (snap.data().endTime < Date.now())) {
+            await startNewBattle();
+        }
+        await loadBattle();
+    }
+
+
+    onSnapshot(BATTLE_DOC, (snap) => {
+        const battle = snap.data();
+        meme1VotesEl.textContent = `Votes: ${battle.meme1.votes || 0}`;
+        meme2VotesEl.textContent = `Votes: ${battle.meme2.votes || 0}`;
+    });
+    maybeStartBattle();
 </script>
 
 </html>
