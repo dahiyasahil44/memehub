@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShopNEST - An Ecommerce Platform</title>
+    <title>memeHUB - Top meme collection</title>
     <link rel="stylesheet" href="./css/main.css">
     <!-- Toast UI Image Editor CSS -->
 <link rel="stylesheet" href="https://uicdn.toast.com/tui-image-editor/latest/tui-image-editor.css" />
@@ -12,15 +12,18 @@
 <style>
 
   #tui-image-editor-container {
-    width: 100%;
-    max-width: 900px;
+    width: inherit !important;
     height: 320px;
+    padding: 1rem;
     margin: 0 auto;
+    overflow: auto;
   }
 
+  .create-post-wrap{padding: 1rem;font-size: .9rem;}
   .create-post-wrap>h2{color: var(--white); font-size: 1.4rem; font-weight: 600;}
   .meme-input-form .form-control{width: 100%;background-color: var(--black);color: var(--white);
-padding: 0.7rem;border: 1px solid #bbb;border-radius: 0.5rem;}
+padding: 0.6rem;border: 1px solid #bbb;border-radius: 5px;}
+.meme-input-form label{font-size: .9rem;}
 .meme-input-form .form-control:focus{outline: none;}
 .image-editor{padding: 1rem 0;}
 #tui-image-editor-container{border-radius: 1rem;}
@@ -74,9 +77,10 @@ padding: 0.7rem;border: 1px solid #bbb;border-radius: 0.5rem;}
 
 .image-editor {
     margin-top: 15px;
-    background-color: var(--white);
+    background-color: var(--black);
     padding: 10px;
     border-radius: 8px;
+    border: 1px solid #bbb;
 }
 
 @media (max-width: 700px) {
@@ -99,6 +103,7 @@ padding: 0.7rem;border: 1px solid #bbb;border-radius: 0.5rem;}
          <div id="main-content">
         <div class="create-post-wrap">
             <h2>Create a New Meme 🎨</h2>
+            <hr class="mb-1">
             <form class="meme-input-form">
                 <div class="form-group">
                     <label for="meme-title">Meme Title</label>
@@ -112,7 +117,7 @@ padding: 0.7rem;border: 1px solid #bbb;border-radius: 0.5rem;}
                     <label for="upload">Upload Image</label>
                     <input type="file" id="upload" class="form-control" accept="image/*" />
                 </div>
-                <div class="image-editor" id="image-editor">
+                <div class="image-editor form-group" id="image-editor">
                     <label>Image Editor</label>
                     <div id="tui-image-editor-container"></div>
                 </div>
@@ -146,7 +151,15 @@ padding: 0.7rem;border: 1px solid #bbb;border-radius: 0.5rem;}
     <script src="https://uicdn.toast.com/tui-image-editor/latest/tui-image-editor.js"></script>
 
 
-    <script>
+    <script type="module">
+      import { auth, db, signInWithEmailAndPassword, onAuthStateChanged, doc, getDoc } from "/js/firebase-init.js";
+
+      onAuthStateChanged(auth, (user)=>{
+        if(!user){
+            window.location = "/login.html"
+        }
+    })
+
         const container = document.getElementById('tui-image-editor-container');
         let imageEditor = null;
       

@@ -1,44 +1,23 @@
-<style>
-    .generate-btn {
-    background: linear-gradient(135deg, #ff416c, #ff4b2b);
-    color: #fff;
-    padding: 14px 22px;
-    font-size: 18px;
-    font-weight: bold;
-    text-transform: uppercase;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    box-shadow: 0 8px 16px rgba(255, 75, 43, 0.3);
-    transition: all 0.3s ease;
-}
-
-.generate-btn:hover {
-    background: linear-gradient(135deg, #ff4b2b, #ff416c);
-    transform: scale(1.05);
-    box-shadow: 0 12px 24px rgba(255, 75, 43, 0.4);
-}
-</style>
 <div class="right-sidebar pd-3">
 
-    <button  class="generate-btn">🔥 Meme It!</button>
+    <a href="/ai-meme-gernate.html" class="generate-btn">Meme It</a>
     <div class="section mb-">
         <h4 class="text-primary mb-1">🔥 Top Memers</h4>
-        <a href="#" class="mb-0">😆 @MemeKing</a>
-        <a href="#" class="mb-0">😂 @LaughQueen</a>
-        <a href="#" class="mb-0">🤣 @MemeGod</a>
-        <a href="#" class="mb-0">😜 @JokeMaster</a>
+        <ul id="top-memers">
+            <li><a href="#" class="mb-0">@MemeKing</a></li>
+        </ul>
     </div>
 
-    <button id="toggle-btn" class="generate-btn">Meme Games</button>
+    <a href="/meme-games.html" class="generate-btn">Meme Battle</a>
     
 
     <div class="section">
         <h4 class="text-primary mb-1">📈 Top Feed</h4>
-        <a href="#" class="mb-0">🚀 Trending Now</a>
-        <a href="#" class="mb-0">🔥 Most Liked</a>
-        <a href="#" class="mb-0">📅 Recently Uploaded</a>
-        <a href="#" class="mb-0">🌟 Editor's Picks</a>
+        <ul>
+            <li><a href="#" class="filter-btn mb-0" data-filter="trending">🚀 Trending Now</a></li>
+            <li><a href="#" class="filter-btn mb-0" data-filter="mostLiked">🔥 Most Liked</a></li>
+            <li><a href="#" class="filter-btn mb-0" data-filter="recentlyUploaded">📅 Recently Uploaded</a></li>
+        </ul>
     </div>
 </div>
 
@@ -61,17 +40,16 @@
         color: var(--primary);
     }
 
-    .right-sidebar a {
+    .right-sidebar .section>ul>li>a {
         display: block;
         padding: 0.5rem 0;
-        color: var(--white);
+        color: inherit;
         font-size: 0.9rem;
         transition: background-color 0.3s, color 0.3s;
     }
 
-    .right-sidebar a:hover {
+    .right-sidebar .section>ul>li>a:hover {
         background-color: var(--primary);
-        color: var(--black);
         border-radius: 0.5rem;
         padding-left: 1rem;
     }
@@ -83,5 +61,25 @@
             padding: 1rem;
         }
     }
+
+    .generate-btn {
+        display: block;
+        text-align: center;
+        width: 100%;
+    background: var(--primary);
+    color: #fff;
+    padding: .5rem 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.generate-btn:hover {
+    background: linear-gradient(135deg, #ff4b2b, #ff416c);
+    transform: scale(1.05);
+    box-shadow: 0 12px 24px rgba(255, 75, 43, 0.4);
+}
 </style>
 

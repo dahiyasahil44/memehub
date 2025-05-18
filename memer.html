@@ -20,20 +20,9 @@
 
         <div id="main-content">
 
-            <!-- hero slider -->
-            <div class="meme-head mb-1">
-                <h3>Recommended for you</h3>
+            <div class="meme-head">
+                <h3 id="memerName"></h3>
             </div>
-            <section class="dynamic-slider-section">
-                <div class="swiper dynamic-swiper">
-                    <div class="swiper-wrapper" id="dynamic-swiper-wrapper">
-                        <!-- Dynamic slides will go here -->
-                    </div>
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
-                </div>
-            </section>
-
 
             <!-- meme feed -->
             <section class="">
@@ -57,6 +46,9 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script type="module">
         import { db, doc, getDoc } from "/js/firebase-init.js";
+        
+        const params = new URLSearchParams(window.location.search);
+        const currentMemerId = params.get('id');
 
         const url = 'https://memehub-4e730-default-rtdb.asia-southeast1.firebasedatabase.app/';
         let allMemes = [];
@@ -84,7 +76,10 @@
                 const data = await res.json();
                 allMemes = Object.entries(data || {}).map(([id, val]) => ({ id, ...val }));
                 allMemes.sort(() => Math.random() - 0.5);
-                allMemes = allMemes.filter(meme => meme.status === "Published");
+                if (currentMemerId) {
+                    allMemes = allMemes.filter(meme => meme.UID === currentMemerId && meme.status === "Published");
+                }
+                
                 allMemesFiltered = [...allMemes];
                 // console.log(allMemes)
 
@@ -114,6 +109,8 @@
                 const user = userSnap.data() || {};
                 const avatar = user.avatar || "https://t4.ftcdn.net/jpg/12/44/29/93/240_F_1244299369_Jixobpdd2rDzg1B6DZw4tRmSa02OY0Qh.jpg";
                 const ago = item.createdAt ? timeAgo(item.createdAt) : "Just now";
+                document.getElementById('memerName').innerHTML = `@${user.userName}`
+
                 const card = document.createElement("div");
                 card.className = "meme-card";
                 card.innerHTML = `
@@ -215,7 +212,7 @@
             }).sort((a, b) => b.relevanceScore - a.relevanceScore);
 
             // 3. Render top 6
-            sortedMemes.slice(0, 10).forEach(item => {
+            sortedMemes.slice(0, 6).forEach(item => {
                 const slide = document.createElement("div");
                 slide.className = "swiper-slide";
                 slide.innerHTML = `
@@ -233,10 +230,6 @@
                 navigation: {
                     nextEl: ".swiper-button-next",
                     prevEl: ".swiper-button-prev"
-                },
-                autoplay: {
-                    delay: 2000, // 2 seconds between slides
-                    disableOnInteraction: true 
                 },
                 breakpoints: {
                     640: { slidesPerView: 2 },

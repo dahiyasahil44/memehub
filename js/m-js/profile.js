@@ -12,21 +12,39 @@ document.addEventListener("DOMContentLoaded", async () => {
   const userAuth = getCurrentUser();
   document.getElementById("userAvatar").src =
     "https://t4.ftcdn.net/jpg/12/44/29/93/240_F_1244299369_Jixobpdd2rDzg1B6DZw4tRmSa02OY0Qh.jpg";
-  if (user) {
-    document.getElementById("username").textContent = `@${
-      user.userName || user.email.split("@")[0]
-    }`;
-    document.getElementById("userBio").textContent =
-      user.bio || "Just here to make you laugh";
-    document.getElementById("userAvatar").src =
-      user.avatar ||
-      "https://t4.ftcdn.net/jpg/12/44/29/93/240_F_1244299369_Jixobpdd2rDzg1B6DZw4tRmSa02OY0Qh.jpg";
-    document.getElementById("upvotes").textContent = user.upvotes || 4821;
-    document.getElementById("memesCount").textContent = user.memes || 18;
-    document.getElementById("points").textContent = user.points || 1590;
-    document.getElementById("badges").textContent =
-      user.badges?.join(", ") || "First Viral Post, 10k Views Club";
-  }
+   
+    if (user) {
+      const dbURL = "https://memehub-4e730-default-rtdb.asia-southeast1.firebasedatabase.app";
+    
+      fetch(`${dbURL}/memes.json`)
+        .then(res => res.json())
+        .then(memes => {
+          // console.log(user)
+          // console.log(userMemes)
+          const userMemes = Object.values(memes || {}).filter(meme => meme.UID === currentUser.uid);
+          // console.log(userMemes)
+          const totalUpvotes = userMemes.reduce((sum, meme) => sum + (meme.upvoteCount || 0), 0);
+    
+          document.getElementById("username").textContent = `@${
+            user.userName || user.email.split("@")[0]
+          }`;
+          document.getElementById("userBio").textContent =
+            user.bio || "Just here to make you laugh";
+          document.getElementById("userAvatar").src =
+            user.avatar ||
+            "https://t4.ftcdn.net/jpg/12/44/29/93/240_F_1244299369_Jixobpdd2rDzg1B6DZw4tRmSa02OY0Qh.jpg";
+          document.getElementById("upvotes").textContent = totalUpvotes;
+          document.getElementById("memesCount").textContent = userMemes.length;
+          // document.getElementById("points").textContent = user.points || 1590;
+          // document.getElementById("badges").textContent =
+          //   user.badges?.join(", ") || "First Viral Post, 10k Views Club";
+        })
+        .catch(err => {
+          console.error("Failed to fetch memes for user profile:", err);
+        });
+    }
+    
+    
 
   const avatarInput = document.getElementById("avatarInput");
   const userAvatar = document.getElementById("userAvatar");

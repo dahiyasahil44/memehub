@@ -30,6 +30,12 @@ html, body{
     color: var(--white);
 }
 
+.section-padding{
+    padding: 4rem 0;
+}
+.container-padding{
+    padding: 0 4rem;
+}
 
 .container {
     display: flex;

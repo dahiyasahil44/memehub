@@ -1,0 +1,35 @@
+[
+    {
+        "title": "Battle of the memes",
+        "startTime": 1747468156088,
+        "endTime": 1747468156088,
+        "status": "active",
+        "memes": [
+            {
+            "id": "OQPWq5BKcKS6V_02w4E",
+            "UID": "FKzmCWDUY3ZDr2RF1cO70GYxJvF2",
+            "createdAt": 1747468156088,
+            "image": "https://res.cloudinary.com/dehamh3j6/image/upload/v1747423026/i4bdcscojasrkztflvhq.jpg",
+            "status": "Published",
+            "tags": ["coding", "programming", "debugging"],
+            "title": "Programmers meme 101"
+            },
+            {
+            "id": "OQPXv74j2_Oa3mxASoO",
+            "UID": "FKzmCWDUY3ZDr2RF1cO70GYxJvF2",
+            "createdAt": 1747468156088,
+            "image": "https://res.cloudinary.com/dehamh3j6/image/upload/v1747423026/i4bdcscojasrkztflvhq.jpg",
+            "status": "Published",
+            "tags": ["coding", "programming", "debugging"],
+            "title": "Programmers meme 101"
+            }
+        ],
+        "upvotedBy": [
+            {
+            "UID": "DEgA6Z5mLQgOxzkJfTgs3znVIdb2",
+            "memeID": "OQPXv74j2_Oa3mxASoO"
+            }
+        ],
+        "createdAt": 1747468156088
+    }
+]
