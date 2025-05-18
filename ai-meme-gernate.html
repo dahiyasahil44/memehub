@@ -4,14 +4,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ShopNEST - A Meme Platform</title>
+    <title>memeHUB - Top meme collection</title>
     <link rel="stylesheet" href="./css/main.css" />
     <!-- Toast UI Image Editor CSS -->
     <link rel="stylesheet" href="https://uicdn.toast.com/tui-image-editor/latest/tui-image-editor.css" />
     <style>
-        /* General Layout */
-
-
         h1 {
             text-align: center;
             margin-bottom: 25px;
@@ -93,6 +90,9 @@
             font-weight: bold;
             cursor: pointer;
         }
+
+        #textInputsContainer input{width: 100%;margin-bottom: 1rem;}
+        #templateGallery{height: 320px;overflow-y: scroll;}
     </style>
 </head>
 
@@ -103,19 +103,20 @@
     <main class="main-layout">
         <div id="left-sidebar"></div>
 
+        
         <div id="main-content">
-            <h1>Generate a Meme using Predis.ai</h1>
+            <div class="meme-head mb-1">
+                <h3>Generate a Meme using Predis.ai</h3>
+            </div>
+            
 
             <!-- Meme Template Selection -->
-            <label for="templateSelect">Choose a Meme Template:</label>
-            <select id="templateSelect">
-                <option disabled selected>Loading templates...</option>
-            </select>
+            <label>Choose a Meme Template:</label>
+            <div id="templateGallery" style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;"></div>
+            <input type="hidden" id="selectedTemplateId" required />
 
-            <!-- Meme Text Inputs -->
-            <form onsubmit="generateMeme(event)">
-                <input type="text" id="topText" placeholder="Top text" required />
-                <input type="text" id="bottomText" placeholder="Bottom text" required />
+            <form id="memeForm" onsubmit="generateMeme(event)">
+                <div id="textInputsContainer"></div>
                 <button id="generate-btn" type="submit">Generate Meme</button>
             </form>
 
@@ -132,81 +133,133 @@
     <script>
         // Load meme templates into the select dropdown
         async function loadTemplates() {
-
             try {
-
                 const response = await fetch('https://api.imgflip.com/get_memes');
                 const data = await response.json();
                 const templates = data.data.memes;
-                const select = document.getElementById('templateSelect');
-                select.innerHTML = ''; // Clear loading option
+                console.log(templates)
+                const gallery = document.getElementById('templateGallery');
+
+                gallery.innerHTML = ''; // Clear previous
 
                 templates.forEach(meme => {
-                    const option = document.createElement('option');
-                    option.value = meme.id;
-                    option.textContent = meme.name;
-                    select.appendChild(option);
+                    const img = document.createElement('img');
+                    img.src = meme.url;
+                    img.alt = meme.name;
+                    img.title = meme.name;
+                    img.style.width = '100px';
+                    img.style.height = '100px';
+                    img.style.objectFit = 'cover';
+                    img.style.cursor = 'pointer';
+                    img.style.border = '2px solid transparent';
+                    img.style.borderRadius = '6px';
+                    img.setAttribute('data-id', meme.id);
+
+                    img.addEventListener('click', () => {
+                        document.getElementById('selectedTemplateId').value = meme.id;
+                        document.getElementById('selectedBoxCount')?.remove(); // Remove old count if exists
+
+                        const hiddenBoxCount = document.createElement('input');
+                        hiddenBoxCount.type = 'hidden';
+                        hiddenBoxCount.id = 'selectedBoxCount';
+                        hiddenBoxCount.value = meme.box_count;
+                        document.body.appendChild(hiddenBoxCount);
+
+                        // Clear and generate input boxes dynamically
+                        const textInputsContainer = document.getElementById('textInputsContainer');
+                        textInputsContainer.innerHTML = '';
+                        for (let i = 0; i < meme.box_count; i++) {
+                            const input = document.createElement('input');
+                            input.type = 'text';
+                            input.name = `text${i}`;
+                            input.placeholder = `Text ${i + 1}`;
+                            input.required = true;
+                            textInputsContainer.appendChild(input);
+                        }
+
+                        // Highlight selected image
+                        document.querySelectorAll('#templateGallery img').forEach(el => {
+                            el.style.border = '2px solid transparent';
+                        });
+                        img.style.border = '2px solid #2ecc71';
+                    });
+
+                    gallery.appendChild(img);
                 });
             } catch (err) {
                 console.error('Failed to load meme templates:', err);
-                document.getElementById('templateSelect').innerHTML =
-                    '<option disabled>Error loading templates</option>';
+                document.getElementById('templateGallery').innerHTML =
+                    '<p style="color: red;">Error loading templates</p>';
             }
-
         }
+
 
         loadTemplates();
 
         // Generate meme using selected template and input text
         async function generateMeme(e) {
             e.preventDefault();
-            const generateBtn = document.getElementById('generate-btn')
-            generateBtn.innerHTML = 'Generating...'
-            const username = 'mohanLal1'; // Your Imgflip username
-            const password = 'mohanlal123'; // Your Imgflip password
-            const template_id = document.getElementById('templateSelect').value;
-            const topText = document.getElementById('topText').value;
-            const bottomText = document.getElementById('bottomText').value;
 
-            const params = new URLSearchParams({
+            const template_id = document.getElementById('selectedTemplateId').value;
+            const box_count = parseInt(document.getElementById('selectedBoxCount').value, 10);
+
+            if (!template_id || !box_count) {
+                alert('Please select a template first!');
+                return;
+            }
+
+            const generateBtn = document.getElementById('generate-btn');
+            generateBtn.innerHTML = 'Generating...';
+
+            const username = 'mohanLal1';
+            const password = 'mohanlal123';
+
+            const formData = new URLSearchParams({
                 template_id,
                 username,
                 password,
-                text0: topText,
-                text1: bottomText,
             });
+
+            // Collect all text inputs dynamically
+            for (let i = 0; i < box_count; i++) {
+                const inputVal = document.querySelector(`[name="text${i}"]`)?.value || '';
+                formData.append(`boxes[${i}][text]`, inputVal);
+            }
 
             const response = await fetch('https://api.imgflip.com/caption_image', {
                 method: 'POST',
-                body: params,
+                body: formData,
             });
 
             const result = await response.json();
+
+            const output = document.getElementById('memeOutput');
+            output.innerHTML = '';
+
             if (result.success) {
                 const imgUrl = result.data.url;
 
                 const img = document.createElement('img');
                 img.src = imgUrl;
                 img.alt = 'Generated Meme';
-                img.style.maxWidth = '100%';
 
                 const downloadBtn = document.createElement('a');
                 downloadBtn.href = imgUrl;
-                downloadBtn.download = 'meme.png'; // Suggested file name
+                downloadBtn.download = 'meme.png';
+                downloadBtn.className = 'download-btn';
                 downloadBtn.textContent = 'Download Meme';
-                downloadBtn.classList.add('download-btn');
                 downloadBtn.target = '_blank';
-                downloadBtn.rel = 'noopener noreferrer'
-                const output = document.getElementById('memeOutput');
-                output.innerHTML = ''; // Clear previous content
+
                 output.appendChild(img);
                 output.appendChild(document.createElement('br'));
                 output.appendChild(downloadBtn);
             } else {
                 alert('Meme generation failed: ' + result.error_message);
             }
-            generateBtn.innerHTML = 'Generate Meme'
+
+            generateBtn.innerHTML = 'Generate Meme';
         }
+
     </script>
 </body>
 

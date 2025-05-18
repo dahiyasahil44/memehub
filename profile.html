@@ -55,7 +55,7 @@
         <div id="main-content">
 
             <div class="section">
-                <h2>User Profile</h2>
+                <!-- <h2>User Profile</h2> -->
                 <div class="outer-box">
                     <div class="inner-box">
                         <div class="content">
@@ -66,7 +66,7 @@
                                     <input type="file" id="avatarInput" accept="image/*" style="display: none;">
                                     <div id="avatarLoader" style="display: none;">Uploading...</div>
                                 </div>
-                                <div class="profile-right">
+                              <div class="profile-right">
                                     <div class="profile-header">
                                         <h3 id="username">@username</h3>
                                         <button id="edit-profile" class="edit-btn btn-sm primary-btn">Edit Profile</button>
@@ -75,8 +75,8 @@
                                     <div class="stats">
                                         <span><i class="fa-solid fa-up-long"></i> <span id="upvotes">0</span> upvotes</span>
                                         <span><i class="fa-solid fa-image"></i> <span id="memesCount">0</span> memes</span>
-                                        <span><i class="fa-solid fa-bolt"></i> <span id="points">0</span> points</span>
-                                        <span><i class="fa-solid fa-medal"></i> <span id="badges">None</span></span>
+                                        <!-- <span><i class="fa-solid fa-bolt"></i> <span id="points">0</span> points</span>
+                                        <span><i class="fa-solid fa-medal"></i> <span id="badges">None</span></span> -->
                                     </div>
                                     <a href="/create-post.html" style="text-align: center;" class="post-btn primary-btn">Create Post</a>
                                 </div>
@@ -87,33 +87,17 @@
                                     <h1>My Memes</h1>
                                     <div class="sort-select">
                                         <label for="sort">Sort:</label>
-                                        <select id="sort">
+                                        <select id="profileFilter">
                                             <option value="popularity">By Popularity</option>
-                                            <option value="date">By Creation Date</option>
+                                            <option value="date">By Date</option>
                                         </select>
                                     </div>
                                 </div>
                                 
 
-                                <div class="memes-grid">
+                                <div class="memes-grid" id="memes-grid">
                                     <!-- Dummy meme cards -->
-                                    <div class="meme-card" data-title="When the code works"
-                                        data-image="https://combo.staticflickr.com/66a031f9fc343c5e42d965ca/66ba7c9da1c31a04c651ee06_Hero%201.avif">
-                                        <!-- Action buttons -->
-                                        <div class="meme-actions">
-                                            <button id="editButton" class="edit-btn"><i class="fa-solid fa-pen"></i> Edit</button>
-                                            <button id="deleteButton" class="delete-btn"><i class="fa-solid fa-trash"></i> Delete</button>
-                                        </div>
-                                        <img src="https://combo.staticflickr.com/66a031f9fc343c5e42d965ca/66ba7c9da1c31a04c651ee06_Hero%201.avif"
-                                            alt="Meme">
-                                        <div class="meme-info">
-                                            <h4>When the code works</h4>
-                                            <div class="icons">
-                                                <span><i class="fa-solid fa-thumbs-up"></i> 423</span>
-                                                <span><i class="fa-solid fa-comment"></i> 2</span>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
                                 
                                 </div>
                             </div>
@@ -156,7 +140,7 @@
                             <option value="nonbinary">Non-binary</option>
                             <option value="prefer_not_say">Prefer not to say</option>
                         </select>
-
+                        <div class="mb-1"></div>
                         <button type="submit" class="primary-btn">Save Changes</button>
                     </form>
                 </div>
@@ -181,5 +165,80 @@
             window.location = "/login.html"
         }
     })
+
+    const url = 'https://memehub-4e730-default-rtdb.asia-southeast1.firebasedatabase.app/';
+    let allMemes = [];
+    let allMemesFiltered = [];
+
+    async function fetchData() {
+        try {
+            const res = await fetch(`${url}/memes.json`);
+            const data = await res.json();
+            allMemes = Object.entries(data || {}).map(([id, val]) => ({ id, ...val }));
+            allMemes.sort(() => Math.random() - 0.5);
+            if (currentUser?.uid) {
+                allMemes = allMemes.filter(meme => meme.UID === currentUser.uid);
+            }
+            allMemesFiltered = [...allMemes];
+            // console.log(allMemes)
+
+            renderProfileMemes(allMemesFiltered);
+        } catch (err) {
+            console.error("Error fetching memes:", err);
+        }
+    }
+
+    function renderProfileMemes(memes) {
+        const grid = document.getElementById("memes-grid");
+        grid.innerHTML = ""; // Clear existing memes
+
+        memes.forEach(meme => {
+            const card = document.createElement("div");
+            card.className = "meme-card";
+            card.setAttribute("data-title", meme.title);
+            card.setAttribute("data-image", meme.image);
+
+            card.innerHTML = `
+            <div class="meme-actions">
+                <button class="edit-btn" data-id="${meme.id}"><i class="fa-solid fa-pen"></i> Edit</button>
+                <button class="delete-btn" data-id="${meme.id}"><i class="fa-solid fa-trash"></i> Delete</button>
+            </div>
+            <img src="${meme.image}" alt="${meme.title}">
+            <div class="meme-info">
+                <h4>${meme.title}</h4>
+                <div class="icons">
+                    <span><i class="fa-solid fa-arrow-up"></i> ${meme.upvoteCount || 0}</span>
+                    <span><i class="fa-solid fa-comment"></i> ${meme.commentCount || 0}</span>
+                </div>
+            </div>
+            `;
+
+            grid.appendChild(card);
+        });
+        }
+
+        function applyProfileFilter(type) {
+            let filtered = [...allMemesFiltered]; // Make sure this is your current array of user's memes
+
+            if (type === "popularity") {
+                filtered.sort((a, b) => (b.upvoteCount || 0) - (a.upvoteCount || 0));
+            }
+
+            if (type === "date") {
+                filtered.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+            }
+
+            renderProfileMemes(filtered);
+        }
+
+
+
+        document.getElementById("profileFilter").addEventListener("change", (e) => {
+            const filterType = e.target.value;
+            applyProfileFilter(filterType);
+        });
+
+
+        fetchData()
 </script>
 </html>

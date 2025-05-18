@@ -3,10 +3,11 @@
         width: 100%;
         background: var(--black);
         color: var(--white);
+        font-size: .9rem;
     }
 
     .section>h2 {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         font-weight: 600;
         padding: 0.5rem 1rem;
         border-radius: 4px;
@@ -14,9 +15,10 @@
 
     /* Outer Box */
     .outer-box {
-        border-radius: 12px;
+        border-radius: 5px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        padding: 1.5rem;
+        /* padding: 1.5rem; */
+        border-top: 1px solid #bbb;
     }
 
     /* Profile Section */
@@ -57,11 +59,13 @@
         flex-wrap: wrap;
         align-items: center;
         gap: 1rem;
+        justify-content: space-between;
     }
 
     .profile-header h3 {
-        font-size: 1.6rem;
-        color: var(--secondary);
+        font-size: 1rem;
+        /* color: var(--primary); */
+        font-weight: bolder;
         margin: 0;
     }
 
@@ -80,7 +84,7 @@
         flex-wrap: wrap;
         gap: 1rem;
         font-size: 0.95rem;
-        color: #bcbcbc;
+        color: var(--white);
     }
 
     /* Meme Grid Section */
@@ -89,17 +93,18 @@
         justify-content: space-between;
         align-items: center;
         margin-bottom: 1rem;
-        padding: 1rem 2rem;
-        background-color: #444;
-        border-radius: 8px;
+        padding: 1rem 0;
+        background-color: var(--black);
+        /* border-radius: 8px; */
+        border-top: 1px solid #bbb;
+        border-bottom: 1px solid #bbb;
     }
 
     .memes-header h1 {
-        font-size: 2.5rem;
-        color: var(--secondary);
+        font-size: 1.2rem;
+        /* color: var(--primary); */
         font-weight: bold;
-        text-transform: uppercase;
-        letter-spacing: 1px;
+        /* letter-spacing: 1px; */
         margin: 0;
         text-wrap: nowrap;
     }
@@ -109,17 +114,21 @@
         align-items: center;
         /* background-color: var(--primary); */
         gap: 0.5rem;
-        color: var(--white);
+        /* color: var(--white); */
     }
 
     .sort-select select {
         padding: 0.4rem 0.8rem;
-        font-size: 1rem;
+        font-size: .9rem;
         border: none;
         border-radius: 4px;
-        background-color: var(--white);
-        color: var(--black);
+        background-color: var(--black);
+        color: var(--white);
         cursor: pointer;
+        border: 1px solid #bbb;
+    }
+    .sort-select select:focus{
+        outline: none;
     }
 
     @media (max-width: 600px) {
@@ -154,7 +163,7 @@
     .meme-card {
         background: var(--white);
         border-radius: 8px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); */
         overflow: hidden;
         cursor: pointer;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -162,14 +171,15 @@
 
     .meme-card:hover {
         transform: translateY(-4px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+        /* box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12); */
     }
 
     /* Meme image */
     .meme-card img {
         width: 100%;
-        height: auto;
+        height: 220px;
         display: block;
+        object-fit: contain;
     }
 
     /* Meme info section */
@@ -179,8 +189,8 @@
 
     .meme-info h4 {
         margin: 0;
-        font-size: 1rem;
-        color: var(--black);
+        font-size: .85rem;
+        color: inherit;
     }
 
     /* Icons section (likes & comments) */
@@ -189,7 +199,7 @@
         gap: 1rem;
         font-size: 0.85rem;
         margin-top: 0.4rem;
-        color: #666;
+        color: inherit;
     }
 
     /* Meme action buttons at the top */
@@ -200,17 +210,17 @@
         padding: 0.4rem 0.6rem 0 0.6rem;
     }
 
-    .meme-actions button {
+    .meme-actions .edit-btn, .meme-actions .delete-btn {
         background: none;
         border: none;
         cursor: pointer;
-        font-size: 1rem;
-        color: #555;
+        font-size: .7rem; 
+        color:inherit;
         padding: 0.2rem 0.4rem;
         transition: color 0.2s ease;
     }
 
-    .meme-actions button:hover {
+    .meme-actions .edit-btn:hover, .meme-actions .delete-btn:hover {
         color: var(--primary);
     }
 
@@ -231,7 +241,7 @@
     }
 
     .modal-content {
-        background: var(--secondary);
+        background: var(--black);
         padding: 1rem;
         max-width: 500px;
         width: 90%;
@@ -259,7 +269,7 @@
         top: 10px;
         right: 20px;
         font-size: 2rem;
-        color: #888;
+        color: var(--white);
         cursor: pointer;
     }
 

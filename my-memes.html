@@ -20,20 +20,9 @@
 
         <div id="main-content">
 
-            <!-- hero slider -->
-            <div class="meme-head mb-1">
-                <h3>Recommended for you</h3>
+            <div class="meme-head">
+                <h3>My memes</h3>
             </div>
-            <section class="dynamic-slider-section">
-                <div class="swiper dynamic-swiper">
-                    <div class="swiper-wrapper" id="dynamic-swiper-wrapper">
-                        <!-- Dynamic slides will go here -->
-                    </div>
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
-                </div>
-            </section>
-
 
             <!-- meme feed -->
             <section class="">
@@ -84,7 +73,9 @@
                 const data = await res.json();
                 allMemes = Object.entries(data || {}).map(([id, val]) => ({ id, ...val }));
                 allMemes.sort(() => Math.random() - 0.5);
-                allMemes = allMemes.filter(meme => meme.status === "Published");
+                if (currentUser?.uid) {
+                    allMemes = allMemes.filter(meme => meme.UID === currentUser.uid);
+                }
                 allMemesFiltered = [...allMemes];
                 // console.log(allMemes)
 
@@ -215,7 +206,7 @@
             }).sort((a, b) => b.relevanceScore - a.relevanceScore);
 
             // 3. Render top 6
-            sortedMemes.slice(0, 10).forEach(item => {
+            sortedMemes.slice(0, 6).forEach(item => {
                 const slide = document.createElement("div");
                 slide.className = "swiper-slide";
                 slide.innerHTML = `
@@ -233,10 +224,6 @@
                 navigation: {
                     nextEl: ".swiper-button-next",
                     prevEl: ".swiper-button-prev"
-                },
-                autoplay: {
-                    delay: 2000, // 2 seconds between slides
-                    disableOnInteraction: true 
                 },
                 breakpoints: {
                     640: { slidesPerView: 2 },

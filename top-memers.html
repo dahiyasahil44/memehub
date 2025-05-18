@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>memeHUB - Top meme collection</title>
+    <link rel="stylesheet" href="./css/main.css">
+    <style>
+        .leaderboard {
+            margin: 1rem auto;
+        }
+        
+        .memer-card{
+            border: 1px solid #bbb;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .memer-card-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .memer-card-info img {
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+        }
+        .memer-card-position{padding: 0.8rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+            background: var(--primary);
+            font-size: 1.2rem;
+            font-weight: bolder;
+            text-align: center;
+            color: #fff;
+            box-shadow: inset 1px 1px 2px #555;
+        }
+
+
+        .memer-info {
+            flex-grow: 1;
+        }
+
+        .memer-info h3 {
+            margin-bottom: .3rem;
+            font-size: .9rem;
+            color: var(--white);
+        }
+
+        .upvotes {
+            font-weight: bold;
+            color: var(--primary);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header" style="position: sticky;top: 0;z-index: 9999;"></div>
+
+
+    <main class="main-layout">
+
+        <div id="left-sidebar"></div>
+
+        <div id="main-content">
+
+            <!-- meme feed -->
+            <section class="">
+                <div class="meme-head">
+                    <h3>Top memers</h3>
+                </div>
+                
+                <div class="leaderboard" id="leaderboard"></div>
+
+            </section>
+            <!-- meme feed end -->
+        </div>
+
+        <div id="right-sidebar"></div>
+
+    </main>
+
+
+
+    <script type="module" src="./js/main.js"></script>
+
+    
+    <script type="module">
+        import { auth, database, onAuthStateChanged, getDoc, doc, db } from "./js/firebase-init.js";
+
+        const dbURL = "https://memehub-4e730-default-rtdb.asia-southeast1.firebasedatabase.app";
+        const leaderboard = document.getElementById("leaderboard");
+
+        async function getTopMemers() {
+            const res = await fetch(`${dbURL}/memes.json`);
+            const memes = await res.json();
+            const voteCountByUser = {};
+
+            if (!memes) return;
+
+            for (const [id, meme] of Object.entries(memes)) {
+                if (!meme.UID) continue;
+                const votes = meme.upvoteCount || 0;
+                if (!voteCountByUser[meme.UID]) {
+                    voteCountByUser[meme.UID] = 0;
+                }
+                voteCountByUser[meme.UID] += votes;
+            }
+
+            const sortedUsers = Object.entries(voteCountByUser)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 10); // top 20
+
+            let position = 1
+            for (const [uid, totalUpvotes] of sortedUsers) {
+                const userSnap = await getDoc(doc(db, "users", uid));
+                const user = userSnap.exists() ? userSnap.data() : { userName: "Unknown", avatar: "" };
+                
+                leaderboard.innerHTML += `
+                    <div class="memer-card">
+                        <div class="memer-card-info">
+                            <img src="${user.avatar || 'https://via.placeholder.com/50'}" alt="Avatar" />
+                            <div class="memer-info">
+                                <h3>@${user.userName || 'Anonymous'}</h3>
+                                <p class="upvotes">${totalUpvotes} upvotes</p>
+                            </div>
+                        </div>
+                        <div class="memer-card-position">
+                            ${position}
+                        </div>
+                    </div>
+                `;
+                position++
+            }
+        }
+
+        getTopMemers();
+    </script>
+
+</body>
+
+</html>

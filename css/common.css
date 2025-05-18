@@ -23,6 +23,13 @@ body.dark-mode {
   --white: #000000;
 }
 
+.section-padding{
+    padding: 4rem 0;
+}
+.container-padding{
+    padding: 0 4rem;
+}
+
 .container {
     display: flex;
     height: 100vh;

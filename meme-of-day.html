@@ -11,7 +11,6 @@
 <body>
     <div id="header" style="position: sticky;top: 0;z-index: 9999;"></div>
 
-   
 
     <main class="main-layout">
 
@@ -21,6 +20,9 @@
 
             <!-- meme feed -->
             <section class="">
+                <div class="meme-head">
+                    <h3>Top meme of the day</h3>
+                </div>
                 <div class="meme-wrap">
 
 
@@ -50,8 +52,8 @@
     <script type="module">
         import { auth, database, onAuthStateChanged, getDoc, doc, db } from "./js/firebase-init.js";
 
-        const params = new URLSearchParams(window.location.search);
-        const memeId = params.get('id');
+        // const params = new URLSearchParams(window.location.search);
+        
 
         const memeWrap = document.querySelector('.meme-wrap');
         const commentBox = document.querySelector('.meme-comment-form textarea');
@@ -72,21 +74,39 @@
 
         // 🖼️ Load Meme using fetch
         async function loadMeme() {
-            const res = await fetch(`${dbURL}/memes/${memeId}.json`);
-            const meme = await res.json();
-            // console.log(meme)
-            if (!meme) return;
+            const res = await fetch(`${dbURL}/memes.json`);
+            const memes = await res.json();
+            if (!memes) return;
 
-            const commentsResponse = await fetch(`${dbURL}/comments/${memeId}.json`);
+            const memesArray = Object.entries(memes).map(([id, meme]) => ({
+                ...meme,
+                id,
+                voteCount: (meme.upvoteCount || 0) - (meme.downvoteCount || 0)
+            }));
+
+            const now = Date.now();
+            const oneDayAgo = now - (24 * 60 * 60 * 1000);
+
+            const recentMemes = memesArray.filter(m => m.createdAt && m.createdAt >= oneDayAgo);
+
+            if (recentMemes.length === 0) {
+                memeWrap.innerHTML = `<p>No memes posted in the last 24 hours.</p>`;
+                return;
+            }
+
+            // Sort by vote count descending
+            const topMeme = recentMemes.sort((a, b) => b.voteCount - a.voteCount)[0];
+            setMemeId(topMeme.id)
+
+            const userRes = await getDoc(doc(db, "users", topMeme.UID));
+            const user = userRes.exists() ? userRes.data() : {};
+
+            const commentsResponse = await fetch(`${dbURL}/comments/${topMeme.id}.json`);
             const commentsData = await commentsResponse.json();
             const allComments = Object.entries(commentsData || {}).map(([id, val]) => ({ id, ...val }));
 
-            const timeAgoText = meme.createdAt ? timeAgo(meme.createdAt) : "Just now";
-            const tagsHTML = (meme.tags || []).map(tag => `<span>#${tag}</span>`).join('');
-            const voteCount = (meme.upvoteCount || 0) - (meme.downvoteCount || 0);
-
-            const userRes = await getDoc(doc(db, "users", meme.UID))
-            const user = userRes.data()
+            const timeAgoText = topMeme.createdAt ? timeAgo(topMeme.createdAt) : "Just now";
+            const tagsHTML = (topMeme.tags || []).map(tag => `<span>#${tag}</span>`).join('');
 
             const card = document.createElement("div");
             card.className = "meme-card";
@@ -100,16 +120,16 @@
                 <div class="m-head-right"><span><i class="fa-solid fa-flag"></i></span></div>
             </div>
             <div class="meme-media">
-                <h3 class="mb-1">${meme.title}</h3>
-                <img src="${meme.image}" alt="">
+                <h3 class="mb-1">${topMeme.title}</h3>
+                <img src="${topMeme.image}" alt="">
             </div>
             <div class="meme-tags">${tagsHTML}</div>
             <div class="meme-actions">
                 <div class="meme-votes">
-                    <span class="upvote"><i class="fa-solid fa-up-long ${meme.upvotedBy?.[currentUser.uid] ? 'active' : ''}"></i></span>
-                    <span>${meme.upvoteCount}</span>
-                    <span class="downvote"><i class="fa-solid fa-down-long ${meme.downvotedBy?.[currentUser.uid] ? 'active' : ''}"></i></span>
-                    <span>${meme.downvoteCount}</span>
+                    <span class="upvote"><i class="fa-solid fa-up-long ${topMeme.upvotedBy?.[currentUser.uid] ? 'active' : ''}"></i></span>
+                    <span>${topMeme.upvoteCount}</span>
+                    <span class="downvote"><i class="fa-solid fa-down-long ${topMeme.downvotedBy?.[currentUser.uid] ? 'active' : ''}"></i></span>
+                    <span>${topMeme.downvoteCount}</span>
                 </div>
                 <div class="meme-comments">
                     <span><i class="fa-solid fa-comments"></i></span>
@@ -118,8 +138,8 @@
             </div>
     `;
             // Add voting listeners
-            card.querySelector(".upvote").addEventListener("click", () => voteHandler(meme, "upvote", card));
-            card.querySelector(".downvote").addEventListener("click", () => voteHandler(meme, "downvote", card));
+            card.querySelector(".upvote").addEventListener("click", () => voteHandler(topMeme, "upvote", card));
+            card.querySelector(".downvote").addEventListener("click", () => voteHandler(topMeme, "downvote", card));
 
             // memeWrap.appendChild('afterbegin', card);
             // memeWrap.insertAdjacentHTML('afterbegin', card.innerHTML);
@@ -129,6 +149,8 @@
 
         // 🗨️ Load comments using fetch
         async function loadComments() {
+            const memeId = localStorage.getItem("topmemeId")?localStorage.getItem("topmemeId"):"";
+            // console.log(memeId)
             const res = await fetch(`${dbURL}/comments/${memeId}.json`);
             const data = await res.json();
             commentsWrap.innerHTML = '';
@@ -147,8 +169,14 @@
             setupEditDeleteListeners();
         }
 
+        function setMemeId(memeId){
+            localStorage.setItem("topmemeId",memeId)
+            loadComments()
+        }
+
         // ✍️ Post new comment
         postBtn.addEventListener('click', async () => {
+            const memeId = localStorage.getItem("topmemeId")?localStorage.getItem("topmemeId"):"";
             const text = commentBox.value.trim();
 
             if (!text || !currentUser) return;
@@ -238,7 +266,7 @@
 
 
         loadMeme();
-        loadComments();
+        // loadComments();
 
     </script>
 
