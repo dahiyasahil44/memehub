@@ -53,6 +53,34 @@
       font-size: 1.2rem;
       color: #fff;
     }
+    .meme-img-wrap {
+  position: relative;
+}
+
+.meme-img-wrap img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  transition: all 0.3s ease-in-out;
+}
+
+.winner-card .meme-img-wrap img {
+  filter: blur(1.5px);
+  transform: rotate(-2deg);
+  opacity: 0.85;
+}
+
+.winner-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: gold;
+  color: #000;
+  font-weight: bold;
+  padding: 0.3rem 0.5rem;
+  border-radius: 4px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.3);
+}
   </style>
 </head>
 
@@ -71,9 +99,14 @@
       </div>
       <div id="selectBattelBtn"></div>
       <div id="selectBattel"></div>
+      
       <div id="meme-battle">
 
       </div>
+      <div class="meme-head mb-1">
+        <h3>Battle Results</h3>
+      </div>
+      <div id="battle-results"></div>
 
     </div>
 
@@ -182,7 +215,7 @@
         title: "New Meme Battle",
         status: "active",
         startTime: Date.now(),
-        endTime: Date.now() + (1 * 60 * 60 * 1000), // 1 hour
+        endTime: Date.now() + (24 * 60 * 60 * 1000), // 1 hour
         memes: memes.map(m => ({
           id: m.id,
           UID: m.UID,
@@ -213,21 +246,52 @@
 
 
     async function fetchData() {
-      try {
-        const res = await fetch(`${url}/battles.json`);
-        const data = await res.json();
+  try {
+    const res = await fetch(`${url}/battles.json`);
+    const data = await res.json();
 
-        allBattles = Object.entries(data || {}).map(([id, val]) => ({ id, ...val }));
+    allBattles = Object.entries(data || {}).map(([id, val]) => ({ id, ...val }));
 
-        // Filter only active and ongoing battles
-        const now = Date.now();
-        allBattlesFiltered = allBattles.filter(battle => battle.status === "active" && battle.endTime > now);
+    const now = Date.now();
 
-        renderAllBattles(allBattlesFiltered);
-      } catch (err) {
-        console.error("Error fetching battles:", err);
+    // Active battles
+    allBattlesFiltered = allBattles.filter(battle => battle.status === "active" && battle.endTime > now);
+    renderAllBattles(allBattlesFiltered);
+
+    // Completed battles
+    const completedBattles = allBattles.filter(battle => battle.status === "active" && battle.endTime <= now);
+
+    // Set result in DB (if not already set)
+    completedBattles.forEach(async battle => {
+      if (!battle.result) {
+        const result = battle.memes.map(meme => ({
+          title: meme.title,
+          memeId: meme.id,
+          totalVotes: (meme.votes || []).length,
+          image: meme.image
+        }));
+
+        await fetch(`${url}/battles/${battle.id}/result.json`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(result)
+        });
+
+        // Optional: also update battle status
+        await fetch(`${url}/battles/${battle.id}/status.json`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify("completed")
+        });
       }
-    }
+    });
+
+    // Show Results
+    renderBattleResults(allBattles.filter(b => b.status === "completed" && b.result));
+  } catch (err) {
+    console.error("Error fetching battles:", err);
+  }
+}
 
     function startCountdown() {
       setInterval(() => {
@@ -289,7 +353,7 @@
         }
       }
     });
- 
+
 
     function renderAllBattles(battles) {
       const container = document.getElementById("meme-battle");
@@ -338,6 +402,51 @@
 
       return wrapper;
     }
+
+    // render battle result 
+   function renderBattleResults(results) {
+  const container = document.getElementById("battle-results");
+  container.innerHTML = ""; // Clear previous
+
+  // Sort latest finished first
+  results.sort((a, b) => b.endTime - a.endTime);
+  const recentResults = results.slice(0, 5);
+
+  recentResults.forEach(battle => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "batle-wrap";
+
+    // Determine the winner memeId
+    const sorted = [...battle.result].sort((a, b) => b.totalVotes - a.totalVotes);
+    const winnerId = sorted[0]?.memeId;
+
+    wrapper.innerHTML = `
+      <div class="battle-timer">
+        <h2>Battle Ended</h2>
+        <h2>Results</h2>
+      </div>
+      <div class="battle-card">
+        ${battle.result.map(meme => `
+          <div class="battle-meme">
+            <div class="meme-card ${meme.memeId === winnerId ? "winner-card" : ""}">
+              <div class="meme-media">
+                <h3>${meme.title}</h3>
+                <div class="meme-img-wrap">
+                  <img src="${meme.image}" alt="${meme.title}" loading="lazy">
+                  ${meme.memeId === winnerId ? `<div class="winner-badge">🏆 Winner</div>` : ""}
+                </div>
+              </div>
+              <div class="meme-tags">
+                Total Votes: <strong>${meme.totalVotes}</strong>
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+    container.appendChild(wrapper);
+  });
+}
 
     // document.addEventListener("click", async (e) => {
     //   if (e.target.classList.contains("vote-btn")) {
