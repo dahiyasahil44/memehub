@@ -13,16 +13,16 @@
 
 - **Frontend:** HTML, CSS, Javascript,  
 - **Backend:** Firebase and Firestore 
-- **Authentication:** JWT (JSON Web Tokens)  
+- **Authentication:** Firebase 
 - **Deployment:** Vercel 
 
 ---
 
 ## ✨ Features
 
-- 🔐 **User Authentication**: Signup/Login with JWT authentication.  
+- 🔐 **User Authentication**: Signup/Login with Firebase authentication.  
 - 📤 **Meme Upload**: Upload memes with captions and tags.  
-- 👍 **Like & Comment System**: Engage with memes through likes and comments.  
+- 👍 **Upvotes & Comment System**: Engage with memes through Upvotes and comments.  
 - 🏷️ **Categories & Tags**: Browse memes by tags or categories.  
 - 🔍 **Search Functionality**: Find memes using keywords or hashtags.  
 - 📊 **Trending Section**: Discover most-liked and popular memes.  
