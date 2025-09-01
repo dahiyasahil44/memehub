@@ -64,15 +64,12 @@
 
 ## 📸 Screenshots
 
+| 🏠 Home Page | 😂 Meme Upload |
+|-----------|-----------|
+| ![Home Page](/images/homepage.png) | ![Meme Upload](/images/upload-meme.png) |
 
-### 🏠 Home Page
-![Home Page](/images/homepage.png)
+| 🔍 Explore Memes | 👤 User Profile |
+|--------------|-----------------|
+| ![Explore Memes](/images/explore-memes.png) | ![Mobile View](/images/user-profile.png) |
 
-### 😂 Meme Upload
-![Meme Upload](/images/upload-meme.png)
 
-### 🔍 Explore Memes
-![Explore Memes](/images/explore-memes.png)
-
-### 👤 User Profile
-![User Profile](/images/user-profile.png)
